@@ -109,7 +109,7 @@ class Migration(migrations.Migration):
                 (
                     "actions",
                     models.ManyToManyField(
-                        blank=True, related_name="models", to="core.modelaction"
+                        blank=True, related_name="models", to="frame.modelaction"
                     ),
                 ),
                 (
@@ -117,7 +117,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="models",
-                        to="core.appconfiguration",
+                        to="frame.appconfiguration",
                     ),
                 ),
                 (
@@ -212,7 +212,7 @@ class Migration(migrations.Migration):
                     models.ForeignKey(
                         on_delete=django.db.models.deletion.CASCADE,
                         related_name="fields",
-                        to="core.modelconfiguration",
+                        to="frame.modelconfiguration",
                     ),
                 ),
             ],
