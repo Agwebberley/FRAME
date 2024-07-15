@@ -1,5 +1,5 @@
 from django.urls import path
-from meteor.base_views import (
+from frame.base_views import (
     HomeView,
     LoginView,
     LogoutView,

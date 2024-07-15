@@ -1,5 +1,5 @@
 from aws_utils import listener
-from meteor.models import LogMessage
+from frame.models import LogMessage
 
 
 @listener("*")

@@ -1,14 +1,15 @@
 from setuptools import setup, find_packages
 
 setup(
-    name='Meteor',
-    version='0.1.1',
+    name='frame',
+    version='0.2.0',
     packages=find_packages(),
     include_package_data=True,
-    description='A Django app for creating meta models and templates',
+    description='Framework for Rapid Application Modeling and Efficiency',
     author='Agwebberley',  # Author name
     install_requires=[
         'Django>=5.0',
+        'boto3>=1.34.144',
         # Add other dependencies here
     ],
     python_requires='>=3.10',

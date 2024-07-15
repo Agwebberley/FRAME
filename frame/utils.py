@@ -1,6 +1,6 @@
 from django import forms
 from django.apps import apps
-from meteor.models import AppConfiguration, ModelConfiguration, FieldConfiguration
+from frame.models import AppConfiguration, ModelConfiguration, FieldConfiguration
 
 
 def get_app_config(app_name):

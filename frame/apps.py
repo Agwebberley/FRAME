@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class MeteorConfig(AppConfig):
+class FrameConfig(AppConfig):
     default_auto_field = "django.db.models.BigAutoField"
-    name = "meteor"
+    name = "frame"

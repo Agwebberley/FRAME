@@ -1,5 +1,5 @@
 from django.contrib import admin
-from meteor.models import (
+from frame.models import (
     AppConfiguration,
     ModelConfiguration,
     FieldConfiguration,

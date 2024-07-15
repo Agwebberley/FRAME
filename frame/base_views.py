@@ -12,8 +12,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect, render
 from django.shortcuts import get_object_or_404
 from django.apps import apps
-from .models import ModelConfiguration, AppConfiguration, LogMessage
-from .utils import (
+from frame.models import ModelConfiguration, AppConfiguration, LogMessage
+from frame.utils import (
     generate_inline_formset,
     get_enabled_fields,
     generate_dynamic_form,

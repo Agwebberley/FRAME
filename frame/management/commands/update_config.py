@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 from django.apps import apps
-from meteor.models import (
+from frame.models import (
     AppConfiguration,
     ModelConfiguration,
     FieldConfiguration,
