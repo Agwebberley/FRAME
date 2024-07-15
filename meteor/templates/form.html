@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}My Model Form{% endblock %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <h1>
+        {% if hOveride %}
+        {{ hOveride }}
+        {% elif config.model_name %}
+        {{ config.model_name }} Form
+        {% else %}
+        My Model Form
+        {% endif %}
+    </h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary">
+        {% if saveOveride %}
+            {{ saveOveride }}
+        {% else %}
+            Save
+        {% endif %}
+        </button>
+        {% if return_url %}
+        <a href="{% url return_url %}" class="btn btn-secondary">Cancel</a>
+        {% endif %}
+    </form>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% load utils %}
+<div id="table-container">
+    <!-- Table for listing items -->
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                {% for field in enabled_fields %}
+                    <th>{{ field|titlify }}</th>
+                {% endfor %}
+                {% if actions.dropdown|length >= 1 %}
+                    <th>Actions</th>
+                {% endif %}
+            </tr>
+        </thead>
+        {% include 'partials/table_body.html' %}
+    </table>
+    {% include 'partials/pagination.html' %}
+</div>
