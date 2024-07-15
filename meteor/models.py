@@ -2,10 +2,11 @@ import datetime
 from decimal import Decimal
 import json
 from django.db import models
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
+from django.conf import settings
 from meteor.aws_utils import publish_event
 from django.forms.models import model_to_dict
-
+from django.conf import settings
 
 # Meta Models
 class BaseModelManager(models.Manager):
@@ -116,13 +117,13 @@ class ModelConfiguration(models.Model):
         Group, related_name="read_model_permissions", blank=True
     )
     read_permission_users = models.ManyToManyField(
-        User, related_name="read_model_permissions", blank=True
+        settings.AUTH_USER_MODEL, related_name="read_model_permissions", blank=True
     )
     write_permission_groups = models.ManyToManyField(
         Group, related_name="write_model_permissions", blank=True
     )
     write_permission_users = models.ManyToManyField(
-        User, related_name="write_model_permissions", blank=True
+        settings.AUTH_USER_MODEL, related_name="write_model_permissions", blank=True
     )
 
     def __str__(self):
@@ -143,13 +144,13 @@ class FieldConfiguration(models.Model):
         Group, related_name="read_field_permissions", blank=True
     )
     read_permission_users = models.ManyToManyField(
-        User, related_name="read_field_permissions", blank=True
+        settings.AUTH_USER_MODEL, related_name="read_field_permissions", blank=True
     )
     write_permission_groups = models.ManyToManyField(
         Group, related_name="write_field_permissions", blank=True
     )
     write_permission_users = models.ManyToManyField(
-        User, related_name="write_field_permissions", blank=True
+        settings.AUTH_USER_MODEL, related_name="write_field_permissions", blank=True
     )
 
     def __str__(self):
