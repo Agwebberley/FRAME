@@ -1,6 +1,6 @@
 import django
 from django.core.management.base import BaseCommand
-from meteor.aws_utils import get_listeners, get_or_create_topic, get_channels
+from frame.aws_utils import get_listeners, get_or_create_topic, get_channels
 from importlib import import_module
 from django.apps import apps
 from django.conf import settings

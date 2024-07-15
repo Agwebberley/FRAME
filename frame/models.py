@@ -4,7 +4,7 @@ import json
 from django.db import models
 from django.contrib.auth.models import Group
 from django.conf import settings
-from meteor.aws_utils import publish_event
+from frame.aws_utils import publish_event
 from django.forms.models import model_to_dict
 
 # Meta Models
