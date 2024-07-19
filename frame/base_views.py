@@ -6,6 +6,7 @@ from django.views.generic import (
     ListView,
     DetailView,
     DeleteView,
+    TemplateView,
 )
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -422,3 +423,6 @@ class LogMessageView(BaseListView):
 
 class LogMessageDetailView(BaseDetailView):
     model = LogMessage
+
+class TemplateView(TemplateView, NavigationMixin):
+    template_name = "home.html"

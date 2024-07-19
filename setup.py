@@ -1,8 +1,9 @@
 from setuptools import setup, find_packages
+from .frame import __version__
 
 setup(
     name='frame',
-    version='0.2.2',
+    version=__version__,
     packages=find_packages(),
     include_package_data=True,
     description='Framework for Rapid Application Modeling and Efficiency',
