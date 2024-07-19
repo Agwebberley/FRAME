@@ -6,4 +6,4 @@ def cfg_assets_root(request):
 
 
 def cfg_version(request):
-    return {"APP_VERSION": settings.APP_VERSION, "CORE_VERSION": settings.CORE_VERSION}
+    return {"APP_VERSION": settings.APP_VERSION, "FRAME_VERSION": settings.FRAME_VERSION}
