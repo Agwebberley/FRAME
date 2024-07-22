@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>frame &mdash; FRAME 0.2.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=cb850272"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="frame package" href="frame.html" />
+    <link rel="prev" title="Welcome to FRAME’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            FRAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">frame</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frame.html">frame package</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FRAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">frame</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/modules.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frame">
+<h1>frame<a class="headerlink" href="#frame" title="Link to this heading"></a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frame.html">frame package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#subpackages">Subpackages</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.migrations.html">frame.migrations package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#module-frame.migrations.0001_initial">frame.migrations.0001_initial module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#module-frame.migrations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html">frame.templatetags package</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.templatetags.html#submodules">Submodules</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.templatetags.html#module-frame.templatetags.utils">frame.templatetags.utils module</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.templatetags.html#module-frame.templatetags">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.admin">frame.admin module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.admin.AppConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">AppConfigurationAdmin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.AppConfigurationAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">AppConfigurationAdmin.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.AppConfigurationAdmin.media"><code class="docutils literal notranslate"><span class="pre">AppConfigurationAdmin.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.AppConfigurationAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">AppConfigurationAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin.filter_horizontal"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin.filter_horizontal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin.list_filter"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin.list_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin.media"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.FieldConfigurationAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.admin.ModelActionAdmin"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelActionAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelActionAdmin.list_filter"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin.list_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelActionAdmin.media"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelActionAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin.filter_horizontal"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin.filter_horizontal</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin.list_display"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin.list_display</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin.list_filter"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin.list_filter</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin.media"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin.media</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.admin.ModelConfigurationAdmin.search_fields"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin.search_fields</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.apps">frame.apps module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.apps.FrameConfig"><code class="docutils literal notranslate"><span class="pre">FrameConfig</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.apps.FrameConfig.default_auto_field"><code class="docutils literal notranslate"><span class="pre">FrameConfig.default_auto_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.apps.FrameConfig.name"><code class="docutils literal notranslate"><span class="pre">FrameConfig.name</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.aws_utils">frame.aws_utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.aws_utils.get_channels"><code class="docutils literal notranslate"><span class="pre">get_channels()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.aws_utils.get_listeners"><code class="docutils literal notranslate"><span class="pre">get_listeners()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.aws_utils.get_or_create_topic"><code class="docutils literal notranslate"><span class="pre">get_or_create_topic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.aws_utils.listener"><code class="docutils literal notranslate"><span class="pre">listener()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.aws_utils.publish_event"><code class="docutils literal notranslate"><span class="pre">publish_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.base_forms">frame.base_forms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_forms.MasterDetailForm"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_forms.MasterDetailForm.base_fields"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_forms.MasterDetailForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_forms.MasterDetailForm.get_inline_formsets"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm.get_inline_formsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_forms.MasterDetailForm.media"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.base_views">frame.base_views module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.AddFormsetRowView"><code class="docutils literal notranslate"><span class="pre">AddFormsetRowView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.AddFormsetRowView.post"><code class="docutils literal notranslate"><span class="pre">AddFormsetRowView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseCreateView"><code class="docutils literal notranslate"><span class="pre">BaseCreateView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseCreateView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseCreateView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseCreateView.get_form_class"><code class="docutils literal notranslate"><span class="pre">BaseCreateView.get_form_class()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseCreateView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseCreateView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseDeleteView"><code class="docutils literal notranslate"><span class="pre">BaseDeleteView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseDeleteView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseDeleteView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseDeleteView.success_url"><code class="docutils literal notranslate"><span class="pre">BaseDeleteView.success_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseDeleteView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseDeleteView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseDetailView"><code class="docutils literal notranslate"><span class="pre">BaseDetailView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseDetailView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseDetailView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseDetailView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseDetailView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseListView"><code class="docutils literal notranslate"><span class="pre">BaseListView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseListView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseListView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseListView.get_queryset"><code class="docutils literal notranslate"><span class="pre">BaseListView.get_queryset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseListView.paginate_by"><code class="docutils literal notranslate"><span class="pre">BaseListView.paginate_by</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseListView.render_to_response"><code class="docutils literal notranslate"><span class="pre">BaseListView.render_to_response()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseListView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseListView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseMasterDetailView"><code class="docutils literal notranslate"><span class="pre">BaseMasterDetailView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseMasterDetailView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseMasterDetailView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseMasterDetailView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseMasterDetailView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.BaseUpdateView"><code class="docutils literal notranslate"><span class="pre">BaseUpdateView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseUpdateView.get_context_data"><code class="docutils literal notranslate"><span class="pre">BaseUpdateView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseUpdateView.get_form_class"><code class="docutils literal notranslate"><span class="pre">BaseUpdateView.get_form_class()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.BaseUpdateView.template_name"><code class="docutils literal notranslate"><span class="pre">BaseUpdateView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.HomeView"><code class="docutils literal notranslate"><span class="pre">HomeView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.HomeView.get"><code class="docutils literal notranslate"><span class="pre">HomeView.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.HomeView.template_name"><code class="docutils literal notranslate"><span class="pre">HomeView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.LogMessageDetailView"><code class="docutils literal notranslate"><span class="pre">LogMessageDetailView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LogMessageDetailView.model"><code class="docutils literal notranslate"><span class="pre">LogMessageDetailView.model</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.LogMessageView"><code class="docutils literal notranslate"><span class="pre">LogMessageView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LogMessageView.model"><code class="docutils literal notranslate"><span class="pre">LogMessageView.model</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.LoginView"><code class="docutils literal notranslate"><span class="pre">LoginView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LoginView.get_context_data"><code class="docutils literal notranslate"><span class="pre">LoginView.get_context_data()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LoginView.next_page"><code class="docutils literal notranslate"><span class="pre">LoginView.next_page</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LoginView.template_name"><code class="docutils literal notranslate"><span class="pre">LoginView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.LogoutView"><code class="docutils literal notranslate"><span class="pre">LogoutView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LogoutView.next_page"><code class="docutils literal notranslate"><span class="pre">LogoutView.next_page</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.LogoutView.template_name"><code class="docutils literal notranslate"><span class="pre">LogoutView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.get_child_formsets"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.get_child_formsets()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.get_parent_and_child_models"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.get_parent_and_child_models()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.get_parent_form"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.get_parent_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.handle_post"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.handle_post()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.render_form"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.render_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.success_url"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.success_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailBaseView.template_name"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailCreateView"><code class="docutils literal notranslate"><span class="pre">MasterDetailCreateView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailCreateView.get"><code class="docutils literal notranslate"><span class="pre">MasterDetailCreateView.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailCreateView.post"><code class="docutils literal notranslate"><span class="pre">MasterDetailCreateView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailUpdateView"><code class="docutils literal notranslate"><span class="pre">MasterDetailUpdateView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailUpdateView.get"><code class="docutils literal notranslate"><span class="pre">MasterDetailUpdateView.get()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.MasterDetailUpdateView.post"><code class="docutils literal notranslate"><span class="pre">MasterDetailUpdateView.post()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.NavigationMixin"><code class="docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.NavigationMixin.get_context_data"><code class="docutils literal notranslate"><span class="pre">NavigationMixin.get_context_data()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.TemplateView"><code class="docutils literal notranslate"><span class="pre">TemplateView</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.base_views.TemplateView.template_name"><code class="docutils literal notranslate"><span class="pre">TemplateView.template_name</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.base_views.nav_helper"><code class="docutils literal notranslate"><span class="pre">nav_helper()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.context_processors">frame.context_processors module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.context_processors.cfg_assets_root"><code class="docutils literal notranslate"><span class="pre">cfg_assets_root()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.context_processors.cfg_version"><code class="docutils literal notranslate"><span class="pre">cfg_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.forms">frame.forms module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.forms.SearchForm"><code class="docutils literal notranslate"><span class="pre">SearchForm</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.forms.SearchForm.base_fields"><code class="docutils literal notranslate"><span class="pre">SearchForm.base_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.forms.SearchForm.declared_fields"><code class="docutils literal notranslate"><span class="pre">SearchForm.declared_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.forms.SearchForm.media"><code class="docutils literal notranslate"><span class="pre">SearchForm.media</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.listener">frame.listener module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.listener.log_message_listener"><code class="docutils literal notranslate"><span class="pre">log_message_listener()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.models">frame.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.AppConfiguration"><code class="docutils literal notranslate"><span class="pre">AppConfiguration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.description"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.id"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.models"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.name"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.navigation_enabled"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.navigation_enabled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.AppConfiguration.objects"><code class="docutils literal notranslate"><span class="pre">AppConfiguration.objects</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.Meta"><code class="docutils literal notranslate"><span class="pre">BaseModel.Meta</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.all_objects"><code class="docutils literal notranslate"><span class="pre">BaseModel.all_objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.created_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.delete"><code class="docutils literal notranslate"><span class="pre">BaseModel.delete()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.is_deleted"><code class="docutils literal notranslate"><span class="pre">BaseModel.is_deleted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.objects"><code class="docutils literal notranslate"><span class="pre">BaseModel.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.save"><code class="docutils literal notranslate"><span class="pre">BaseModel.save()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.serialize"><code class="docutils literal notranslate"><span class="pre">BaseModel.serialize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModel.updated_at"><code class="docutils literal notranslate"><span class="pre">BaseModel.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.BaseModelManager"><code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.BaseModelManager.get_queryset"><code class="docutils literal notranslate"><span class="pre">BaseModelManager.get_queryset()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.display_name"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.display_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.enable_in_detail"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.enable_in_detail</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.enable_in_form"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.enable_in_form</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.enable_in_list"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.enable_in_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.field_name"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.field_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.id"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.inherit_permissions"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.inherit_permissions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.model"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.model</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.model_id"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.model_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.objects"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.read_permission_groups"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.read_permission_groups</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.read_permission_users"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.read_permission_users</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.write_permission_groups"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.write_permission_groups</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.FieldConfiguration.write_permission_users"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration.write_permission_users</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.LogMessage"><code class="docutils literal notranslate"><span class="pre">LogMessage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">LogMessage.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">LogMessage.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.action"><code class="docutils literal notranslate"><span class="pre">LogMessage.action</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.channel"><code class="docutils literal notranslate"><span class="pre">LogMessage.channel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.created_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.created_at</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.get_next_by_created_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.get_next_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.get_next_by_updated_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.get_next_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.get_previous_by_created_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.get_previous_by_created_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.get_previous_by_updated_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.get_previous_by_updated_at()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.id"><code class="docutils literal notranslate"><span class="pre">LogMessage.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.is_deleted"><code class="docutils literal notranslate"><span class="pre">LogMessage.is_deleted</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.message"><code class="docutils literal notranslate"><span class="pre">LogMessage.message</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.LogMessage.updated_at"><code class="docutils literal notranslate"><span class="pre">LogMessage.updated_at</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.ModelAction"><code class="docutils literal notranslate"><span class="pre">ModelAction</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.ACTION_TYPES"><code class="docutils literal notranslate"><span class="pre">ModelAction.ACTION_TYPES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ModelAction.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ModelAction.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.action_type"><code class="docutils literal notranslate"><span class="pre">ModelAction.action_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.detail_name"><code class="docutils literal notranslate"><span class="pre">ModelAction.detail_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.enable_in_detail"><code class="docutils literal notranslate"><span class="pre">ModelAction.enable_in_detail</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.enable_in_list"><code class="docutils literal notranslate"><span class="pre">ModelAction.enable_in_list</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.get_action_type_display"><code class="docutils literal notranslate"><span class="pre">ModelAction.get_action_type_display()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.id"><code class="docutils literal notranslate"><span class="pre">ModelAction.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.include_pk"><code class="docutils literal notranslate"><span class="pre">ModelAction.include_pk</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.list_name"><code class="docutils literal notranslate"><span class="pre">ModelAction.list_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.models"><code class="docutils literal notranslate"><span class="pre">ModelAction.models</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.objects"><code class="docutils literal notranslate"><span class="pre">ModelAction.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelAction.pattern"><code class="docutils literal notranslate"><span class="pre">ModelAction.pattern</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.DoesNotExist"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.DoesNotExist</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.MultipleObjectsReturned"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.MultipleObjectsReturned</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.actions"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.actions</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.app"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.app</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.app_id"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.app_id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.default_sort_by"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.default_sort_by</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.enable_search"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.enable_search</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.fields"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.id"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.id</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.list_title"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.list_title</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.list_url"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.list_url</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.model_name"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.model_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.navigation_enabled"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.navigation_enabled</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.objects"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.objects</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.read_permission_groups"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.read_permission_groups</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.read_permission_users"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.read_permission_users</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.write_permission_groups"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.write_permission_groups</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.html#frame.models.ModelConfiguration.write_permission_users"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration.write_permission_users</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.urls">frame.urls module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.utils">frame.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.generate_dynamic_form"><code class="docutils literal notranslate"><span class="pre">generate_dynamic_form()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.generate_inline_formset"><code class="docutils literal notranslate"><span class="pre">generate_inline_formset()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.get_actions"><code class="docutils literal notranslate"><span class="pre">get_actions()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.get_app_config"><code class="docutils literal notranslate"><span class="pre">get_app_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.get_enabled_fields"><code class="docutils literal notranslate"><span class="pre">get_enabled_fields()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.get_field_configs"><code class="docutils literal notranslate"><span class="pre">get_field_configs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.get_model_config"><code class="docutils literal notranslate"><span class="pre">get_model_config()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.user_has_field_read_permission"><code class="docutils literal notranslate"><span class="pre">user_has_field_read_permission()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.user_has_field_write_permission"><code class="docutils literal notranslate"><span class="pre">user_has_field_write_permission()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.user_has_model_read_permission"><code class="docutils literal notranslate"><span class="pre">user_has_model_read_permission()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.html#frame.utils.user_has_model_write_permission"><code class="docutils literal notranslate"><span class="pre">user_has_model_write_permission()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame.version">frame.version module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frame.html#module-frame">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to FRAME’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frame.html" class="btn btn-neutral float-right" title="frame package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agwebberley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

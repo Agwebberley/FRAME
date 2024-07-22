@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>frame package &mdash; FRAME 0.2.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=cb850272"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="frame.migrations package" href="frame.migrations.html" />
+    <link rel="prev" title="frame" href="modules.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            FRAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="reference internal" href="modules.html">frame</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">frame package</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#subpackages">Subpackages</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html">frame.migrations package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.templatetags.html">frame.templatetags package</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.admin">frame.admin module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.admin.AppConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">AppConfigurationAdmin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.admin.FieldConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">FieldConfigurationAdmin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.admin.ModelActionAdmin"><code class="docutils literal notranslate"><span class="pre">ModelActionAdmin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.admin.ModelConfigurationAdmin"><code class="docutils literal notranslate"><span class="pre">ModelConfigurationAdmin</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.apps">frame.apps module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.apps.FrameConfig"><code class="docutils literal notranslate"><span class="pre">FrameConfig</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.aws_utils">frame.aws_utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.aws_utils.get_channels"><code class="docutils literal notranslate"><span class="pre">get_channels()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.aws_utils.get_listeners"><code class="docutils literal notranslate"><span class="pre">get_listeners()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.aws_utils.get_or_create_topic"><code class="docutils literal notranslate"><span class="pre">get_or_create_topic()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.aws_utils.listener"><code class="docutils literal notranslate"><span class="pre">listener()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.aws_utils.publish_event"><code class="docutils literal notranslate"><span class="pre">publish_event()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.base_forms">frame.base_forms module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_forms.MasterDetailForm"><code class="docutils literal notranslate"><span class="pre">MasterDetailForm</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.base_views">frame.base_views module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.AddFormsetRowView"><code class="docutils literal notranslate"><span class="pre">AddFormsetRowView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseCreateView"><code class="docutils literal notranslate"><span class="pre">BaseCreateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseDeleteView"><code class="docutils literal notranslate"><span class="pre">BaseDeleteView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseDetailView"><code class="docutils literal notranslate"><span class="pre">BaseDetailView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseListView"><code class="docutils literal notranslate"><span class="pre">BaseListView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseMasterDetailView"><code class="docutils literal notranslate"><span class="pre">BaseMasterDetailView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.BaseUpdateView"><code class="docutils literal notranslate"><span class="pre">BaseUpdateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.HomeView"><code class="docutils literal notranslate"><span class="pre">HomeView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.LogMessageDetailView"><code class="docutils literal notranslate"><span class="pre">LogMessageDetailView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.LogMessageView"><code class="docutils literal notranslate"><span class="pre">LogMessageView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.LoginView"><code class="docutils literal notranslate"><span class="pre">LoginView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.LogoutView"><code class="docutils literal notranslate"><span class="pre">LogoutView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.MasterDetailBaseView"><code class="docutils literal notranslate"><span class="pre">MasterDetailBaseView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.MasterDetailCreateView"><code class="docutils literal notranslate"><span class="pre">MasterDetailCreateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.MasterDetailUpdateView"><code class="docutils literal notranslate"><span class="pre">MasterDetailUpdateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.NavigationMixin"><code class="docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.TemplateView"><code class="docutils literal notranslate"><span class="pre">TemplateView</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.base_views.nav_helper"><code class="docutils literal notranslate"><span class="pre">nav_helper()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.context_processors">frame.context_processors module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.context_processors.cfg_assets_root"><code class="docutils literal notranslate"><span class="pre">cfg_assets_root()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.context_processors.cfg_version"><code class="docutils literal notranslate"><span class="pre">cfg_version()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.forms">frame.forms module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.forms.SearchForm"><code class="docutils literal notranslate"><span class="pre">SearchForm</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.listener">frame.listener module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.listener.log_message_listener"><code class="docutils literal notranslate"><span class="pre">log_message_listener()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.models">frame.models module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.AppConfiguration"><code class="docutils literal notranslate"><span class="pre">AppConfiguration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.BaseModel"><code class="docutils literal notranslate"><span class="pre">BaseModel</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.BaseModelManager"><code class="docutils literal notranslate"><span class="pre">BaseModelManager</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.FieldConfiguration"><code class="docutils literal notranslate"><span class="pre">FieldConfiguration</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.LogMessage"><code class="docutils literal notranslate"><span class="pre">LogMessage</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.ModelAction"><code class="docutils literal notranslate"><span class="pre">ModelAction</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.models.ModelConfiguration"><code class="docutils literal notranslate"><span class="pre">ModelConfiguration</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.urls">frame.urls module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.utils">frame.utils module</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.generate_dynamic_form"><code class="docutils literal notranslate"><span class="pre">generate_dynamic_form()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.generate_inline_formset"><code class="docutils literal notranslate"><span class="pre">generate_inline_formset()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.get_actions"><code class="docutils literal notranslate"><span class="pre">get_actions()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.get_app_config"><code class="docutils literal notranslate"><span class="pre">get_app_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.get_enabled_fields"><code class="docutils literal notranslate"><span class="pre">get_enabled_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.get_field_configs"><code class="docutils literal notranslate"><span class="pre">get_field_configs()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.get_model_config"><code class="docutils literal notranslate"><span class="pre">get_model_config()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.user_has_field_read_permission"><code class="docutils literal notranslate"><span class="pre">user_has_field_read_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.user_has_field_write_permission"><code class="docutils literal notranslate"><span class="pre">user_has_field_write_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.user_has_model_read_permission"><code class="docutils literal notranslate"><span class="pre">user_has_model_read_permission()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="#frame.utils.user_has_model_write_permission"><code class="docutils literal notranslate"><span class="pre">user_has_model_write_permission()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame.version">frame.version module</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#module-frame">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">FRAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="modules.html">frame</a></li>
+      <li class="breadcrumb-item active">frame package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/frame.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="frame-package">
+<h1>frame package<a class="headerlink" href="#frame-package" title="Link to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="frame.migrations.html">frame.migrations package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frame.migrations.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frame.migrations.html#module-frame.migrations.0001_initial">frame.migrations.0001_initial module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.migrations.html#frame.migrations.0001_initial.Migration"><code class="docutils literal notranslate"><span class="pre">Migration</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#frame.migrations.0001_initial.Migration.dependencies"><code class="docutils literal notranslate"><span class="pre">Migration.dependencies</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#frame.migrations.0001_initial.Migration.initial"><code class="docutils literal notranslate"><span class="pre">Migration.initial</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="frame.migrations.html#frame.migrations.0001_initial.Migration.operations"><code class="docutils literal notranslate"><span class="pre">Migration.operations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.migrations.html#module-frame.migrations">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="frame.templatetags.html">frame.templatetags package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="frame.templatetags.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="frame.templatetags.html#module-frame.templatetags.utils">frame.templatetags.utils module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.fformsets"><code class="docutils literal notranslate"><span class="pre">fformsets()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.get_detail_url"><code class="docutils literal notranslate"><span class="pre">get_detail_url()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.get_field_value"><code class="docutils literal notranslate"><span class="pre">get_field_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.get_foreign_key_value"><code class="docutils literal notranslate"><span class="pre">get_foreign_key_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.get_property"><code class="docutils literal notranslate"><span class="pre">get_property()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.is_foreign_key"><code class="docutils literal notranslate"><span class="pre">is_foreign_key()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="frame.templatetags.html#frame.templatetags.utils.titlify"><code class="docutils literal notranslate"><span class="pre">titlify()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="frame.templatetags.html#module-frame.templatetags">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading"></a></h2>
+</section>
+<section id="module-frame.admin">
+<span id="frame-admin-module"></span><h2>frame.admin module<a class="headerlink" href="#module-frame.admin" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.admin.AppConfigurationAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.admin.</span></span><span class="sig-name descname"><span class="pre">AppConfigurationAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/admin.html#AppConfigurationAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.admin.AppConfigurationAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.AppConfigurationAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name',</span> <span class="pre">'description']</span></em><a class="headerlink" href="#frame.admin.AppConfigurationAdmin.list_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.admin.AppConfigurationAdmin.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.admin.AppConfigurationAdmin.media" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.AppConfigurationAdmin.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['name']</span></em><a class="headerlink" href="#frame.admin.AppConfigurationAdmin.search_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.admin.</span></span><span class="sig-name descname"><span class="pre">FieldConfigurationAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/admin.html#FieldConfigurationAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin.filter_horizontal">
+<span class="sig-name descname"><span class="pre">filter_horizontal</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['read_permission_groups',</span> <span class="pre">'read_permission_users',</span> <span class="pre">'write_permission_groups',</span> <span class="pre">'write_permission_users']</span></em><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin.filter_horizontal" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['model',</span> <span class="pre">'field_name',</span> <span class="pre">'enable_in_list',</span> <span class="pre">'enable_in_detail',</span> <span class="pre">'enable_in_form',</span> <span class="pre">'display_name']</span></em><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin.list_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin.list_filter">
+<span class="sig-name descname"><span class="pre">list_filter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['model']</span></em><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin.list_filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin.media" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.FieldConfigurationAdmin.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['field_name']</span></em><a class="headerlink" href="#frame.admin.FieldConfigurationAdmin.search_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.admin.ModelActionAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.admin.</span></span><span class="sig-name descname"><span class="pre">ModelActionAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/admin.html#ModelActionAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.admin.ModelActionAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelActionAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['list_name',</span> <span class="pre">'pattern',</span> <span class="pre">'action_type']</span></em><a class="headerlink" href="#frame.admin.ModelActionAdmin.list_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelActionAdmin.list_filter">
+<span class="sig-name descname"><span class="pre">list_filter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['action_type']</span></em><a class="headerlink" href="#frame.admin.ModelActionAdmin.list_filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.admin.ModelActionAdmin.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.admin.ModelActionAdmin.media" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelActionAdmin.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['list_name']</span></em><a class="headerlink" href="#frame.admin.ModelActionAdmin.search_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.admin.</span></span><span class="sig-name descname"><span class="pre">ModelConfigurationAdmin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">admin_site</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/admin.html#ModelConfigurationAdmin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelAdmin</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin.filter_horizontal">
+<span class="sig-name descname"><span class="pre">filter_horizontal</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['read_permission_groups',</span> <span class="pre">'read_permission_users',</span> <span class="pre">'write_permission_groups',</span> <span class="pre">'write_permission_users']</span></em><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin.filter_horizontal" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin.list_display">
+<span class="sig-name descname"><span class="pre">list_display</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['app',</span> <span class="pre">'model_name',</span> <span class="pre">'enable_search',</span> <span class="pre">'list_title']</span></em><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin.list_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin.list_filter">
+<span class="sig-name descname"><span class="pre">list_filter</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['app']</span></em><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin.list_filter" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin.media" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.admin.ModelConfigurationAdmin.search_fields">
+<span class="sig-name descname"><span class="pre">search_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['model_name']</span></em><a class="headerlink" href="#frame.admin.ModelConfigurationAdmin.search_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-frame.apps">
+<span id="frame-apps-module"></span><h2>frame.apps module<a class="headerlink" href="#module-frame.apps" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.apps.FrameConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.apps.</span></span><span class="sig-name descname"><span class="pre">FrameConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_module</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/apps.html#FrameConfig"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.apps.FrameConfig" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">AppConfig</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.apps.FrameConfig.default_auto_field">
+<span class="sig-name descname"><span class="pre">default_auto_field</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'django.db.models.BigAutoField'</span></em><a class="headerlink" href="#frame.apps.FrameConfig.default_auto_field" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.apps.FrameConfig.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'frame'</span></em><a class="headerlink" href="#frame.apps.FrameConfig.name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-frame.aws_utils">
+<span id="frame-aws-utils-module"></span><h2>frame.aws_utils module<a class="headerlink" href="#module-frame.aws_utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.aws_utils.get_channels">
+<span class="sig-prename descclassname"><span class="pre">frame.aws_utils.</span></span><span class="sig-name descname"><span class="pre">get_channels</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/aws_utils.html#get_channels"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.aws_utils.get_channels" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.aws_utils.get_listeners">
+<span class="sig-prename descclassname"><span class="pre">frame.aws_utils.</span></span><span class="sig-name descname"><span class="pre">get_listeners</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/aws_utils.html#get_listeners"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.aws_utils.get_listeners" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.aws_utils.get_or_create_topic">
+<span class="sig-prename descclassname"><span class="pre">frame.aws_utils.</span></span><span class="sig-name descname"><span class="pre">get_or_create_topic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/aws_utils.html#get_or_create_topic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.aws_utils.get_or_create_topic" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.aws_utils.listener">
+<span class="sig-prename descclassname"><span class="pre">frame.aws_utils.</span></span><span class="sig-name descname"><span class="pre">listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/aws_utils.html#listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.aws_utils.listener" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.aws_utils.publish_event">
+<span class="sig-prename descclassname"><span class="pre">frame.aws_utils.</span></span><span class="sig-name descname"><span class="pre">publish_event</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/aws_utils.html#publish_event"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.aws_utils.publish_event" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-frame.base_forms">
+<span id="frame-base-forms-module"></span><h2>frame.base_forms module<a class="headerlink" href="#module-frame.base_forms" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_forms.MasterDetailForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_forms.</span></span><span class="sig-name descname"><span class="pre">MasterDetailForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_forms.html#MasterDetailForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_forms.MasterDetailForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ModelForm</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_forms.MasterDetailForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#frame.base_forms.MasterDetailForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_forms.MasterDetailForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{}</span></em><a class="headerlink" href="#frame.base_forms.MasterDetailForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_forms.MasterDetailForm.get_inline_formsets">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_inline_formsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_forms.html#MasterDetailForm.get_inline_formsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_forms.MasterDetailForm.get_inline_formsets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.base_forms.MasterDetailForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.base_forms.MasterDetailForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-frame.base_views">
+<span id="frame-base-views-module"></span><h2>frame.base_views module<a class="headerlink" href="#module-frame.base_views" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.AddFormsetRowView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">AddFormsetRowView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#AddFormsetRowView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.AddFormsetRowView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.AddFormsetRowView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#AddFormsetRowView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.AddFormsetRowView.post" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseCreateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseCreateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseCreateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseCreateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseCreateView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseCreateView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseCreateView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the form into the context dict.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseCreateView.get_form_class">
+<span class="sig-name descname"><span class="pre">get_form_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseCreateView.get_form_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseCreateView.get_form_class" title="Link to this definition"></a></dt>
+<dd><p>Return the form class to use in this view.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseCreateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'form.html'</span></em><a class="headerlink" href="#frame.base_views.BaseCreateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseDeleteView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseDeleteView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseDeleteView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseDeleteView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DeleteView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseDeleteView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseDeleteView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseDeleteView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the form into the context dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseDeleteView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><a class="headerlink" href="#frame.base_views.BaseDeleteView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseDeleteView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'confirm_delete.html'</span></em><a class="headerlink" href="#frame.base_views.BaseDeleteView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseDetailView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseDetailView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseDetailView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseDetailView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the single object into the context dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseDetailView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'detail.html'</span></em><a class="headerlink" href="#frame.base_views.BaseDetailView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseListView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseListView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseListView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">ListView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseListView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseListView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Get the context for this view.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseListView.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseListView.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Return the list of items for this view.</p>
+<p>The return value must be an iterable and may be an instance of
+<cite>QuerySet</cite> in which case <cite>QuerySet</cite> specific behavior will be enabled.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView.paginate_by">
+<span class="sig-name descname"><span class="pre">paginate_by</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#frame.base_views.BaseListView.paginate_by" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView.render_to_response">
+<span class="sig-name descname"><span class="pre">render_to_response</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">context</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">response_kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseListView.render_to_response"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseListView.render_to_response" title="Link to this definition"></a></dt>
+<dd><p>Return a response, using the <cite>response_class</cite> for this view, with a
+template rendered with the given context.</p>
+<p>Pass response_kwargs to the constructor of the response class.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseListView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'list.html'</span></em><a class="headerlink" href="#frame.base_views.BaseListView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseMasterDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseMasterDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseMasterDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseMasterDetailView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DetailView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseMasterDetailView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseMasterDetailView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseMasterDetailView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the single object into the context dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseMasterDetailView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'master_detail.html'</span></em><a class="headerlink" href="#frame.base_views.BaseMasterDetailView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.BaseUpdateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">BaseUpdateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseUpdateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseUpdateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseUpdateView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseUpdateView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseUpdateView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the form into the context dict.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.BaseUpdateView.get_form_class">
+<span class="sig-name descname"><span class="pre">get_form_class</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#BaseUpdateView.get_form_class"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.BaseUpdateView.get_form_class" title="Link to this definition"></a></dt>
+<dd><p>Return the form class to use in this view.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.BaseUpdateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'form.html'</span></em><a class="headerlink" href="#frame.base_views.BaseUpdateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.HomeView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">HomeView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#HomeView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.HomeView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">View</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.HomeView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#HomeView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.HomeView.get" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.HomeView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'home.html'</span></em><a class="headerlink" href="#frame.base_views.HomeView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.LogMessageDetailView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">LogMessageDetailView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#LogMessageDetailView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.LogMessageDetailView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.base_views.BaseDetailView" title="frame.base_views.BaseDetailView"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseDetailView</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LogMessageDetailView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#frame.base_views.LogMessageDetailView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#frame.models.LogMessage" title="frame.models.LogMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogMessage</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.LogMessageView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">LogMessageView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#LogMessageView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.LogMessageView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.base_views.BaseListView" title="frame.base_views.BaseListView"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseListView</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LogMessageView.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#frame.base_views.LogMessageView.model" title="Link to this definition"></a></dt>
+<dd><p>alias of <a class="reference internal" href="#frame.models.LogMessage" title="frame.models.LogMessage"><code class="xref py py-class docutils literal notranslate"><span class="pre">LogMessage</span></code></a></p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.LoginView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">LoginView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#LoginView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.LoginView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.LoginView.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#LoginView.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.LoginView.get_context_data" title="Link to this definition"></a></dt>
+<dd><p>Insert the form into the context dict.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LoginView.next_page">
+<span class="sig-name descname"><span class="pre">next_page</span></span><a class="headerlink" href="#frame.base_views.LoginView.next_page" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LoginView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'form.html'</span></em><a class="headerlink" href="#frame.base_views.LoginView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.LogoutView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">LogoutView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#LogoutView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.LogoutView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LogoutView</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LogoutView.next_page">
+<span class="sig-name descname"><span class="pre">next_page</span></span><a class="headerlink" href="#frame.base_views.LogoutView.next_page" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.LogoutView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'home.html'</span></em><a class="headerlink" href="#frame.base_views.LogoutView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">MasterDetailBaseView</span></span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">LoginRequiredMixin</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.get_child_formsets">
+<span class="sig-name descname"><span class="pre">get_child_formsets</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_models</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView.get_child_formsets"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.get_child_formsets" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.get_parent_and_child_models">
+<span class="sig-name descname"><span class="pre">get_parent_and_child_models</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView.get_parent_and_child_models"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.get_parent_and_child_models" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.get_parent_form">
+<span class="sig-name descname"><span class="pre">get_parent_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView.get_parent_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.get_parent_form" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.handle_post">
+<span class="sig-name descname"><span class="pre">handle_post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_formsets</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView.handle_post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.handle_post" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.render_form">
+<span class="sig-name descname"><span class="pre">render_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">parent_form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_formsets</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailBaseView.render_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.render_form" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.success_url">
+<span class="sig-name descname"><span class="pre">success_url</span></span><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.success_url" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailBaseView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'master_detail_form.html'</span></em><a class="headerlink" href="#frame.base_views.MasterDetailBaseView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailCreateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">MasterDetailCreateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailCreateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailCreateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.base_views.MasterDetailBaseView" title="frame.base_views.MasterDetailBaseView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MasterDetailBaseView</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">CreateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailCreateView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailCreateView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailCreateView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests: instantiate a blank version of the form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailCreateView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailCreateView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailCreateView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests: instantiate a form instance with the passed
+POST variables and then check if it’s valid.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailUpdateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">MasterDetailUpdateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailUpdateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailUpdateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.base_views.MasterDetailBaseView" title="frame.base_views.MasterDetailBaseView"><code class="xref py py-class docutils literal notranslate"><span class="pre">MasterDetailBaseView</span></code></a>, <code class="xref py py-class docutils literal notranslate"><span class="pre">UpdateView</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailUpdateView.get">
+<span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailUpdateView.get"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailUpdateView.get" title="Link to this definition"></a></dt>
+<dd><p>Handle GET requests: instantiate a blank version of the form.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.MasterDetailUpdateView.post">
+<span class="sig-name descname"><span class="pre">post</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#MasterDetailUpdateView.post"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.MasterDetailUpdateView.post" title="Link to this definition"></a></dt>
+<dd><p>Handle POST requests: instantiate a form instance with the passed
+POST variables and then check if it’s valid.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.NavigationMixin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">NavigationMixin</span></span><a class="reference internal" href="_modules/frame/base_views.html#NavigationMixin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.NavigationMixin" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.base_views.NavigationMixin.get_context_data">
+<span class="sig-name descname"><span class="pre">get_context_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#NavigationMixin.get_context_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.NavigationMixin.get_context_data" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.base_views.TemplateView">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">TemplateView</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#TemplateView"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.TemplateView" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">TemplateView</span></code>, <a class="reference internal" href="#frame.base_views.NavigationMixin" title="frame.base_views.NavigationMixin"><code class="xref py py-class docutils literal notranslate"><span class="pre">NavigationMixin</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.base_views.TemplateView.template_name">
+<span class="sig-name descname"><span class="pre">template_name</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'home.html'</span></em><a class="headerlink" href="#frame.base_views.TemplateView.template_name" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.base_views.nav_helper">
+<span class="sig-prename descclassname"><span class="pre">frame.base_views.</span></span><span class="sig-name descname"><span class="pre">nav_helper</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/base_views.html#nav_helper"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.base_views.nav_helper" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-frame.context_processors">
+<span id="frame-context-processors-module"></span><h2>frame.context_processors module<a class="headerlink" href="#module-frame.context_processors" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.context_processors.cfg_assets_root">
+<span class="sig-prename descclassname"><span class="pre">frame.context_processors.</span></span><span class="sig-name descname"><span class="pre">cfg_assets_root</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/context_processors.html#cfg_assets_root"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.context_processors.cfg_assets_root" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.context_processors.cfg_version">
+<span class="sig-prename descclassname"><span class="pre">frame.context_processors.</span></span><span class="sig-name descname"><span class="pre">cfg_version</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">request</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/context_processors.html#cfg_version"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.context_processors.cfg_version" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-frame.forms">
+<span id="frame-forms-module"></span><h2>frame.forms module<a class="headerlink" href="#module-frame.forms" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.forms.SearchForm">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.forms.</span></span><span class="sig-name descname"><span class="pre">SearchForm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">files=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_id='id_%s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">initial=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">error_class=&lt;class</span> <span class="pre">'django.forms.utils.ErrorList'&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label_suffix=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">empty_permitted=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_order=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_required_attribute=None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renderer=None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/forms.html#SearchForm"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.forms.SearchForm" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Form</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.forms.SearchForm.base_fields">
+<span class="sig-name descname"><span class="pre">base_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'query':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#frame.forms.SearchForm.base_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.forms.SearchForm.declared_fields">
+<span class="sig-name descname"><span class="pre">declared_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'query':</span> <span class="pre">&lt;django.forms.fields.CharField</span> <span class="pre">object&gt;}</span></em><a class="headerlink" href="#frame.forms.SearchForm.declared_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="frame.forms.SearchForm.media">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">media</span></span><a class="headerlink" href="#frame.forms.SearchForm.media" title="Link to this definition"></a></dt>
+<dd><p>Return all media required to render the widgets on this form.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-frame.listener">
+<span id="frame-listener-module"></span><h2>frame.listener module<a class="headerlink" href="#module-frame.listener" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.listener.log_message_listener">
+<span class="sig-prename descclassname"><span class="pre">frame.listener.</span></span><span class="sig-name descname"><span class="pre">log_message_listener</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/listener.html#log_message_listener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.listener.log_message_listener" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-frame.models">
+<span id="frame-models-module"></span><h2>frame.models module<a class="headerlink" href="#module-frame.models" title="Link to this heading"></a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">AppConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">navigation_enabled</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#AppConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.AppConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#frame.models.AppConfiguration.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#frame.models.AppConfiguration.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.description">
+<span class="sig-name descname"><span class="pre">description</span></span><a class="headerlink" href="#frame.models.AppConfiguration.description" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#frame.models.AppConfiguration.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.models">
+<span class="sig-name descname"><span class="pre">models</span></span><a class="headerlink" href="#frame.models.AppConfiguration.models" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#frame.models.AppConfiguration.name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.navigation_enabled">
+<span class="sig-name descname"><span class="pre">navigation_enabled</span></span><a class="headerlink" href="#frame.models.AppConfiguration.navigation_enabled" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.AppConfiguration.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#frame.models.AppConfiguration.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.BaseModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">BaseModel</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModel"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModel" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.BaseModel.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Meta</span></span><a class="reference internal" href="_modules/frame/models.html#BaseModel.Meta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModel.Meta" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.Meta.abstract">
+<span class="sig-name descname"><span class="pre">abstract</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">False</span></em><a class="headerlink" href="#frame.models.BaseModel.Meta.abstract" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.all_objects">
+<span class="sig-name descname"><span class="pre">all_objects</span></span><a class="headerlink" href="#frame.models.BaseModel.all_objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#frame.models.BaseModel.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.delete">
+<span class="sig-name descname"><span class="pre">delete</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModel.delete"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModel.delete" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.BaseModel.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.BaseModel.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.BaseModel.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.BaseModel.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.is_deleted">
+<span class="sig-name descname"><span class="pre">is_deleted</span></span><a class="headerlink" href="#frame.models.BaseModel.is_deleted" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><a class="headerlink" href="#frame.models.BaseModel.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.save">
+<span class="sig-name descname"><span class="pre">save</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModel.save"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModel.save" title="Link to this definition"></a></dt>
+<dd><p>Save the current instance. Override this in a subclass if you want to
+control the saving process.</p>
+<p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+that the “save” must be an SQL insert or update (or equivalent for
+non-SQL backends), respectively. Normally, they should not be set.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModel.serialize">
+<span class="sig-name descname"><span class="pre">serialize</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModel.serialize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModel.serialize" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.BaseModel.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#frame.models.BaseModel.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.BaseModelManager">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">BaseModelManager</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModelManager"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModelManager" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Manager</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.BaseModelManager.get_queryset">
+<span class="sig-name descname"><span class="pre">get_queryset</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#BaseModelManager.get_queryset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.BaseModelManager.get_queryset" title="Link to this definition"></a></dt>
+<dd><p>Return a new QuerySet object. Subclasses can override this method to
+customize the behavior of the Manager.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">FieldConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_in_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_in_detail</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_in_form</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">display_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">inherit_permissions</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#FieldConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.FieldConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.display_name">
+<span class="sig-name descname"><span class="pre">display_name</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.display_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.enable_in_detail">
+<span class="sig-name descname"><span class="pre">enable_in_detail</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.enable_in_detail" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.enable_in_form">
+<span class="sig-name descname"><span class="pre">enable_in_form</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.enable_in_form" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.enable_in_list">
+<span class="sig-name descname"><span class="pre">enable_in_list</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.enable_in_list" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.field_name">
+<span class="sig-name descname"><span class="pre">field_name</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.field_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.inherit_permissions">
+<span class="sig-name descname"><span class="pre">inherit_permissions</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.inherit_permissions" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.model">
+<span class="sig-name descname"><span class="pre">model</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.model" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.model_id">
+<span class="sig-name descname"><span class="pre">model_id</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.model_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#frame.models.FieldConfiguration.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.read_permission_groups">
+<span class="sig-name descname"><span class="pre">read_permission_groups</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.read_permission_groups" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.read_permission_users">
+<span class="sig-name descname"><span class="pre">read_permission_users</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.read_permission_users" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.write_permission_groups">
+<span class="sig-name descname"><span class="pre">write_permission_groups</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.write_permission_groups" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.FieldConfiguration.write_permission_users">
+<span class="sig-name descname"><span class="pre">write_permission_users</span></span><a class="headerlink" href="#frame.models.FieldConfiguration.write_permission_users" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.LogMessage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">LogMessage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">created_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated_at</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_deleted</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">channel</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">message</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#LogMessage"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.LogMessage" title="Link to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#frame.models.BaseModel" title="frame.models.BaseModel"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></a></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.LogMessage.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#frame.models.LogMessage.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.LogMessage.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#frame.models.LogMessage.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.action">
+<span class="sig-name descname"><span class="pre">action</span></span><a class="headerlink" href="#frame.models.LogMessage.action" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.channel">
+<span class="sig-name descname"><span class="pre">channel</span></span><a class="headerlink" href="#frame.models.LogMessage.channel" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.created_at">
+<span class="sig-name descname"><span class="pre">created_at</span></span><a class="headerlink" href="#frame.models.LogMessage.created_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.LogMessage.get_next_by_created_at">
+<span class="sig-name descname"><span class="pre">get_next_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.LogMessage.get_next_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.LogMessage.get_next_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_next_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.LogMessage.get_next_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.LogMessage.get_previous_by_created_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_created_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">created_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.LogMessage.get_previous_by_created_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.LogMessage.get_previous_by_updated_at">
+<span class="sig-name descname"><span class="pre">get_previous_by_updated_at</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.DateTimeField:</span> <span class="pre">updated_at&gt;</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">is_next=False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">**kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.LogMessage.get_previous_by_updated_at" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#frame.models.LogMessage.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.is_deleted">
+<span class="sig-name descname"><span class="pre">is_deleted</span></span><a class="headerlink" href="#frame.models.LogMessage.is_deleted" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.message">
+<span class="sig-name descname"><span class="pre">message</span></span><a class="headerlink" href="#frame.models.LogMessage.message" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.LogMessage.updated_at">
+<span class="sig-name descname"><span class="pre">updated_at</span></span><a class="headerlink" href="#frame.models.LogMessage.updated_at" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.ModelAction">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">ModelAction</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detail_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">pattern</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action_type</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_in_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_in_detail</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_pk</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#ModelAction"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.ModelAction" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.ACTION_TYPES">
+<span class="sig-name descname"><span class="pre">ACTION_TYPES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{('button',</span> <span class="pre">'Button'),</span> <span class="pre">('dropdown',</span> <span class="pre">'Dropdown')}</span></em><a class="headerlink" href="#frame.models.ModelAction.ACTION_TYPES" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.ModelAction.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#frame.models.ModelAction.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.ModelAction.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#frame.models.ModelAction.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.action_type">
+<span class="sig-name descname"><span class="pre">action_type</span></span><a class="headerlink" href="#frame.models.ModelAction.action_type" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.detail_name">
+<span class="sig-name descname"><span class="pre">detail_name</span></span><a class="headerlink" href="#frame.models.ModelAction.detail_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.enable_in_detail">
+<span class="sig-name descname"><span class="pre">enable_in_detail</span></span><a class="headerlink" href="#frame.models.ModelAction.enable_in_detail" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.enable_in_list">
+<span class="sig-name descname"><span class="pre">enable_in_list</span></span><a class="headerlink" href="#frame.models.ModelAction.enable_in_list" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="frame.models.ModelAction.get_action_type_display">
+<span class="sig-name descname"><span class="pre">get_action_type_display</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field=&lt;django.db.models.fields.CharField:</span> <span class="pre">action_type&gt;</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#frame.models.ModelAction.get_action_type_display" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#frame.models.ModelAction.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.include_pk">
+<span class="sig-name descname"><span class="pre">include_pk</span></span><a class="headerlink" href="#frame.models.ModelAction.include_pk" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.list_name">
+<span class="sig-name descname"><span class="pre">list_name</span></span><a class="headerlink" href="#frame.models.ModelAction.list_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.models">
+<span class="sig-name descname"><span class="pre">models</span></span><a class="headerlink" href="#frame.models.ModelAction.models" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#frame.models.ModelAction.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelAction.pattern">
+<span class="sig-name descname"><span class="pre">pattern</span></span><a class="headerlink" href="#frame.models.ModelAction.pattern" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">frame.models.</span></span><span class="sig-name descname"><span class="pre">ModelConfiguration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">id</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">app</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">enable_search</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_title</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default_sort_by</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">navigation_enabled</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">list_url</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/models.html#ModelConfiguration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.models.ModelConfiguration" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Model</span></code></p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.DoesNotExist">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">DoesNotExist</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.DoesNotExist" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">ObjectDoesNotExist</span></code></p>
+</dd></dl>
+
+<dl class="py exception">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.MultipleObjectsReturned">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">MultipleObjectsReturned</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.MultipleObjectsReturned" title="Link to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">MultipleObjectsReturned</span></code></p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.actions">
+<span class="sig-name descname"><span class="pre">actions</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.actions" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.app">
+<span class="sig-name descname"><span class="pre">app</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.app" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related object on the forward side of a many-to-one or
+one-to-one (via ForwardOneToOneDescriptor subclass) relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Child.parent</span></code> is a <code class="docutils literal notranslate"><span class="pre">ForwardManyToOneDescriptor</span></code> instance.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.app_id">
+<span class="sig-name descname"><span class="pre">app_id</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.app_id" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.default_sort_by">
+<span class="sig-name descname"><span class="pre">default_sort_by</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.default_sort_by" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.enable_search">
+<span class="sig-name descname"><span class="pre">enable_search</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.enable_search" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.fields" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the reverse side of a
+many-to-one relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Child</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">parent</span> <span class="o">=</span> <span class="n">ForeignKey</span><span class="p">(</span><span class="n">Parent</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;children&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Parent.children</span></code> is a <code class="docutils literal notranslate"><span class="pre">ReverseManyToOneDescriptor</span></code> instance.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.id">
+<span class="sig-name descname"><span class="pre">id</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.id" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.list_title">
+<span class="sig-name descname"><span class="pre">list_title</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.list_title" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.list_url">
+<span class="sig-name descname"><span class="pre">list_url</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.list_url" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.model_name">
+<span class="sig-name descname"><span class="pre">model_name</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.model_name" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.navigation_enabled">
+<span class="sig-name descname"><span class="pre">navigation_enabled</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.navigation_enabled" title="Link to this definition"></a></dt>
+<dd><p>A wrapper for a deferred-loading field. When the value is read from this
+object the first time, the query is executed.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.objects">
+<span class="sig-name descname"><span class="pre">objects</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">&lt;django.db.models.manager.Manager</span> <span class="pre">object&gt;</span></em><a class="headerlink" href="#frame.models.ModelConfiguration.objects" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.read_permission_groups">
+<span class="sig-name descname"><span class="pre">read_permission_groups</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.read_permission_groups" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.read_permission_users">
+<span class="sig-name descname"><span class="pre">read_permission_users</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.read_permission_users" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.write_permission_groups">
+<span class="sig-name descname"><span class="pre">write_permission_groups</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.write_permission_groups" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="frame.models.ModelConfiguration.write_permission_users">
+<span class="sig-name descname"><span class="pre">write_permission_users</span></span><a class="headerlink" href="#frame.models.ModelConfiguration.write_permission_users" title="Link to this definition"></a></dt>
+<dd><p>Accessor to the related objects manager on the forward and reverse sides of
+a many-to-many relation.</p>
+<p>In the example:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Pizza</span><span class="p">(</span><span class="n">Model</span><span class="p">):</span>
+    <span class="n">toppings</span> <span class="o">=</span> <span class="n">ManyToManyField</span><span class="p">(</span><span class="n">Topping</span><span class="p">,</span> <span class="n">related_name</span><span class="o">=</span><span class="s1">&#39;pizzas&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">Pizza.toppings</span></code> and <code class="docutils literal notranslate"><span class="pre">Topping.pizzas</span></code> are <code class="docutils literal notranslate"><span class="pre">ManyToManyDescriptor</span></code>
+instances.</p>
+<p>Most of the implementation is delegated to a dynamically defined manager
+class built by <code class="docutils literal notranslate"><span class="pre">create_forward_many_to_many_manager()</span></code> defined below.</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-frame.urls">
+<span id="frame-urls-module"></span><h2>frame.urls module<a class="headerlink" href="#module-frame.urls" title="Link to this heading"></a></h2>
+</section>
+<section id="module-frame.utils">
+<span id="frame-utils-module"></span><h2>frame.utils module<a class="headerlink" href="#module-frame.utils" title="Link to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.generate_dynamic_form">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">generate_dynamic_form</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">instance</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#generate_dynamic_form"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.generate_dynamic_form" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.generate_inline_formset">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">generate_inline_formset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_label</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">child_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#generate_inline_formset"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.generate_inline_formset" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.get_actions">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">get_actions</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'list'</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#get_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.get_actions" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.get_app_config">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">get_app_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#get_app_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.get_app_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.get_enabled_fields">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">get_enabled_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">'list'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">properties</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#get_enabled_fields"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.get_enabled_fields" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.get_field_configs">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">get_field_configs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#get_field_configs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.get_field_configs" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.get_model_config">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">get_model_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">app_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#get_model_config"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.get_model_config" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.user_has_field_read_permission">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">user_has_field_read_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#user_has_field_read_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.user_has_field_read_permission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.user_has_field_write_permission">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">user_has_field_write_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">field_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#user_has_field_write_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.user_has_field_write_permission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.user_has_model_read_permission">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">user_has_model_read_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#user_has_model_read_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.user_has_model_read_permission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="frame.utils.user_has_model_write_permission">
+<span class="sig-prename descclassname"><span class="pre">frame.utils.</span></span><span class="sig-name descname"><span class="pre">user_has_model_write_permission</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">user</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_config</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/frame/utils.html#user_has_model_write_permission"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#frame.utils.user_has_model_write_permission" title="Link to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-frame.version">
+<span id="frame-version-module"></span><h2>frame.version module<a class="headerlink" href="#module-frame.version" title="Link to this heading"></a></h2>
+</section>
+<section id="module-frame">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-frame" title="Link to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="modules.html" class="btn btn-neutral float-left" title="frame" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="frame.migrations.html" class="btn btn-neutral float-right" title="frame.migrations package" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agwebberley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

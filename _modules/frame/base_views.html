@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>frame.base_views &mdash; FRAME 0.2.5 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=cb850272"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            FRAME
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">frame</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">FRAME</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">frame.base_views</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for frame.base_views</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">django.http</span> <span class="kn">import</span> <span class="n">JsonResponse</span>
+<span class="kn">from</span> <span class="nn">django.views</span> <span class="kn">import</span> <span class="n">View</span>
+<span class="kn">from</span> <span class="nn">django.views.generic</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">CreateView</span><span class="p">,</span>
+    <span class="n">UpdateView</span><span class="p">,</span>
+    <span class="n">ListView</span><span class="p">,</span>
+    <span class="n">DetailView</span><span class="p">,</span>
+    <span class="n">DeleteView</span><span class="p">,</span>
+    <span class="n">TemplateView</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">django.urls</span> <span class="kn">import</span> <span class="n">reverse_lazy</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.mixins</span> <span class="kn">import</span> <span class="n">LoginRequiredMixin</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">redirect</span><span class="p">,</span> <span class="n">render</span>
+<span class="kn">from</span> <span class="nn">django.shortcuts</span> <span class="kn">import</span> <span class="n">get_object_or_404</span>
+<span class="kn">from</span> <span class="nn">django.apps</span> <span class="kn">import</span> <span class="n">apps</span>
+<span class="kn">from</span> <span class="nn">frame.models</span> <span class="kn">import</span> <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">AppConfiguration</span><span class="p">,</span> <span class="n">LogMessage</span>
+<span class="kn">from</span> <span class="nn">frame.utils</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">generate_inline_formset</span><span class="p">,</span>
+    <span class="n">get_enabled_fields</span><span class="p">,</span>
+    <span class="n">generate_dynamic_form</span><span class="p">,</span>
+    <span class="n">get_actions</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="kn">from</span> <span class="nn">django.contrib.auth.views</span> <span class="kn">import</span> <span class="n">LoginView</span><span class="p">,</span> <span class="n">LogoutView</span>
+<span class="kn">from</span> <span class="nn">django.db.models</span> <span class="kn">import</span> <span class="n">Q</span>
+
+
+<span class="c1"># Navigation Mixin</span>
+<div class="viewcode-block" id="nav_helper">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.nav_helper">[docs]</a>
+<span class="k">def</span> <span class="nf">nav_helper</span><span class="p">():</span>
+    <span class="n">apps</span> <span class="o">=</span> <span class="n">AppConfiguration</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">navigation_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+    <span class="c1"># Initialize a dictionary to hold apps and their models</span>
+    <span class="n">apps_with_models</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">for</span> <span class="n">app</span> <span class="ow">in</span> <span class="n">apps</span><span class="p">:</span>
+        <span class="c1"># Assuming &#39;app&#39; is a ForeignKey in ModelConfiguration pointing to AppConfiguration</span>
+        <span class="n">models</span> <span class="o">=</span> <span class="n">ModelConfiguration</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">app</span><span class="o">=</span><span class="n">app</span><span class="p">,</span> <span class="n">navigation_enabled</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">apps_with_models</span><span class="p">[</span><span class="n">app</span><span class="p">]</span> <span class="o">=</span> <span class="n">models</span>
+
+    <span class="k">return</span> <span class="n">apps_with_models</span></div>
+
+
+
+<div class="viewcode-block" id="NavigationMixin">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.NavigationMixin">[docs]</a>
+<span class="k">class</span> <span class="nc">NavigationMixin</span><span class="p">:</span>
+<div class="viewcode-block" id="NavigationMixin.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.NavigationMixin.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="nb">super</span><span class="p">(),</span> <span class="s2">&quot;get_context_data&quot;</span><span class="p">):</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">context</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="n">apps_with_models</span> <span class="o">=</span> <span class="n">nav_helper</span><span class="p">()</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;apps&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">apps_with_models</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseCreateView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseCreateView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseCreateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;form.html&quot;</span>
+
+<div class="viewcode-block" id="BaseCreateView.get_form_class">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseCreateView.get_form_class">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_form_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Dynamically get the form class based on the model</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">generate_dynamic_form</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseCreateView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseCreateView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;pk&quot;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;pk&quot;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;return_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;-list&quot;</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseUpdateView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseUpdateView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseUpdateView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;form.html&quot;</span>
+
+<div class="viewcode-block" id="BaseUpdateView.get_form_class">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseUpdateView.get_form_class">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_form_class</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="c1"># Dynamically get the form class based on the model</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">generate_dynamic_form</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseUpdateView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseUpdateView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;pk&quot;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;pk&quot;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;return_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;-list&quot;</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseListView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseListView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseListView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">ListView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;list.html&quot;</span>
+    <span class="n">paginate_by</span> <span class="o">=</span> <span class="mi">10</span>
+
+<div class="viewcode-block" id="BaseListView.get_queryset">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseListView.get_queryset">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_queryset</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">queryset</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">all</span><span class="p">()</span>
+        <span class="n">search_query</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">search_query</span><span class="p">:</span>
+            <span class="n">q_objects</span> <span class="o">=</span> <span class="n">Q</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">field</span> <span class="ow">in</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+                <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                <span class="n">properties</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="p">):</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">get_field</span><span class="p">(</span><span class="n">field</span><span class="p">)</span><span class="o">.</span><span class="n">is_relation</span><span class="p">:</span>
+                    <span class="n">q_objects</span> <span class="o">|=</span> <span class="n">Q</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">field</span> <span class="o">+</span> <span class="s2">&quot;__icontains&quot;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">})</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">q_objects</span> <span class="o">|=</span> <span class="n">Q</span><span class="p">(</span><span class="o">**</span><span class="p">{</span><span class="n">field</span> <span class="o">+</span> <span class="s2">&quot;__name__icontains&quot;</span><span class="p">:</span> <span class="n">search_query</span><span class="p">})</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span><span class="n">q_objects</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">model_config</span><span class="o">.</span><span class="n">default_sort_by</span><span class="p">:</span>
+            <span class="n">queryset</span> <span class="o">=</span> <span class="n">queryset</span><span class="o">.</span><span class="n">order_by</span><span class="p">(</span><span class="n">model_config</span><span class="o">.</span><span class="n">default_sort_by</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">queryset</span></div>
+
+
+<div class="viewcode-block" id="BaseListView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseListView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="s2">&quot;pk&quot;</span> <span class="ow">in</span> <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]:</span>
+            <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="s2">&quot;pk&quot;</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_actions</span><span class="p">(</span><span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;search_query&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">GET</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;query&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+
+
+<div class="viewcode-block" id="BaseListView.render_to_response">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseListView.render_to_response">[docs]</a>
+    <span class="k">def</span> <span class="nf">render_to_response</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">htmx</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="s2">&quot;partials/table_container.html&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">render_to_response</span><span class="p">(</span><span class="n">context</span><span class="p">,</span> <span class="o">**</span><span class="n">response_kwargs</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseDetailView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseDetailView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseDetailView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;detail.html&quot;</span>
+
+<div class="viewcode-block" id="BaseDetailView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseDetailView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;detail&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_actions</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;detail&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseDeleteView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseDeleteView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseDeleteView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">DeleteView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;confirm_delete.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseDeleteView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseDeleteView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;return_url&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;-list&quot;</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseMasterDetailView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseMasterDetailView">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseMasterDetailView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">DetailView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;master_detail.html&quot;</span>
+
+<div class="viewcode-block" id="BaseMasterDetailView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.BaseMasterDetailView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+            <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;config&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">model_config</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;enabled_fields&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;detail&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">parent_model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span>
+        <span class="n">child_models</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">rel</span><span class="o">.</span><span class="n">related_model</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">parent_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">related_objects</span>
+            <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">one_to_many</span>
+        <span class="p">]</span>
+
+        <span class="n">child_instances</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">child_model</span> <span class="ow">in</span> <span class="n">child_models</span><span class="p">:</span>
+            <span class="n">child_instances</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                <span class="p">{</span>
+                    <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">child_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">verbose_name_plural</span><span class="p">,</span>
+                    <span class="s2">&quot;objects&quot;</span><span class="p">:</span> <span class="n">child_model</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">filter</span><span class="p">(</span>
+                        <span class="o">**</span><span class="p">{</span><span class="n">parent_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">model_name</span> <span class="o">+</span> <span class="s2">&quot;_id&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">pk</span><span class="p">}</span>
+                    <span class="p">),</span>
+                    <span class="s2">&quot;fields&quot;</span><span class="p">:</span> <span class="n">get_enabled_fields</span><span class="p">(</span>
+                        <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                        <span class="n">child_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+                        <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;list&quot;</span><span class="p">,</span>
+                    <span class="p">),</span>
+                <span class="p">}</span>
+            <span class="p">)</span>
+
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;child_instances&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">child_instances</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">get_actions</span><span class="p">(</span>
+            <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="n">view_type</span><span class="o">=</span><span class="s2">&quot;detail&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MasterDetailBaseView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView">[docs]</a>
+<span class="k">class</span> <span class="nc">MasterDetailBaseView</span><span class="p">(</span><span class="n">LoginRequiredMixin</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;master_detail_form.html&quot;</span>
+    <span class="n">success_url</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="MasterDetailBaseView.get_parent_and_child_models">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView.get_parent_and_child_models">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_parent_and_child_models</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">parent_model</span> <span class="o">=</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
+        <span class="n">child_models</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">rel</span><span class="o">.</span><span class="n">related_model</span>
+            <span class="k">for</span> <span class="n">rel</span> <span class="ow">in</span> <span class="n">parent_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">related_objects</span>
+            <span class="k">if</span> <span class="n">rel</span><span class="o">.</span><span class="n">one_to_many</span>
+        <span class="p">]</span>
+        <span class="k">return</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailBaseView.get_parent_form">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView.get_parent_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_parent_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">instance</span><span class="p">:</span>
+            <span class="n">form</span> <span class="o">=</span> <span class="n">generate_dynamic_form</span><span class="p">(</span>
+                <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="n">form</span><span class="p">(</span>
+                <span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">instance</span><span class="o">=</span><span class="n">instance</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">generate_dynamic_form</span><span class="p">(</span>
+                <span class="n">model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="n">model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span>
+            <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailBaseView.get_child_formsets">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView.get_child_formsets">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_child_formsets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+        <span class="n">formsets</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">child_model</span> <span class="ow">in</span> <span class="n">child_models</span><span class="p">:</span>
+            <span class="n">child_model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span>
+                <span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">child_model</span><span class="o">.</span><span class="vm">__name__</span>
+            <span class="p">)</span>
+            <span class="n">formset_class</span> <span class="o">=</span> <span class="n">generate_inline_formset</span><span class="p">(</span>
+                <span class="n">child_model_config</span><span class="o">.</span><span class="n">app</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+                <span class="n">parent_model</span><span class="p">,</span>
+                <span class="n">child_model</span><span class="p">,</span>
+                <span class="n">child_model_config</span><span class="o">.</span><span class="n">model_name</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">user</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">instance</span><span class="p">:</span>
+                <span class="n">formset</span> <span class="o">=</span> <span class="n">formset_class</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">instance</span><span class="o">=</span><span class="n">instance</span><span class="p">,</span>
+                <span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">formset</span> <span class="o">=</span> <span class="n">formset_class</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="k">else</span> <span class="kc">None</span>
+                <span class="p">)</span>
+            <span class="n">formsets</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">child_model</span><span class="o">.</span><span class="n">_meta</span><span class="o">.</span><span class="n">verbose_name_plural</span><span class="p">,</span> <span class="n">formset</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">formsets</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailBaseView.render_form">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView.render_form">[docs]</a>
+    <span class="k">def</span> <span class="nf">render_form</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">model_config</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">ModelConfiguration</span><span class="p">,</span> <span class="n">model_name</span><span class="o">=</span><span class="n">model_name</span><span class="p">)</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;parent_form&quot;</span><span class="p">:</span> <span class="n">parent_form</span><span class="p">,</span>
+            <span class="s2">&quot;child_formsets&quot;</span><span class="p">:</span> <span class="n">child_formsets</span><span class="p">,</span>
+            <span class="s2">&quot;model_name&quot;</span><span class="p">:</span> <span class="n">model_name</span><span class="p">,</span>
+            <span class="s2">&quot;app_label&quot;</span><span class="p">:</span> <span class="n">app_label</span><span class="p">,</span>
+            <span class="s2">&quot;return_url&quot;</span><span class="p">:</span> <span class="n">model_name</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="o">+</span> <span class="s2">&quot;-list&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;apps&quot;</span><span class="p">:</span> <span class="n">nav_helper</span><span class="p">(),</span>
+            <span class="s2">&quot;config&quot;</span><span class="p">:</span> <span class="n">model_config</span><span class="p">,</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="n">context</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailBaseView.handle_post">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailBaseView.handle_post">[docs]</a>
+    <span class="k">def</span> <span class="nf">handle_post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">):</span>
+        <span class="c1"># Ensure parent_form is an instance</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">parent_form</span><span class="p">,</span> <span class="nb">type</span><span class="p">):</span>
+            <span class="n">parent_form</span> <span class="o">=</span> <span class="n">parent_form</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="p">)</span>
+
+        <span class="n">formset_valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="n">formset</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">formset</span> <span class="ow">in</span> <span class="n">child_formsets</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">parent_form</span><span class="o">.</span><span class="n">is_valid</span><span class="p">()</span> <span class="ow">and</span> <span class="n">formset_valid</span><span class="p">:</span>
+            <span class="n">parent_instance</span> <span class="o">=</span> <span class="n">parent_form</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">formset</span> <span class="ow">in</span> <span class="n">child_formsets</span><span class="p">:</span>
+                <span class="n">formset</span><span class="o">.</span><span class="n">instance</span> <span class="o">=</span> <span class="n">parent_instance</span>
+                <span class="n">formset</span><span class="o">.</span><span class="n">save</span><span class="p">()</span>
+            <span class="k">return</span> <span class="n">redirect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">success_url</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_form</span><span class="p">(</span>
+            <span class="n">parent_form</span><span class="p">,</span>
+            <span class="n">child_formsets</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;app_label&quot;</span><span class="p">],</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">kwargs</span><span class="p">[</span><span class="s2">&quot;model_name&quot;</span><span class="p">],</span>
+        <span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MasterDetailCreateView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailCreateView">[docs]</a>
+<span class="k">class</span> <span class="nc">MasterDetailCreateView</span><span class="p">(</span><span class="n">MasterDetailBaseView</span><span class="p">,</span> <span class="n">CreateView</span><span class="p">):</span>
+<div class="viewcode-block" id="MasterDetailCreateView.get">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailCreateView.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_and_child_models</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span>
+        <span class="p">)</span>
+        <span class="n">parent_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_form</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">child_formsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_formsets</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_form</span><span class="p">(</span>
+            <span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailCreateView.post">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailCreateView.post">[docs]</a>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_and_child_models</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span>
+        <span class="p">)</span>
+        <span class="n">parent_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_form</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">)</span>
+        <span class="n">child_formsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_formsets</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_post</span><span class="p">(</span><span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="MasterDetailUpdateView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailUpdateView">[docs]</a>
+<span class="k">class</span> <span class="nc">MasterDetailUpdateView</span><span class="p">(</span><span class="n">MasterDetailBaseView</span><span class="p">,</span> <span class="n">UpdateView</span><span class="p">):</span>
+<div class="viewcode-block" id="MasterDetailUpdateView.get">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailUpdateView.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_and_child_models</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span>
+        <span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">parent_model</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">parent_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_form</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">instance</span>
+        <span class="p">)</span>
+        <span class="n">child_formsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_formsets</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">instance</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">render_form</span><span class="p">(</span>
+            <span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="MasterDetailUpdateView.post">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.MasterDetailUpdateView.post">[docs]</a>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">,</span> <span class="n">pk</span><span class="p">):</span>
+        <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_and_child_models</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span>
+        <span class="p">)</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="n">get_object_or_404</span><span class="p">(</span><span class="n">parent_model</span><span class="p">,</span> <span class="n">pk</span><span class="o">=</span><span class="n">pk</span><span class="p">)</span>
+        <span class="n">parent_form</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_parent_form</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">instance</span>
+        <span class="p">)</span>
+        <span class="n">child_formsets</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_child_formsets</span><span class="p">(</span>
+            <span class="n">app_label</span><span class="p">,</span> <span class="n">parent_model</span><span class="p">,</span> <span class="n">child_models</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="n">instance</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_post</span><span class="p">(</span><span class="n">parent_form</span><span class="p">,</span> <span class="n">child_formsets</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="HomeView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.HomeView">[docs]</a>
+<span class="k">class</span> <span class="nc">HomeView</span><span class="p">(</span><span class="n">NavigationMixin</span><span class="p">,</span> <span class="n">View</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;home.html&quot;</span>
+
+<div class="viewcode-block" id="HomeView.get">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.HomeView.get">[docs]</a>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">render</span><span class="p">(</span><span class="n">request</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">template_name</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="AddFormsetRowView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.AddFormsetRowView">[docs]</a>
+<span class="k">class</span> <span class="nc">AddFormsetRowView</span><span class="p">(</span><span class="n">View</span><span class="p">):</span>
+<div class="viewcode-block" id="AddFormsetRowView.post">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.AddFormsetRowView.post">[docs]</a>
+    <span class="k">def</span> <span class="nf">post</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">request</span><span class="p">,</span> <span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">):</span>
+        <span class="n">parent_model</span> <span class="o">=</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">model_name</span><span class="p">)</span>
+        <span class="n">child_model_name</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;child_model_name&quot;</span><span class="p">)</span>
+        <span class="n">child_model</span> <span class="o">=</span> <span class="n">apps</span><span class="o">.</span><span class="n">get_model</span><span class="p">(</span><span class="n">app_label</span><span class="p">,</span> <span class="n">child_model_name</span><span class="p">)</span>
+
+        <span class="n">formset_class</span> <span class="o">=</span> <span class="n">generate_inline_formset</span><span class="p">(</span><span class="n">parent_model</span><span class="p">,</span> <span class="n">child_model</span><span class="p">)</span>
+        <span class="n">formset</span> <span class="o">=</span> <span class="n">formset_class</span><span class="p">()</span>
+
+        <span class="n">form_idx</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">POST</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;form_idx&quot;</span><span class="p">)</span>
+
+        <span class="n">new_form</span> <span class="o">=</span> <span class="n">formset</span><span class="o">.</span><span class="n">empty_form</span>
+        <span class="n">new_form_html</span> <span class="o">=</span> <span class="n">new_form</span><span class="o">.</span><span class="n">as_p</span><span class="p">()</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;__prefix__&quot;</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">form_idx</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">JsonResponse</span><span class="p">({</span><span class="s2">&quot;form_html&quot;</span><span class="p">:</span> <span class="n">new_form_html</span><span class="p">})</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LoginView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.LoginView">[docs]</a>
+<span class="k">class</span> <span class="nc">LoginView</span><span class="p">(</span><span class="n">LoginView</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;form.html&quot;</span>
+    <span class="n">next_page</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LoginView.get_context_data">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.LoginView.get_context_data">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_context_data</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+        <span class="n">context</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_context_data</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Login&quot;</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;saveOveride&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Login&quot;</span>
+        <span class="n">context</span><span class="p">[</span><span class="s2">&quot;hOveride&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Login&quot;</span>
+        <span class="k">return</span> <span class="n">context</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="LogoutView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.LogoutView">[docs]</a>
+<span class="k">class</span> <span class="nc">LogoutView</span><span class="p">(</span><span class="n">LogoutView</span><span class="p">):</span>
+    <span class="n">next_page</span> <span class="o">=</span> <span class="n">reverse_lazy</span><span class="p">(</span><span class="s2">&quot;home&quot;</span><span class="p">)</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;home.html&quot;</span></div>
+
+
+
+<div class="viewcode-block" id="LogMessageView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.LogMessageView">[docs]</a>
+<span class="k">class</span> <span class="nc">LogMessageView</span><span class="p">(</span><span class="n">BaseListView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LogMessage</span></div>
+
+
+
+<div class="viewcode-block" id="LogMessageDetailView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.LogMessageDetailView">[docs]</a>
+<span class="k">class</span> <span class="nc">LogMessageDetailView</span><span class="p">(</span><span class="n">BaseDetailView</span><span class="p">):</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">LogMessage</span></div>
+
+
+<div class="viewcode-block" id="TemplateView">
+<a class="viewcode-back" href="../../frame.html#frame.base_views.TemplateView">[docs]</a>
+<span class="k">class</span> <span class="nc">TemplateView</span><span class="p">(</span><span class="n">TemplateView</span><span class="p">,</span> <span class="n">NavigationMixin</span><span class="p">):</span>
+    <span class="n">template_name</span> <span class="o">=</span> <span class="s2">&quot;home.html&quot;</span></div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, Agwebberley.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
