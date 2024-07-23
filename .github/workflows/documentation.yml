@@ -45,6 +45,10 @@ jobs:
           python generate_docs.py
           make html
 
+      - name: List Documentation Directory
+        run: |
+          ls -la docs/_build/html
+
       - name: Upload Artifact
         uses: actions/upload-pages-artifact@v3
         with:
