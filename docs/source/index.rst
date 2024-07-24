@@ -8,8 +8,9 @@ Welcome to FRAME's documentation!
    :caption: Contents:
 
    modules
-   usage
-   installation
+   gettingstarted
+   project-generation-settings
+   settings
 
 Indices and tables
 ==================
