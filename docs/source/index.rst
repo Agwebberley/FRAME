@@ -11,6 +11,7 @@ Welcome to FRAME's documentation!
    gettingstarted
    project-generation-settings
    settings
+   usage
 
 Indices and tables
 ==================
