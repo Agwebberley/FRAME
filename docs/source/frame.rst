@@ -37,13 +37,6 @@ frame.aws\_utils module
    :undoc-members:
    :show-inheritance:
 
-frame.base\_forms module
-------------------------
-
-.. automodule:: frame.base_forms
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 frame.base\_views module
 ------------------------
@@ -61,13 +54,6 @@ frame.context\_processors module
    :undoc-members:
    :show-inheritance:
 
-frame.forms module
-------------------
-
-.. automodule:: frame.forms
-   :members:
-   :undoc-members:
-   :show-inheritance:
 
 frame.listener module
 ---------------------

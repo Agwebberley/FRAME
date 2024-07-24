@@ -9,9 +9,19 @@ import boto3
 
 
 class Command(BaseCommand):
+    """
+    Django management command to run an SQS worker.
+
+    This command initializes Django, loads listeners from apps, and processes messages from SQS queues.
+    """
     help = "Run SQS worker"
 
     def handle(self, *args, **kwargs):
+        """
+        Handle the command execution.
+
+        This method sets up Django, loads listeners from installed apps, and starts processing messages.
+        """
         django.setup()  # Ensure Django is fully initialized
         print("SQSWorker: Starting worker")
         self.sqs_client = boto3.client("sqs", region_name=settings.AWS_REGION)
@@ -28,6 +38,9 @@ class Command(BaseCommand):
         self.process_messages()
 
     def process_messages(self):
+        """
+        Continuously poll SQS queues for messages and process them.
+        """
         while True:
             for channel in get_channels():
                 queue_url = self.get_or_create_queue(channel)
@@ -35,6 +48,14 @@ class Command(BaseCommand):
                     self.poll_queue(queue_url)
 
     def get_or_create_queue(self, channel):
+        """
+        Get or create an SQS queue for the given channel.
+
+        :param channel: The name of the channel.
+        :type channel: str
+        :return: The URL of the SQS queue, or None if there was an error.
+        :rtype: str or None
+        """
         try:
             queue_name = f"{channel}_queue"
             response = self.sqs_client.create_queue(QueueName=queue_name)
@@ -74,6 +95,12 @@ class Command(BaseCommand):
             return None
 
     def poll_queue(self, queue_url):
+        """
+        Poll the SQS queue for messages and process them.
+
+        :param queue_url: The URL of the SQS queue.
+        :type queue_url: str
+        """
         messages = self.sqs_client.receive_message(
             QueueUrl=queue_url, MaxNumberOfMessages=10, WaitTimeSeconds=20
         )
@@ -87,6 +114,12 @@ class Command(BaseCommand):
                 )
 
     def process_message(self, data):
+        """
+        Process a message received from the SQS queue.
+
+        :param data: The message data.
+        :type data: str
+        """
         try:
             message_data = json.loads(data)
             message_data = json.loads(message_data["Message"])

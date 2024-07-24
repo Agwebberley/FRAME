@@ -11,6 +11,7 @@ Make sure to have the following on your host:
 * Python 3.12
 * PostgreSQL_
 * Cookiecutter_
+* AwsCLI_
 
 First things first.
 
@@ -82,7 +83,7 @@ First things first.
 .. _postgres documentation: https://www.postgresql.org/docs/current/static/auth-pg-hba-conf.html
 .. _pre-commit: https://pre-commit.com/
 .. _direnv: https://direnv.net/
-
+.. _AwsCLI: https://aws.amazon.com/cli/
 
 Creating Your First Django App
 ------------------------------
@@ -139,45 +140,13 @@ Following this structured approach, here's how to add a new app:
 Setup Email Backend
 -------------------
 
-Mailpit
-~~~~~~~
+To test email functionality, you can use the console backend. This backend writes emails to the console instead of sending them. To set this up, add the following to your ``config/settings/local.py``: ::
 
-.. note:: In order for the project to support Mailpit_ it must have been bootstrapped with ``use_mailpit`` set to ``y``.
-
-Mailpit is used to receive emails during development, it is written in Go and has no external dependencies.
-
-For instance, one of the packages we depend upon, ``django-allauth`` sends verification emails to new users signing up as well as to the existing ones who have not yet verified themselves.
-
-#. `Download the latest Mailpit release`_ for your OS.
-
-#. Copy the binary file to the project root.
-
-#. Make it executable: ::
-
-    $ chmod +x mailpit
-
-#. Spin up another terminal window and start it there: ::
-
-    ./mailpit
-
-#. Check out `<http://127.0.0.1:8025/>`_ to see how it goes.
-
-Now you have your own mail server running locally, ready to receive whatever you send it.
-
-.. _`Download the latest Mailpit release`: https://github.com/axllent/mailpit
-
-Console
-~~~~~~~
-
-.. note:: If you have generated your project with ``use_mailpit`` set to ``n`` this will be a default setup.
-
-Alternatively, deliver emails over console via ``EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'``.
-
-In production, we have Mailgun_ configured to have your back!
-
-.. _Mailgun: https://www.mailgun.com/
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 Summary
 -------
 
-Congratulations, you have made it! Keep on reading to unleash the full potential of the Cookiecutter Django template.
+Congratulations, you should now have a working development environment set up and ready to go.
+
+Next: :rel:`highlevel`

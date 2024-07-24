@@ -10,11 +10,19 @@ from django.conf import settings
 
 
 class Command(BaseCommand):
-    help = (
-        "Add any new apps/models/fields to the configuration models with default values"
-    )
+    """
+    Django management command to add new apps, models, and fields to the configuration models with default values.
+    """
+    help = "Add any new apps/models/fields to the configuration models with default values"
 
     def handle(self, *args, **options):
+        """
+        Handle the command execution.
+
+        This method iterates through the apps and their models defined in settings.CUSTOM_APPS,
+        adding any new app configurations, model configurations, field configurations, and default model actions
+        to the database.
+        """
         # List of custom apps to include in the configuration
         custom_apps = settings.CUSTOM_APPS
 
