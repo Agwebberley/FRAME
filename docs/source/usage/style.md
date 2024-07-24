@@ -4,9 +4,9 @@ This project is built around the principles of fat models and thin views. The ke
 
 ## Principles
 
-1. **Fat Models, Thin Views**: 
-    - **Views**: Should handle request processing, data validation, and rendering templates. They should not contain any business logic.
-    - **Models**: Should encapsulate all business logic and rules related to the data they manage. This makes models rich in functionality and ensures that the business logic is reusable across different views.
+1. **Fat [Models](models.md), Thin [Views](views.md)**: 
+    - **[Views](views.md)**: Should handle request processing, data validation, and rendering templates. They should not contain any business logic.
+    - **[Models](models.md)**: Should encapsulate all business logic and rules related to the data they manage. This makes models rich in functionality and ensures that the business logic is reusable across different views.
 
 2. **Single Responsibility**:
     - **Model Responsibility**: If the logic pertains only to a single model, it should be encapsulated within the model. This includes validation, calculations, and any behavior related to the model’s data.
@@ -14,7 +14,7 @@ This project is built around the principles of fat models and thin views. The ke
 
 ## Implementation Guidelines
 
-### Fat Models
+### Fat [Models](models.md)
 
 Encapsulate all business logic within the models. This includes:
 
@@ -34,7 +34,7 @@ class Order(BaseModel):
         self.total_price -= discount_amount
         self.save()
 ```
-### Thin Views
+### Thin [Views](views.md)
 
 Views should be limited to handling HTTP requests and responses. They should:
 
@@ -47,7 +47,7 @@ Example:
 class OrderCreateView(BaseCreateView):
     model = Order
 ```
-### Pub/Sub for Cross-Model Communication
+### [Pub/Sub](aws.md) for Cross-Model Communication
 
 Use Pub/Sub mechanisms to handle interactions between different models. This ensures that models remain decoupled and communication between them is flexible and scalable.
 

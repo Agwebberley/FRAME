@@ -10,7 +10,7 @@ The `BaseModel` is an abstract base class that provides common fields and functi
 
 - **Automatic Timestamping:** The `BaseModel` includes `created_at` and `updated_at` fields that automatically track when an instance is created and last updated.
 - **Soft Deletion:** Instead of permanently deleting records, `BaseModel` provides an `is_deleted` field to mark records as deleted. This allows for recovery and auditing.
-- **Event Publishing:** When instances are created, updated, or deleted, `BaseModel` publishes events to an external system (e.g., AWS SNS) for further processing.
+- **Event Publishing:** When instances are created, updated, or deleted, `BaseModel` publishes events to an external system (e.g., AWS SNS) for further processing. See [Pub/Sub](aws.md) for details.
 
 ### Fields
 
@@ -44,4 +44,4 @@ class MyModel(BaseModel):
 
 ### Meta Models
 
-Frame includes several meta models that provide additional functionality. These meta models allow FRAME to dynamically generate the appropriate forms and configurations for your application. You can read more about these meta models and their configurations on the [admin](admin.rst) page.
+Frame includes several meta models that provide additional functionality. These meta models allow FRAME to dynamically generate the appropriate forms and configurations for your application. You can read more about these meta models and their configurations on the [admin](admin.md) page.
