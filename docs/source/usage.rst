@@ -12,6 +12,7 @@ Many similar solutions compromise on flexibility, especially when you leave the 
 .. toctree::
     :maxdepth: 2
     
+    usage/style
     usage/models
     usage/views
     usage/admin
