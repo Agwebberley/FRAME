@@ -1,3 +1,5 @@
+Here is the documentation formatted in Markdown without any added formatting that might interfere with copying:
+
 # Customers App
 
 The `customers` app provides a minimalist example of the essential components required to create a functional app within the FRAME library.
@@ -40,4 +42,3 @@ To integrate a new app with FRAME, use the following command:
 This command will register `AppConfiguration`, `ModelConfiguration`, and `FieldConfiguration` entries for any new components since the last run. You can then manage the app through the admin interface.
 
 For the `customers` app, ensure that the `create`, `update`, `detail`, and `delete` actions are enabled in the `Customer` model configuration. These actions correspond to the views provided in the `customers` app. By default, these actions are disabled to prevent errors in cases where corresponding views do not exist.
-

@@ -12,6 +12,7 @@ Welcome to FRAME's documentation!
    project-generation-settings
    settings
    usage
+   example
 
 Indices and tables
 ==================
