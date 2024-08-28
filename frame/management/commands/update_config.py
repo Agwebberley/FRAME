@@ -13,7 +13,10 @@ class Command(BaseCommand):
     """
     Django management command to add new apps, models, and fields to the configuration models with default values.
     """
-    help = "Add any new apps/models/fields to the configuration models with default values"
+
+    help = (
+        "Add any new apps/models/fields to the configuration models with default values"
+    )
 
     def handle(self, *args, **options):
         """
@@ -28,6 +31,7 @@ class Command(BaseCommand):
 
         for app_config in apps.get_app_configs():
             app_name = app_config.name
+            app_name = app_name.split(".")[-1]
 
             # Skip apps not in the custom apps list
             if app_name not in custom_apps:
