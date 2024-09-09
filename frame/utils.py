@@ -2,6 +2,7 @@ from django import forms
 from django.apps import apps
 from frame.models import AppConfiguration, ModelConfiguration, FieldConfiguration
 
+
 def get_app_config(app_name):
     """
     Get the AppConfiguration instance for the specified app name.
@@ -15,6 +16,7 @@ def get_app_config(app_name):
         return AppConfiguration.objects.get(name=app_name)
     except AppConfiguration.DoesNotExist:
         return None
+
 
 def get_model_config(app_name, model_name):
     """
@@ -33,6 +35,7 @@ def get_model_config(app_name, model_name):
     except ModelConfiguration.DoesNotExist:
         return None
 
+
 def get_field_configs(app_name, model_name):
     """
     Get the FieldConfiguration instances for the specified app and model names.
@@ -48,6 +51,7 @@ def get_field_configs(app_name, model_name):
     if model_config:
         return FieldConfiguration.objects.filter(model=model_config)
     return []
+
 
 def get_enabled_fields(app_name, model_name, user, view_type="list", properties=True):
     """
@@ -98,11 +102,14 @@ def get_enabled_fields(app_name, model_name, user, view_type="list", properties=
         ]
         if "pk" in properties:
             properties.pop(properties.index("pk"))
+        if "get_config" in properties:
+            properties.pop(properties.index("get_config"))
         enabled_fields += properties
 
     if "is_deleted" in enabled_fields:
         enabled_fields.pop(enabled_fields.index("is_deleted"))
     return enabled_fields
+
 
 def user_has_model_read_permission(user, model_config):
     """
@@ -125,6 +132,7 @@ def user_has_model_read_permission(user, model_config):
         return True
     return False
 
+
 def user_has_model_write_permission(user, model_config):
     """
     Check if a user has write permission for a model.
@@ -145,6 +153,7 @@ def user_has_model_write_permission(user, model_config):
     ).exists():
         return True
     return False
+
 
 def user_has_field_read_permission(user, field_config):
     """
@@ -169,6 +178,7 @@ def user_has_field_read_permission(user, field_config):
         return True
     return False
 
+
 def user_has_field_write_permission(user, field_config):
     """
     Check if a user has write permission for a field.
@@ -191,6 +201,7 @@ def user_has_field_write_permission(user, field_config):
     ).exists():
         return True
     return False
+
 
 def generate_dynamic_form(app_name, model_name, user, instance=None):
     """
@@ -219,6 +230,7 @@ def generate_dynamic_form(app_name, model_name, user, instance=None):
                 super(DynamicForm, self).__init__(*args, **kwargs)
 
     return DynamicForm
+
 
 def get_actions(app_name, model_name, view_type="list"):
     """
@@ -264,6 +276,7 @@ def get_actions(app_name, model_name, view_type="list"):
                 }
             )
     return actions
+
 
 def generate_inline_formset(app_label, parent_model, child_model, model_name, user):
     """

@@ -46,6 +46,7 @@ class NavigationMixin:
     """
     Mixin to add navigation context to views.
     """
+
     def get_context_data(self, **kwargs):
         """
         Get the context data for the view, adding navigation information.
@@ -69,6 +70,7 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
     """
     Base view for creating model instances with dynamic form generation.
     """
+
     template_name = "form.html"
 
     def get_form_class(self):
@@ -78,7 +80,9 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
         :return: Form class for the model.
         :rtype: class
         """
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         return generate_dynamic_form(
             model_config.app.name, model_config.model_name, self.request.user
         )
@@ -92,7 +96,9 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
             model_config.app.name, model_config.model_name, self.request.user
@@ -108,6 +114,7 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
     """
     Base view for updating model instances with dynamic form generation.
     """
+
     template_name = "form.html"
 
     def get_form_class(self):
@@ -117,7 +124,9 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         :return: Form class for the model.
         :rtype: class
         """
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         return generate_dynamic_form(
             model_config.app.name, model_config.model_name, self.request.user
         )
@@ -131,7 +140,9 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
             model_config.app.name, model_config.model_name, self.request.user
@@ -146,6 +157,7 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
     """
     Base view for listing model instances with search and pagination support.
     """
+
     template_name = "list.html"
     paginate_by = 10
 
@@ -156,7 +168,9 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         :return: Queryset of model instances.
         :rtype: QuerySet
         """
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         queryset = self.model.objects.all()
         search_query = self.request.GET.get("query", "")
         if search_query:
@@ -186,7 +200,9 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
             model_config.app.name,
@@ -198,6 +214,7 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
             context["enabled_fields"].remove("pk")
         context["actions"] = get_actions(model_config.app.name, model_config.model_name)
         context["search_query"] = self.request.GET.get("query", "")
+        context["model_class"] = self.model
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -218,6 +235,7 @@ class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
     """
     Base view for displaying details of a model instance.
     """
+
     template_name = "detail.html"
 
     def get_context_data(self, **kwargs):
@@ -229,7 +247,9 @@ class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
             model_config.app.name,
@@ -248,6 +268,7 @@ class BaseDeleteView(LoginRequiredMixin, NavigationMixin, DeleteView):
     """
     Base view for deleting model instances with confirmation.
     """
+
     template_name = "confirm_delete.html"
     success_url = reverse_lazy("home")
 
@@ -268,6 +289,7 @@ class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
     """
     Base view for displaying details of a parent model instance along with its child instances.
     """
+
     template_name = "master_detail.html"
 
     def get_context_data(self, **kwargs):
@@ -279,7 +301,9 @@ class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(ModelConfiguration, model_name=self.model.__name__)
+        model_config = get_object_or_404(
+            ModelConfiguration, model_name=self.model.__name__
+        )
         context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
             model_config.app.name,
@@ -323,6 +347,7 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
     """
     Base view for handling master-detail relationships with formsets.
     """
+
     template_name = "master_detail_form.html"
     success_url = reverse_lazy("home")
 
@@ -380,7 +405,9 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
         """
         formsets = []
         for child_model in child_models:
-            child_model_config = get_object_or_404(ModelConfiguration, model_name=child_model.__name__)
+            child_model_config = get_object_or_404(
+                ModelConfiguration, model_name=child_model.__name__
+            )
             formset_class = generate_inline_formset(
                 child_model_config.app.name,
                 parent_model,
@@ -456,6 +483,7 @@ class MasterDetailCreateView(MasterDetailBaseView, CreateView):
     """
     View for creating a master-detail form with parent and child models.
     """
+
     def get(self, request, app_label, model_name):
         """
         Handle GET request for the view.
@@ -466,10 +494,14 @@ class MasterDetailCreateView(MasterDetailBaseView, CreateView):
         :return: Rendered form for the view.
         :rtype: HttpResponse
         """
-        parent_model, child_models = self.get_parent_and_child_models(app_label, model_name)
+        parent_model, child_models = self.get_parent_and_child_models(
+            app_label, model_name
+        )
         parent_form = self.get_parent_form(app_label, parent_model.__name__)
         child_formsets = self.get_child_formsets(app_label, parent_model, child_models)
-        return self.render_form(parent_form, child_formsets, app_label, parent_model.__name__)
+        return self.render_form(
+            parent_form, child_formsets, app_label, parent_model.__name__
+        )
 
     def post(self, request, app_label, model_name):
         """
@@ -481,7 +513,9 @@ class MasterDetailCreateView(MasterDetailBaseView, CreateView):
         :return: Redirect or rendered form based on validation.
         :rtype: HttpResponse
         """
-        parent_model, child_models = self.get_parent_and_child_models(app_label, model_name)
+        parent_model, child_models = self.get_parent_and_child_models(
+            app_label, model_name
+        )
         parent_form = self.get_parent_form(app_label, parent_model.__name__)
         child_formsets = self.get_child_formsets(app_label, parent_model, child_models)
         return self.handle_post(parent_form, child_formsets)
@@ -491,6 +525,7 @@ class MasterDetailUpdateView(MasterDetailBaseView, UpdateView):
     """
     View for updating a master-detail form with parent and child models.
     """
+
     def get(self, request, app_label, model_name, pk):
         """
         Handle GET request for the view.
@@ -502,11 +537,19 @@ class MasterDetailUpdateView(MasterDetailBaseView, UpdateView):
         :return: Rendered form for the view.
         :rtype: HttpResponse
         """
-        parent_model, child_models = self.get_parent_and_child_models(app_label, model_name)
+        parent_model, child_models = self.get_parent_and_child_models(
+            app_label, model_name
+        )
         instance = get_object_or_404(parent_model, pk=pk)
-        parent_form = self.get_parent_form(app_label, parent_model.__name__, instance=instance)
-        child_formsets = self.get_child_formsets(app_label, parent_model, child_models, instance=instance)
-        return self.render_form(parent_form, child_formsets, app_label, parent_model.__name__)
+        parent_form = self.get_parent_form(
+            app_label, parent_model.__name__, instance=instance
+        )
+        child_formsets = self.get_child_formsets(
+            app_label, parent_model, child_models, instance=instance
+        )
+        return self.render_form(
+            parent_form, child_formsets, app_label, parent_model.__name__
+        )
 
     def post(self, request, app_label, model_name, pk):
         """
@@ -519,10 +562,16 @@ class MasterDetailUpdateView(MasterDetailBaseView, UpdateView):
         :return: Redirect or rendered form based on validation.
         :rtype: HttpResponse
         """
-        parent_model, child_models = self.get_parent_and_child_models(app_label, model_name)
+        parent_model, child_models = self.get_parent_and_child_models(
+            app_label, model_name
+        )
         instance = get_object_or_404(parent_model, pk=pk)
-        parent_form = self.get_parent_form(app_label, parent_model.__name__, instance=instance)
-        child_formsets = self.get_child_formsets(app_label, parent_model, child_models, instance=instance)
+        parent_form = self.get_parent_form(
+            app_label, parent_model.__name__, instance=instance
+        )
+        child_formsets = self.get_child_formsets(
+            app_label, parent_model, child_models, instance=instance
+        )
         return self.handle_post(parent_form, child_formsets)
 
 
@@ -530,6 +579,7 @@ class HomeView(NavigationMixin, View):
     """
     View for rendering the home page.
     """
+
     template_name = "home.html"
 
     def get(self, request):
@@ -547,6 +597,7 @@ class AddFormsetRowView(View):
     """
     View to dynamically add a formset row for inline forms.
     """
+
     def post(self, request, app_label, model_name):
         """
         Handle POST request to add a formset row.
@@ -576,6 +627,7 @@ class LoginView(LoginView):
     """
     View for handling user login.
     """
+
     template_name = "form.html"
     next_page = reverse_lazy("home")
 
@@ -598,6 +650,7 @@ class LogoutView(LogoutView):
     """
     View for handling user logout.
     """
+
     next_page = reverse_lazy("home")
     template_name = "home.html"
 
@@ -606,6 +659,7 @@ class LogMessageView(BaseListView):
     """
     View for listing log messages.
     """
+
     model = LogMessage
 
 
@@ -613,6 +667,7 @@ class LogMessageDetailView(BaseDetailView):
     """
     View for displaying details of a log message.
     """
+
     model = LogMessage
 
 
@@ -620,4 +675,5 @@ class TemplateView(TemplateView, NavigationMixin):
     """
     View for rendering a template.
     """
+
     template_name = "home.html"
