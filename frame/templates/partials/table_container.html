@@ -7,7 +7,7 @@
                 {% for field in enabled_fields %}
                     <th>{{ field|titlify }}</th>
                 {% endfor %}
-                {% if actions.dropdown|length >= 1 %}
+                {% if model_class.get_config.actions.dropdown|length >= 1 %}
                     <th>Actions</th>
                 {% endif %}
             </tr>

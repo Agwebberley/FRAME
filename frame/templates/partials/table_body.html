@@ -8,15 +8,15 @@
             {% endfor %}
             <td>
                 <!-- Actions Dropdown -->
-                {% if actions.dropdown|length >= 1 %}
+                {% if model_class.get_config.actions.dropdown|length >= 1 %}
                 <div class="dropdown">
                     <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Actions
                     </button>
                     <ul class="dropdown-menu" data-theme="dark">
-                        {% for action in actions.dropdown %}
+                        {% for action in model_class.get_config.actions.dropdown %}
                         <li>
-                            <a class="dropdown-item" href="{% url action.pattern obj.pk %}">{{ action.name }}</a>
+                            <a class="dropdown-item" href="{% url action.url obj.pk %}">{{ action.name }}</a>
                         </li>
                         {% endfor %}
                     </ul>

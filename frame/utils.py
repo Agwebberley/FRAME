@@ -1,56 +1,5 @@
 from django import forms
 from django.apps import apps
-from frame.models import AppConfiguration, ModelConfiguration, FieldConfiguration
-
-
-def get_app_config(app_name):
-    """
-    Get the AppConfiguration instance for the specified app name.
-
-    :param app_name: The name of the app.
-    :type app_name: str
-    :return: The AppConfiguration instance, or None if it does not exist.
-    :rtype: AppConfiguration or None
-    """
-    try:
-        return AppConfiguration.objects.get(name=app_name)
-    except AppConfiguration.DoesNotExist:
-        return None
-
-
-def get_model_config(app_name, model_name):
-    """
-    Get the ModelConfiguration instance for the specified app and model names.
-
-    :param app_name: The name of the app.
-    :type app_name: str
-    :param model_name: The name of the model.
-    :type model_name: str
-    :return: The ModelConfiguration instance, or None if it does not exist.
-    :rtype: ModelConfiguration or None
-    """
-    try:
-        app_config = get_app_config(app_name)
-        return ModelConfiguration.objects.get(app=app_config, model_name=model_name)
-    except ModelConfiguration.DoesNotExist:
-        return None
-
-
-def get_field_configs(app_name, model_name):
-    """
-    Get the FieldConfiguration instances for the specified app and model names.
-
-    :param app_name: The name of the app.
-    :type app_name: str
-    :param model_name: The name of the model.
-    :type model_name: str
-    :return: A queryset of FieldConfiguration instances.
-    :rtype: QuerySet
-    """
-    model_config = get_model_config(app_name, model_name)
-    if model_config:
-        return FieldConfiguration.objects.filter(model=model_config)
-    return []
 
 
 def get_enabled_fields(app_name, model_name, user, view_type="list", properties=True):
@@ -71,31 +20,21 @@ def get_enabled_fields(app_name, model_name, user, view_type="list", properties=
     :rtype: list
     """
     model = apps.get_model(app_label=app_name, model_name=model_name)
-    field_configs = get_field_configs(app_name, model_name)
+    model_config = model.get_config()
+    print(model_config)
+    field_configs = model_config["fields"]
     model_field_names = [field.name for field in model._meta.get_fields()]
     enabled_fields = []
     for field_config in field_configs:
-        if field_config.field_name in model_field_names:
-            field = model._meta.get_field(field_config.field_name)
+        if field_config["name"] in model_field_names:
+            field = model._meta.get_field(field_config["name"])
             if not (field.auto_created or field.one_to_one or field.many_to_many):
-                if (
-                    view_type == "list"
-                    and field_config.enable_in_list
-                    and user_has_field_read_permission(user, field_config)
-                ):
-                    enabled_fields.append(field_config.field_name)
-                elif (
-                    view_type == "detail"
-                    and field_config.enable_in_detail
-                    and user_has_field_read_permission(user, field_config)
-                ):
-                    enabled_fields.append(field_config.field_name)
-                elif (
-                    view_type == "form"
-                    and field_config.enable_in_form
-                    and user_has_field_write_permission(user, field_config)
-                ):
-                    enabled_fields.append(field_config.field_name)
+                if view_type == "list" and field_config["enable_in_list"]:
+                    enabled_fields.append(field_config["name"])
+                elif view_type == "detail" and field_config["enable_in_detail"]:
+                    enabled_fields.append(field_config["name"])
+                elif view_type == "form" and field_config["enable_in_form"]:
+                    enabled_fields.append(field_config["name"])
     if view_type != "form" and properties:
         properties = [
             prop for prop in dir(model) if isinstance(getattr(model, prop), property)
@@ -245,36 +184,10 @@ def get_actions(app_name, model_name, view_type="list"):
     :return: A dictionary or list of actions.
     :rtype: dict or list
     """
-    model_config = get_model_config(app_name, model_name)
-    if view_type == "list":
-        actions = {"dropdown": [], "button": []}
-    elif view_type == "detail":
-        actions = []
-    # Separate dropdown actions from button actions
-    for action in model_config.actions.all():
-        if view_type == "list" and action.enable_in_list:
-            if action.action_type == "dropdown":
-                actions["dropdown"].append(
-                    {
-                        "name": action.list_name,
-                        "pattern": model_name.lower() + "-" + action.pattern,
-                    }
-                )
-            if action.action_type == "button":
-                actions["button"].append(
-                    {
-                        "name": action.list_name,
-                        "pattern": model_name.lower() + "-" + action.pattern,
-                    }
-                )
-        elif view_type == "detail" and action.enable_in_detail:
-            actions.append(
-                {
-                    "name": action.detail_name,
-                    "pattern": model_name.lower() + "-" + action.pattern,
-                    "include_pk": action.include_pk,
-                }
-            )
+    model = apps.get_model(app_label=app_name, model_name=model_name)
+    model_config = model.get_config()
+    actions = model_config["actions"]
+    # POSSIBLY DELETE THIS
     return actions
 
 

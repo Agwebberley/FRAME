@@ -8,8 +8,14 @@
     <!-- Create button -->
     <div class="row mb-3">
         <div class="col-md-2">
-            {% for action in actions.button %}
-                <a href="{% url action.pattern %}" class="btn btn-primary">{{ action.name }}</a>
+            {% for action in model_class.get_config.actions.button %}
+                {% if action.disabled %}
+                    {% if not "list" in action.disabled %}
+                        <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                {% endif %} 
             {% endfor %}
         </div>
         {% if model_class.get_config.enable_search %}

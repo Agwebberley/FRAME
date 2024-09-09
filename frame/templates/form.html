@@ -7,8 +7,8 @@
     <h1>
         {% if hOveride %}
         {{ hOveride }}
-        {% elif config.model_name %}
-        {{ config.model_name }} Form
+        {% elif model_class.get_config.model_name %}
+        {{ model_class.get_config.model_name }} Form
         {% else %}
         My Model Form
         {% endif %}

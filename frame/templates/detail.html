@@ -2,11 +2,11 @@
 
 {% load utils %}
 
-{% block title %}{{ config.model_name }} Details{% endblock %}
+{% block title %}{{ model_class.get_config.model_name }} Details{% endblock %}
 
 {% block content %}
 <div class="container mt-5">
-    <h1>{{ config.model_name }} Details</h1>
+    <h1>{{ model_class.get_config.model_name }} Details</h1>
     <div class="card">
         <div class="card-header">
             <h2>{{ object }}</h2>
@@ -26,11 +26,19 @@
             </div>
         </div>
         <div class="card-footer">
-            {% for action in actions %}
-                {% if action.include_pk %}
-                    <a href="{% url action.pattern object.pk %}" class="btn btn-primary">{{ action.name }}</a>
-                {% else %}
-                    <a href="{% url action.pattern %}" class="btn btn-primary">{{ action.name }}</a>
+            {% for action in model_class.get_config.actions.button %}
+                {% if not action.disabled or not "detail" in action.disabled %}
+
+                    {% if action.include_pk %}
+                        <a href="{% url action.url object.pk %}" class="btn btn-primary">{{ action.name }}</a>
+                    {% else %}
+                        <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                    {% endif %}
+                {% endif %}
+            {% endfor %}
+            {% for action in model_class.get_config.actions.dropdown %}
+                {% if not action.disabled or not "detail" in action.disabled %}
+                    <a href="{% url action.url object.pk %}" class="btn btn-secondary">{{ action.name }}</a>
                 {% endif %}
             {% endfor %}
         </div>

@@ -31,14 +31,30 @@ def nav_helper():
     :return: Dictionary of apps and their corresponding models with navigation enabled.
     :rtype: dict
     """
-    apps = AppConfiguration.objects.filter(navigation_enabled=True)
-
     apps_with_models = {}
-
-    for app in apps:
-        models = ModelConfiguration.objects.filter(app=app, navigation_enabled=True)
-        apps_with_models[app] = models
-
+    # Get all apps with navigation enabled
+    # Iterate over all apps and get models with navigation enabled
+    # Use the model's get_config method to get the configuration
+    # NOTE: No longer using AppConfiguration model
+    for app in apps.get_app_configs():
+        models_with_nav = []
+        for model in app.get_models():
+            # Check if get_config method exists
+            if not hasattr(model, "get_config"):
+                continue
+            model_config = model.get_config()
+            if model_config["navigation"]:
+                models_with_nav.append(
+                    {
+                        "name": model._meta.verbose_name_plural,
+                        "url": model.__name__.lower() + "-list",
+                    }
+                )
+        if models_with_nav:
+            apps_with_models[app.label] = {
+                "name": app.verbose_name,
+                "models": models_with_nav,
+            }
     return apps_with_models
 
 
@@ -80,11 +96,10 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
         :return: Form class for the model.
         :rtype: class
         """
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
         return generate_dynamic_form(
-            model_config.app.name, model_config.model_name, self.request.user
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
         )
 
     def get_context_data(self, **kwargs):
@@ -96,16 +111,15 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
-        context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
-            model_config.app.name, model_config.model_name, self.request.user
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
         )
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
-        context["return_url"] = model_config.model_name.lower() + "-list"
+        context["return_url"] = self.model.__name__.lower() + "-list"
+        context["model_class"] = self.model
 
         return context
 
@@ -124,11 +138,10 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         :return: Form class for the model.
         :rtype: class
         """
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
         return generate_dynamic_form(
-            model_config.app.name, model_config.model_name, self.request.user
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
         )
 
     def get_context_data(self, **kwargs):
@@ -140,16 +153,15 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
-        context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
-            model_config.app.name, model_config.model_name, self.request.user
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
         )
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
-        context["return_url"] = model_config.model_name.lower() + "-list"
+        context["return_url"] = self.model.__name__.lower() + "-list"
+        context["model_class"] = self.model
         return context
 
 
@@ -168,16 +180,13 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         :return: Queryset of model instances.
         :rtype: QuerySet
         """
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
         queryset = self.model.objects.all()
         search_query = self.request.GET.get("query", "")
         if search_query:
             q_objects = Q()
             for field in get_enabled_fields(
-                model_config.app.name,
-                model_config.model_name,
+                self.model._meta.app_label,
+                self.model.__name__,
                 self.request.user,
                 view_type="list",
                 properties=False,
@@ -187,8 +196,6 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
                 else:
                     q_objects |= Q(**{field + "__name__icontains": search_query})
             queryset = queryset.filter(q_objects)
-        if model_config.default_sort_by:
-            queryset = queryset.order_by(model_config.default_sort_by)
         return queryset
 
     def get_context_data(self, **kwargs):
@@ -200,19 +207,14 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
-        context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
-            model_config.app.name,
-            model_config.model_name,
+            self.model._meta.app_label,
+            self.model.__name__,
             self.request.user,
             view_type="list",
         )
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
-        context["actions"] = get_actions(model_config.app.name, model_config.model_name)
         context["search_query"] = self.request.GET.get("query", "")
         context["model_class"] = self.model
         return context
@@ -247,19 +249,14 @@ class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
-        context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
-            model_config.app.name,
-            model_config.model_name,
+            self.object._meta.app_label,
+            self.object._meta.model_name,
             self.request.user,
             view_type="detail",
         )
-        context["actions"] = get_actions(
-            model_config.app.name, model_config.model_name, view_type="detail"
-        )
+
+        context["model_class"] = self.object.__class__
 
         return context
 
@@ -301,13 +298,9 @@ class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
         :rtype: dict
         """
         context = super().get_context_data(**kwargs)
-        model_config = get_object_or_404(
-            ModelConfiguration, model_name=self.model.__name__
-        )
-        context["config"] = model_config
         context["enabled_fields"] = get_enabled_fields(
-            model_config.app.name,
-            model_config.model_name,
+            self.model._meta.app_label,
+            self.model.__name__,
             self.request.user,
             view_type="detail",
         )
@@ -327,7 +320,7 @@ class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
                         **{parent_model._meta.model_name + "_id": self.object.pk}
                     ),
                     "fields": get_enabled_fields(
-                        model_config.app.name,
+                        self.model._meta.app_label,
                         child_model.__name__,
                         self.request.user,
                         view_type="list",
@@ -337,7 +330,9 @@ class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
 
         context["child_instances"] = child_instances
         context["actions"] = get_actions(
-            model_config.app.name, model_config.model_name, view_type="detail"
+            self.model._meta.app_label,
+            self.model.__name__,
+            view_type="detail",
         )
 
         return context
@@ -378,19 +373,14 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
         :return: Form class for the parent model.
         :rtype: class
         """
-        model_config = get_object_or_404(ModelConfiguration, model_name=model_name)
         if instance:
-            form = generate_dynamic_form(
-                model_config.app.name, model_config.model_name, self.request.user
-            )
+            form = generate_dynamic_form(app_label, model_name, self.request.user)
             return form(
                 data=self.request.POST if self.request.method == "POST" else None,
                 instance=instance,
             )
         else:
-            return generate_dynamic_form(
-                model_config.app.name, model_config.model_name, self.request.user
-            )
+            return generate_dynamic_form(app_label, model_name, self.request.user)
 
     def get_child_formsets(self, app_label, parent_model, child_models, instance=None):
         """
@@ -405,14 +395,11 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
         """
         formsets = []
         for child_model in child_models:
-            child_model_config = get_object_or_404(
-                ModelConfiguration, model_name=child_model.__name__
-            )
             formset_class = generate_inline_formset(
-                child_model_config.app.name,
+                child_model._meta.app_label,
                 parent_model,
                 child_model,
-                child_model_config.model_name,
+                child_model.__name__,
                 self.request.user,
             )
             if instance:
@@ -438,7 +425,6 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
         :return: Rendered form.
         :rtype: HttpResponse
         """
-        model_config = get_object_or_404(ModelConfiguration, model_name=model_name)
         context = {
             "parent_form": parent_form,
             "child_formsets": child_formsets,
@@ -446,7 +432,6 @@ class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
             "app_label": app_label,
             "return_url": model_name.lower() + "-list",
             "apps": nav_helper(),
-            "config": model_config,
         }
         return render(self.request, self.template_name, context)
 
