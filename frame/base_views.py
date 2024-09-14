@@ -46,7 +46,8 @@ def nav_helper():
             if model_config["navigation"]:
                 models_with_nav.append(
                     {
-                        "name": model._meta.verbose_name_plural,
+                        "name": model.get_config()["model_name"],
+                        "plural": model._meta.verbose_name_plural,
                         "url": model.__name__.lower() + "-list",
                     }
                 )
@@ -79,6 +80,7 @@ class NavigationMixin:
         apps_with_models = nav_helper()
 
         context["apps"] = apps_with_models
+        context["current_app"] = self.request.resolver_match.app_name
         return context
 
 

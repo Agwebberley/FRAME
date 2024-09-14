@@ -65,18 +65,18 @@
     <span class="fs-5 fw-semibold">Navigation</span>
   </a>
   <ul class="list-unstyled ps-0">
-    {% for app, models in apps.items %}
-      <li class="mb-1">
-        <button class="btn btn-toggle align-items-center rounded {% if app.name == CURRENT_APP %}aria-expanded="true"{% else %}collapsed{% endif %}" data-bs-toggle="collapse" data-bs-target="#{{ app.name|slugify }}-collapse" aria-expanded="{% if app.name == CURRENT_APP %}true{% else %}false{% endif %}">
-          {{ app.name|titlify }}
+    {% for app_name, app_data in apps.items %}
+    <li class="mb-1">
+        <button class="btn btn-toggle align-items-center rounded {% if app_data.name.lower == CURRENT_APP %}aria-expanded="true"{% else %}collapsed{% endif %}" data-bs-toggle="collapse" data-bs-target="#{{ app_data.name|slugify }}-collapse" aria-expanded="{% if app_data.name.lower == CURRENT_APP %}true{% else %}false{% endif %}">
+          {{ app_data.name|titlify }}
+
         </button>
-        <div class="collapse {% if app.name == CURRENT_APP %}show{% endif %}" id="{{ app.name|slugify }}-collapse">
+        <div class="collapse {% if app_data.name.lower == CURRENT_APP %}show{% endif %}" id="{{ app_data.name|slugify }}-collapse">
           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-            {% for model in models %}
-          {{ model["name"] }}
+            {% for model in app_data.models %}
               <li>
-                <a href="{{ model.url }}" class="link-dark rounded {% if model.model_name == CURRENT_APP %}nav-active{% endif %}">
-                  {{ model.model_name|titlify }}
+                <a href="{% url model.url %}" class="link-dark rounded {% if model.name.lower == model_class.get_config.model_name.lower %}nav-active{% endif %}">
+                  {{ model.plural|titlify }}
                 </a>
               </li>
             {% endfor %}
