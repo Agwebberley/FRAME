@@ -11,35 +11,34 @@ import django
 from django.conf import settings
 
 # Add the project root to the path
-sys.path.insert(0, os.path.abspath('../../'))
-sys.path.insert(0, os.path.abspath('../../frame'))
+sys.path.insert(0, os.path.abspath("../../"))
+sys.path.insert(0, os.path.abspath("../../frame"))
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'docs.settings'
+os.environ["DJANGO_SETTINGS_MODULE"] = "docs.settings"
 django.setup()
 
-project = 'FRAME'
-copyright = '2024, Agwebberley'
-author = 'Agwebberley'
-release = '0.2.5'
+project = "FRAME"
+copyright = "2024, Agwebberley"
+author = "Agwebberley"
+release = "0.4.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    'sphinx.ext.autodoc',
-    'sphinx.ext.viewcode',
-    'sphinx.ext.autosummary',
-    'sphinx.ext.napoleon',
-    'myst_parser',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.viewcode",
+    "sphinx.ext.autosummary",
+    "sphinx.ext.napoleon",
+    "myst_parser",
 ]
 
-templates_path = ['_templates']
+templates_path = ["_templates"]
 exclude_patterns = []
-
 
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_theme = "sphinx_rtd_theme"
+html_static_path = ["_static"]

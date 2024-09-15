@@ -13,6 +13,7 @@ Welcome to FRAME's documentation!
    settings
    usage
    example
+   changelog
 
 Indices and tables
 ==================

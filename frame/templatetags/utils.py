@@ -2,6 +2,7 @@ from django import template
 
 register = template.Library()
 
+
 @register.filter
 def get_field_value(instance, field_name):
     """
@@ -16,6 +17,7 @@ def get_field_value(instance, field_name):
     """
     return getattr(instance, field_name, "")
 
+
 @register.filter
 def fformsets(value):
     """
@@ -28,6 +30,7 @@ def fformsets(value):
     """
     return value.replace(" ", "")[:-1]
 
+
 @register.filter
 def titlify(value):
     """
@@ -39,6 +42,7 @@ def titlify(value):
     :rtype: str
     """
     return value.replace("_", " ").title()
+
 
 @register.filter
 def get_property(obj, prop):
@@ -53,6 +57,7 @@ def get_property(obj, prop):
     :rtype: any
     """
     return getattr(obj, prop)
+
 
 @register.filter
 def is_foreign_key(instance, field):
@@ -71,6 +76,7 @@ def is_foreign_key(instance, field):
     except AttributeError:
         return False
 
+
 @register.filter
 def get_detail_url(instance, field):
     """
@@ -84,9 +90,12 @@ def get_detail_url(instance, field):
     :rtype: str
     """
     try:
-        return instance._meta.get_field(field).related_model._meta.model_name + "-detail"
+        return (
+            instance._meta.get_field(field).related_model._meta.model_name + "-detail"
+        )
     except AttributeError:
         return ""
+
 
 @register.filter
 def get_foreign_key_value(instance, field):

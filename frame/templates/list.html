@@ -3,16 +3,22 @@
 
 {% block content %}
 <div class="container">
-    <h1>{{ config.list_title }}</h1>
+    <h1>{{ model_class.get_config.list_title }}</h1>
 
     <!-- Create button -->
     <div class="row mb-3">
         <div class="col-md-2">
-            {% for action in actions.button %}
-                <a href="{% url action.pattern %}" class="btn btn-primary">{{ action.name }}</a>
+            {% for action in model_class.get_config.actions.button %}
+                {% if action.disabled %}
+                    {% if not "list" in action.disabled %}
+                        <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                    {% endif %}
+                {% else %}
+                    <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                {% endif %} 
             {% endfor %}
         </div>
-        {% if config.enable_search %}
+        {% if model_class.get_config.enable_search %}
         <div class="col-md-10">
             <form id="search-form" hx-get="." hx-target="#table-container" hx-trigger="keyup delay:250ms, search">
                 <input type="text" name="query" placeholder="Search" value="{{ search_query }}" class="form-control">

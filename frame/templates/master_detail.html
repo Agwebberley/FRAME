@@ -2,7 +2,7 @@
 {% load utils %}
 {% block content %}
 
-<h1>{{ config.model_name }} Details</h1>
+<h1>{{ model_class.get_config.model_name }} Details</h1>
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="parent-tab" data-toggle="tab" onclick="openTab(event, 'parent')" role="tab" aria-controls="main" aria-selected="true">{{ config.model_name }}</a>
