@@ -1,7 +1,7 @@
 # Admin
 
-# NOTE - THIS IS DEPRECATED AND WILL BE REMOVED IN 0.5.0
-# PLEASE REFER TO THE NEW [CONFIGURATION DOCUMENTATION](configuration.md) FOR THE LATEST INFORMATION
+## NOTE - THIS IS DEPRECATED AND WILL BE REMOVED IN 0.5.0
+## PLEASE REFER TO THE NEW [CONFIGURATION DOCUMENTATION](configuration.md) FOR THE LATEST INFORMATION
 This section explains how to use the meta models properly within the FRAME Django Template helper app and outlines the current configuration options available in the admin dashboard.
 
 ## Using Meta Models
