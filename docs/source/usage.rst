@@ -15,5 +15,6 @@ Many similar solutions compromise on flexibility, especially when you leave the 
     usage/style
     usage/models
     usage/views
-    usage/admin
     usage/aws
+    usage/configuration
+    usage/admin

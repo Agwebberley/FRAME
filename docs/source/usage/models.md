@@ -38,10 +38,15 @@ from frame.models import BaseModel
 class MyModel(BaseModel):
     name = models.CharField(max_length=255)
 
+    @classmethod
+    def get_config(cls):
+        return {}
+
     def __str__(self):
         return self.name
 ```
 
-### Meta Models
-
-Frame includes several meta models that provide additional functionality. These meta models allow FRAME to dynamically generate the appropriate forms and configurations for your application. You can read more about these meta models and their configurations on the [admin](admin.md) page.
+### Configuration
+#### Added in 0.4.0
+The models are configured using a `@classmethod` called `get_config` that returns a dictionary with the configuration options.
+Please refer to the [Configuration](configuration.md) section for more details.
