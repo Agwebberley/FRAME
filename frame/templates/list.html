@@ -17,6 +17,10 @@
                     <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
                 {% endif %} 
             {% endfor %}
+            <!-- New Generate Report Button -->
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+                Generate Report
+            </button>
         </div>
         {% if model_class.get_config.enable_search %}
         <div class="col-md-10">
@@ -30,5 +34,6 @@
 </div>
 
 {% include 'partials/table_container.html' %}
+{% include 'partials/generate_report_modal.html' %}
 
 {% endblock %}

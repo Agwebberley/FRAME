@@ -1,0 +1,63 @@
+<!-- partials/generate_report_modal.html -->
+
+{% load utils %}
+
+<div class="modal fade" id="generateReportModal" tabindex="-1" aria-labelledby="generateReportModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form id="generate-report-form" method="post" action="">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="generateReportModalLabel">Configure Report</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <!-- Report Title -->
+          <div class="mb-3">
+            <label for="report-title" class="form-label">Report Title</label>
+            <input type="text" class="form-control" id="report-title" name="report_title" placeholder="Enter report title" required>
+          </div>
+
+          <!-- Date Range -->
+          <div class="mb-3">
+            <label class="form-label">Date Range</label>
+            <div class="input-group">
+              <input type="date" class="form-control" id="start-date" name="start_date" required>
+              <span class="input-group-text">to</span>
+              <input type="date" class="form-control" id="end-date" name="end_date" required>
+            </div>
+          </div>
+
+          <!-- Select Fields -->
+          <div class="mb-3">
+            <label class="form-label">Select Fields to Include</label>
+            {% for field in all_fields %}
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="{{ field }}" id="field-{{ field }}" name="fields" checked>
+              <label class="form-check-label" for="field-{{ field }}">
+                {{ field|titlify }}
+              </label>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary">Generate Report</button>
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+    document.getElementById('generate-report-form').addEventListener('submit', function(event) {
+        var startDate = document.getElementById('start-date').value;
+        var endDate = document.getElementById('end-date').value;
+        if (startDate && endDate && new Date(startDate) > new Date(endDate)) {
+            alert('Start date cannot be after end date.');
+            event.preventDefault();
+        }
+    });
+</script>
+
