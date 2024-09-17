@@ -20,72 +20,12 @@ from frame.utils import (
     generate_dynamic_form,
     get_actions,
 )
+from frame.mixins import (
+    NavigationMixin,
+    ReportMixin,
+)
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
-from weasyprint import HTML
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.contrib import messages
-
-
-def nav_helper():
-    """
-    Helper function to retrieve applications and their models that have navigation enabled.
-
-    :return: Dictionary of apps and their corresponding models with navigation enabled.
-    :rtype: dict
-    """
-    apps_with_models = {}
-    # Get all apps with navigation enabled
-    # Iterate over all apps and get models with navigation enabled
-    # Use the model's get_config method to get the configuration
-    # NOTE: No longer using AppConfiguration model
-    for app in apps.get_app_configs():
-        models_with_nav = []
-        for model in app.get_models():
-            # Check if get_config method exists
-            if not hasattr(model, "get_config"):
-                continue
-            model_config = model.get_config()
-            if model_config["navigation"]:
-                models_with_nav.append(
-                    {
-                        "name": model.get_config()["model_name"],
-                        "plural": model._meta.verbose_name_plural,
-                        "url": model.__name__.lower() + "-list",
-                    }
-                )
-        if models_with_nav:
-            apps_with_models[app.label] = {
-                "name": app.verbose_name,
-                "models": models_with_nav,
-            }
-    return apps_with_models
-
-
-class NavigationMixin:
-    """
-    Mixin to add navigation context to views.
-    """
-
-    def get_context_data(self, **kwargs):
-        """
-        Get the context data for the view, adding navigation information.
-
-        :param kwargs: Additional context data.
-        :return: Context data with navigation information.
-        :rtype: dict
-        """
-        if hasattr(super(), "get_context_data"):
-            context = super().get_context_data(**kwargs)
-        else:
-            context = {}
-
-        apps_with_models = nav_helper()
-
-        context["apps"] = apps_with_models
-        context["current_app"] = self.request.resolver_match.app_name
-        return context
 
 
 class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
@@ -171,14 +111,19 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         return context
 
 
-class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
+class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     """
     Base view for listing model instances with search and pagination support,
     and report generation capability.
     """
 
     template_name = "list.html"
+    report_template_name = "reports/list.html"
+    date_range = True
     paginate_by = 10
+    date_field = "created_at"
+    orientation = "landscape"
+    allow_orientation_selection = True
 
     def get_queryset(self):
         """
@@ -217,66 +162,11 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
             context["enabled_fields"].remove("pk")
         context["search_query"] = self.request.GET.get("query", "")
         context["model_class"] = self.model
-
-        # Get all possible fields for the report configuration
-        exclude_fields = ["id", "password", "pk"]
-        context["all_fields"] = [
-            field.name
-            for field in self.model._meta.fields
-            if field.name not in exclude_fields
-        ]
+        context["date_range"] = self.date_range
+        context["allow_orientation_selection"] = self.allow_orientation_selection
+        context["orientation"] = self.orientation
 
         return context
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handle POST requests for report generation.
-        """
-        # Get form data
-        report_title = request.POST.get("report_title", "Report")
-        start_date = request.POST.get("start_date")
-        end_date = request.POST.get("end_date")
-        selected_fields = request.POST.getlist("fields")
-
-        # Validate date inputs
-        if start_date and end_date and start_date > end_date:
-            messages.error(request, "Start date cannot be after end date.")
-            return redirect(request.path)
-
-        # Get the base queryset
-        queryset = self.model.objects.all()
-
-        # Filter by date range if dates are provided
-        if start_date and end_date:
-            # Replace 'date_field' with the actual date field name in your model
-            date_field_name = "created_at"  # Adjust this as needed
-            date_filter = {f"{date_field_name}__range": [start_date, end_date]}
-            queryset = queryset.filter(**date_filter)
-
-        # Handle empty queryset
-        if not queryset.exists():
-            messages.warning(request, "No data available for the selected date range.")
-            return redirect(request.path)
-
-        # Prepare context data for the report
-        context = {
-            "report_title": report_title,
-            "enabled_fields": selected_fields,
-            "page_obj": queryset,  # Use the filtered queryset
-            "model_class": self.model,
-        }
-
-        # Render the report template
-        html_string = render_to_string("reports/list.html", context)
-
-        # Generate PDF
-        html = HTML(string=html_string)
-        pdf_file = html.write_pdf()
-
-        # Create HTTP response
-        response = HttpResponse(pdf_file, content_type="application/pdf")
-        response["Content-Disposition"] = f'attachment; filename="{report_title}.pdf"'
-        return response
 
     def render_to_response(self, context, **response_kwargs):
         """
@@ -287,12 +177,24 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         return super().render_to_response(context, **response_kwargs)
 
 
-class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
+class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailView):
     """
     Base view for displaying details of a model instance.
     """
 
     template_name = "detail.html"
+    report_template_name = "reports/detail.html"
+    date_range = False
+    orientation = "portrait"
+    allow_orientation_selection = True
+
+    def get_report_context_data(self, **kwargs):
+        context = super().get_report_context_data(**kwargs)
+        context["enabled_fields"] = getattr(
+            self, "selected_fields", context["enabled_fields"]
+        )
+        # Add any additional context specific to the detail report
+        return context
 
     def get_context_data(self, **kwargs):
         """
@@ -311,6 +213,9 @@ class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
         )
 
         context["model_class"] = self.object.__class__
+        context["date_range"] = self.date_range
+        context["allow_orientation_selection"] = self.allow_orientation_selection
+        context["orientation"] = self.orientation
 
         return context
 

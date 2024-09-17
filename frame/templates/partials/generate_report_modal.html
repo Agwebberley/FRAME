@@ -18,6 +18,7 @@
             <input type="text" class="form-control" id="report-title" name="report_title" placeholder="Enter report title" required>
           </div>
 
+          {% if date_range %}
           <!-- Date Range -->
           <div class="mb-3">
             <label class="form-label">Date Range</label>
@@ -27,11 +28,31 @@
               <input type="date" class="form-control" id="end-date" name="end_date" required>
             </div>
           </div>
+          {% endif %}
+
+          <!-- Orientation Selection -->
+          {% if allow_orientation_selection %}
+          <div class="mb-3">
+            <label class="form-label">Page Orientation</label>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="orientation" id="orientationPortrait" value="portrait" checked>
+              <label class="form-check-label" for="orientationPortrait">
+                Portrait
+              </label>
+            </div>
+            <div class="form-check">
+              <input class="form-check-input" type="radio" name="orientation" id="orientationLandscape" value="landscape">
+              <label class="form-check-label" for="orientationLandscape">
+                Landscape
+              </label>
+            </div>
+          </div>
+          {% endif %}
 
           <!-- Select Fields -->
           <div class="mb-3">
             <label class="form-label">Select Fields to Include</label>
-            {% for field in all_fields %}
+            {% for field in enabled_fields %}
             <div class="form-check">
               <input class="form-check-input" type="checkbox" value="{{ field }}" id="field-{{ field }}" name="fields" checked>
               <label class="form-check-label" for="field-{{ field }}">
@@ -42,7 +63,8 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button type="submit" class="btn btn-primary">Generate Report</button>
+            <input type="hidden" name="generate_report" value="1">
+            <button type="submit" class="btn btn-primary">Generate Report</button>
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
         </div>
       </form>
@@ -52,6 +74,9 @@
 
 <script>
     document.getElementById('generate-report-form').addEventListener('submit', function(event) {
+        if (!document.getElementById('start-date') || !document.getElementById('end-date')) {
+            return;
+        }
         var startDate = document.getElementById('start-date').value;
         var endDate = document.getElementById('end-date').value;
         if (startDate && endDate && new Date(startDate) > new Date(endDate)) {

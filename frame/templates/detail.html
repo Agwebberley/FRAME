@@ -41,7 +41,11 @@
                     <a href="{% url action.url object.pk %}" class="btn btn-secondary">{{ action.name }}</a>
                 {% endif %}
             {% endfor %}
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+                Generate Report
+            </button>
         </div>
     </div>
 </div>
+{% include 'partials/generate_report_modal.html' %}
 {% endblock %}

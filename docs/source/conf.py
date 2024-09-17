@@ -20,7 +20,7 @@ django.setup()
 project = "FRAME"
 copyright = "2024, Agwebberley"
 author = "Agwebberley"
-release = "0.5.0"
+release = "0.6.0"
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
