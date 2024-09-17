@@ -70,8 +70,8 @@ class ReportMixin:
     """
 
     report_template_name = None  # Template used for generating the report
-    report_filename = "report.pdf"  # Default filename for the generated report
     report_title = "Report"  # Default report title
+    date_range = False  # Flag to indicate if date range is needed
 
     def get_report_context_data(self, **kwargs):
         """
@@ -80,6 +80,8 @@ class ReportMixin:
         """
         context = self.get_context_data(**kwargs)
         context["report_title"] = self.report_title
+        context["date_range"] = self.date_range
+        context["enabled_fields"] = self.selected_fields
         return context
 
     def generate_pdf(self, context):
@@ -104,12 +106,20 @@ class ReportMixin:
                 # Get the object if provided
                 self.object = self.get_object()
 
+            # Set self.object_list if applicable (for ListView)
+            if hasattr(self, "get_queryset"):
+                self.object_list = self.get_queryset()
+
             # Get selected fields if applicable
             selected_fields = request.POST.getlist("fields")
+            print("Selected fields: ", selected_fields)
             if selected_fields:
                 self.selected_fields = selected_fields
 
             # Get additional data if needed (e.g., date range)
+            if self.date_range:
+                self.start_date = request.POST.get("start_date")
+                self.end_date = request.POST.get("end_date")
             # Implement any custom logic here
 
             # Prepare context data
@@ -121,7 +131,7 @@ class ReportMixin:
             # Create HTTP response
             response = HttpResponse(pdf_file, content_type="application/pdf")
             response["Content-Disposition"] = (
-                f'attachment; filename="{self.report_filename}"'
+                f'attachment; filename="{self.report_title}.pdf"'
             )
             return response
 

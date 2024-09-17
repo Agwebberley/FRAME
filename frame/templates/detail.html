@@ -41,15 +41,11 @@
                     <a href="{% url action.url object.pk %}" class="btn btn-secondary">{{ action.name }}</a>
                 {% endif %}
             {% endfor %}
-            <form method="post">
-                {% csrf_token %}
-                <!-- Your form fields -->
-                <input type="hidden" name="generate_report" value="1">
-                <!-- Submit button -->
-                <button type="submit" class="btn btn-primary">Generate Report</button>
-            </form>
-
+            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+                Generate Report
+            </button>
         </div>
     </div>
 </div>
+{% include 'partials/generate_report_modal.html' %}
 {% endblock %}

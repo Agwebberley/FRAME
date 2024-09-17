@@ -115,13 +115,15 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
         return context
 
 
-class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
+class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     """
     Base view for listing model instances with search and pagination support,
     and report generation capability.
     """
 
     template_name = "list.html"
+    report_template_name = "reports/list.html"
+    date_range = True
     paginate_by = 10
 
     def get_queryset(self):
@@ -162,65 +164,7 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         context["search_query"] = self.request.GET.get("query", "")
         context["model_class"] = self.model
 
-        # Get all possible fields for the report configuration
-        exclude_fields = ["id", "password", "pk"]
-        context["all_fields"] = [
-            field.name
-            for field in self.model._meta.fields
-            if field.name not in exclude_fields
-        ]
-
         return context
-
-    def post(self, request, *args, **kwargs):
-        """
-        Handle POST requests for report generation.
-        """
-        # Get form data
-        report_title = request.POST.get("report_title", "Report")
-        start_date = request.POST.get("start_date")
-        end_date = request.POST.get("end_date")
-        selected_fields = request.POST.getlist("fields")
-
-        # Validate date inputs
-        if start_date and end_date and start_date > end_date:
-            messages.error(request, "Start date cannot be after end date.")
-            return redirect(request.path)
-
-        # Get the base queryset
-        queryset = self.model.objects.all()
-
-        # Filter by date range if dates are provided
-        if start_date and end_date:
-            # Replace 'date_field' with the actual date field name in your model
-            date_field_name = "created_at"  # Adjust this as needed
-            date_filter = {f"{date_field_name}__range": [start_date, end_date]}
-            queryset = queryset.filter(**date_filter)
-
-        # Handle empty queryset
-        if not queryset.exists():
-            messages.warning(request, "No data available for the selected date range.")
-            return redirect(request.path)
-
-        # Prepare context data for the report
-        context = {
-            "report_title": report_title,
-            "enabled_fields": selected_fields,
-            "page_obj": queryset,  # Use the filtered queryset
-            "model_class": self.model,
-        }
-
-        # Render the report template
-        html_string = render_to_string("reports/list.html", context)
-
-        # Generate PDF
-        html = HTML(string=html_string)
-        pdf_file = html.write_pdf()
-
-        # Create HTTP response
-        response = HttpResponse(pdf_file, content_type="application/pdf")
-        response["Content-Disposition"] = f'attachment; filename="{report_title}.pdf"'
-        return response
 
     def render_to_response(self, context, **response_kwargs):
         """
