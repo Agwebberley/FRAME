@@ -1,5 +1,76 @@
 # Changelog
 
+## [0.6.0] - 09-17-2024
+
+### New Features
+
+#### Enhanced Report Generation with `ReportMixin`
+
+- **Introduction of `ReportMixin`**: Created a reusable mixin (`ReportMixin`) to centralize report generation logic across multiple views.
+  - **Reusability**: Allows easy integration of report generation into any class-based view by simply including the mixin.
+  - **Customization**: Supports extensive customization options for reports.
+
+#### Date Range Filtering in Reports
+
+- **Dynamic Date Range Filtering**: Added the ability to filter report data based on a user-specified date range.
+  - **Flexible Configuration**: Set `date_range = True` in views to enable date range filtering.
+  - **Date Field Specification**: Introduced `date_field` attribute to specify which model field to use for date filtering.
+  - **Validation**: Implemented server-side validation to ensure valid date inputs and proper date range logic.
+
+#### Field Selection Enhancements
+
+- **User-Selectable Fields**: Users can now select which fields to include in their reports.
+  - **Dynamic Field Handling**: The mixin handles the selected fields and updates the report context accordingly.
+  - **Validation**: Ensured that at least one field must be selected to generate a report.
+
+#### Orientation Configuration for Reports
+
+- **Landscape and Portrait Orientation**: Introduced options to generate reports in either landscape or portrait orientation.
+  - **View-Level Configuration**: Set `orientation` attribute in views to specify default orientation.
+  - **User Selection**: Added `allow_orientation_selection` flag to enable users to choose orientation in the report configuration modal.
+  - **Implementation**: Utilized WeasyPrint's `@page` CSS rule to set page orientation dynamically during PDF generation.
+
+### Improvements
+
+#### Centralization of Mixins
+
+- **Mixins Organized in Separate File**: Moved all mixins, including `ReportMixin`, into a dedicated `mixins.py` file.
+  - **Code Organization**: Improved code maintainability and readability by centralizing mixin classes.
+  - **Ease of Access**: Simplified import statements and enhanced modularity.
+
+#### Bug Fixes and Stability Enhancements
+
+- **Resolved Attribute Errors**:
+  - **`self.object` Handling**: Fixed issues where `self.object` was not available in `DetailView` during report generation by setting it in the mixin.
+  - **`self.object_list` Handling**: Addressed problems with `self.object_list` in `ListView` by ensuring it's properly set during `POST` requests.
+- **Context Data Management**:
+  - **Consistent `enabled_fields`**: Ensured that `enabled_fields` in the context is updated based on user-selected fields.
+  - **Mixin and View Coordination**: Adjusted `get_context_data` methods to respect mixin attributes and prevent overwriting.
+
+#### User Experience Enhancements
+
+- **Report Configuration Modal Updates**:
+  - **Dynamic Form Fields**: Updated the modal to include date range inputs and orientation options based on view configuration.
+  - **Client-Side Validation**: Added JavaScript validation to ensure correct date input before form submission.
+- **Error Messaging**:
+  - **User Feedback**: Leveraged Django's messaging framework to provide clear error messages and guidance when issues arise during report generation.
+
+### Notes
+
+- **Compatibility Considerations**:
+  - **Mixin Order in Views**: Emphasized the importance of mixin ordering to ensure correct method resolution (`ReportMixin` should precede generic views like `ListView` and `DetailView`).
+- **Customization and Extensibility**:
+  - **Override Methods**: Provided mechanisms to override mixin methods like `get_report_context_data` for further customization.
+  - **Additional Features**: Set the groundwork for future enhancements, such as supporting multiple page sizes and asynchronous report generation.
+
+---
+
+This release significantly improves the report generation capabilities of the application by introducing a flexible and reusable `ReportMixin`. Reports are now highly configurable, allowing both developers and end-users to tailor the output to their needs. The centralization of mixins into a separate file enhances code organization, making the codebase more maintainable and scalable.
+
+We encourage users to explore the new report features and provide feedback. Your input is invaluable in helping us continue to improve and refine the application.
+
+
+
 ## [0.5.0] - 15-09-2024
 ### New Features
 #### Customizable Report Generation
