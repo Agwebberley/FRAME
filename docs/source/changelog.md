@@ -67,7 +67,7 @@ Version 0.6.0 builds upon the previous enhancements by introducing a reusable Re
   - **Additional Features**: Set the groundwork for future enhancements, such as supporting multiple page sizes and asynchronous report generation.
 
 
-## [0.5.0] - 15-09-2024
+## [0.5.0] - 09-15-2024
 
 ### Summary
 In version 0.5.0, we've added a customizable report generation feature directly within the main list view of the application. Users can now click a "Generate Report" button to open a modal overlay, where they can set a custom report title, select a specific date range, and choose which fields to include in their report. The application dynamically generates PDF reports using WeasyPrint, ensuring that users can create tailored reports without navigating away from the page. This update enhances the user experience by providing an intuitive and seamless way to produce personalized reports with consistent styling.
@@ -121,7 +121,7 @@ In version 0.5.0, we've added a customizable report generation feature directly 
 - Orientation and Layout: Allow users to select the orientation and layout of the generated PDF reports for better readability.
 
 
-## [0.4.0] - 15-09-2024
+## [0.4.0] - 09-15-2024
 ### Changed
 - Create Changelog
 - Transition from admin based configuration to a written configuration inside of the models
