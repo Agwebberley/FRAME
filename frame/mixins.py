@@ -1,4 +1,7 @@
 from django.apps import apps
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+from weasyprint import HTML
 
 
 def nav_helper():
@@ -59,3 +62,68 @@ class NavigationMixin:
         context["apps"] = apps_with_models
         context["current_app"] = self.request.resolver_match.app_name
         return context
+
+
+class ReportMixin:
+    """
+    Mixin to add report generation functionality to Django class-based views.
+    """
+
+    report_template_name = None  # Template used for generating the report
+    report_filename = "report.pdf"  # Default filename for the generated report
+    report_title = "Report"  # Default report title
+
+    def get_report_context_data(self, **kwargs):
+        """
+        Get context data for the report.
+        Override this method to provide additional context.
+        """
+        context = self.get_context_data(**kwargs)
+        context["report_title"] = self.report_title
+        return context
+
+    def generate_pdf(self, context):
+        """
+        Generate PDF from the report template and context.
+        """
+        html_string = render_to_string(self.report_template_name, context)
+        html = HTML(string=html_string)
+        pdf_file = html.write_pdf()
+        return pdf_file
+
+    def post(self, request, *args, **kwargs):
+        """
+        Handle POST requests for report generation.
+        """
+        # Check if this is a report generation request
+        if "generate_report" in request.POST:
+            # Get the report title if provided
+            self.report_title = request.POST.get("report_title", self.report_title)
+
+            if hasattr(self, "get_object"):
+                # Get the object if provided
+                self.object = self.get_object()
+
+            # Get selected fields if applicable
+            selected_fields = request.POST.getlist("fields")
+            if selected_fields:
+                self.selected_fields = selected_fields
+
+            # Get additional data if needed (e.g., date range)
+            # Implement any custom logic here
+
+            # Prepare context data
+            context = self.get_report_context_data()
+
+            # Generate PDF
+            pdf_file = self.generate_pdf(context)
+
+            # Create HTTP response
+            response = HttpResponse(pdf_file, content_type="application/pdf")
+            response["Content-Disposition"] = (
+                f'attachment; filename="{self.report_filename}"'
+            )
+            return response
+
+        # If not a report generation request, proceed normally
+        return super().post(request, *args, **kwargs)

@@ -20,7 +20,10 @@ from frame.utils import (
     generate_dynamic_form,
     get_actions,
 )
-from frame.mixins import NavigationMixin
+from frame.mixins import (
+    NavigationMixin,
+    ReportMixin,
+)
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 from weasyprint import HTML
@@ -228,12 +231,21 @@ class BaseListView(LoginRequiredMixin, NavigationMixin, ListView):
         return super().render_to_response(context, **response_kwargs)
 
 
-class BaseDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
+class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailView):
     """
     Base view for displaying details of a model instance.
     """
 
     template_name = "detail.html"
+    report_template_name = "reports/detail.html"
+
+    def get_report_context_data(self, **kwargs):
+        context = super().get_report_context_data(**kwargs)
+        context["enabled_fields"] = getattr(
+            self, "selected_fields", context["enabled_fields"]
+        )
+        # Add any additional context specific to the detail report
+        return context
 
     def get_context_data(self, **kwargs):
         """
