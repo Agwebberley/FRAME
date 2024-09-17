@@ -121,6 +121,9 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     report_template_name = "reports/list.html"
     date_range = True
     paginate_by = 10
+    date_field = "created_at"
+    orientation = "landscape"
+    allow_orientation_selection = True
 
     def get_queryset(self):
         """
@@ -160,6 +163,8 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         context["search_query"] = self.request.GET.get("query", "")
         context["model_class"] = self.model
         context["date_range"] = self.date_range
+        context["allow_orientation_selection"] = self.allow_orientation_selection
+        context["orientation"] = self.orientation
 
         return context
 
@@ -179,6 +184,9 @@ class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailVie
 
     template_name = "detail.html"
     report_template_name = "reports/detail.html"
+    date_range = False
+    orientation = "portrait"
+    allow_orientation_selection = True
 
     def get_report_context_data(self, **kwargs):
         context = super().get_report_context_data(**kwargs)
@@ -205,6 +213,9 @@ class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailVie
         )
 
         context["model_class"] = self.object.__class__
+        context["date_range"] = self.date_range
+        context["allow_orientation_selection"] = self.allow_orientation_selection
+        context["orientation"] = self.orientation
 
         return context
 

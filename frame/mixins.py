@@ -1,7 +1,9 @@
 from django.apps import apps
 from django.http import HttpResponse
 from django.template.loader import render_to_string
-from weasyprint import HTML
+from weasyprint import HTML, CSS
+from django.shortcuts import redirect
+from django.contrib import messages
 
 
 def nav_helper():
@@ -72,7 +74,8 @@ class ReportMixin:
     report_template_name = None  # Template used for generating the report
     report_title = "Report"  # Default report title
     date_range = False  # Flag to indicate if date range is needed
-    date_field = "created_at"  # Date field to filter by
+    orientation = "portrait"  # Default orientation ('portrait' or 'landscape')
+    allow_orientation_selection = False  # Allow user to select orientation
 
     def get_report_context_data(self, **kwargs):
         """
@@ -85,6 +88,8 @@ class ReportMixin:
         context["enabled_fields"] = getattr(
             self, "selected_fields", context.get("enabled_fields", [])
         )
+        context["orientation"] = self.orientation
+        context["allow_orientation_selection"] = self.allow_orientation_selection
         return context
 
     def generate_pdf(self, context):
@@ -92,8 +97,16 @@ class ReportMixin:
         Generate PDF from the report template and context.
         """
         html_string = render_to_string(self.report_template_name, context)
+
+        # Determine the orientation CSS
+        orientation_css = "@page { size: A4 %s; }" % self.orientation
+
+        # Create a CSS object with the orientation
+        css = CSS(string=orientation_css)
+
+        # Generate PDF with the orientation CSS
         html = HTML(string=html_string)
-        pdf_file = html.write_pdf()
+        pdf_file = html.write_pdf(stylesheets=[css])
         return pdf_file
 
     def post(self, request, *args, **kwargs):
@@ -147,6 +160,15 @@ class ReportMixin:
             selected_fields = request.POST.getlist("fields")
             if selected_fields:
                 self.selected_fields = selected_fields
+
+            # Get orientation if allowed and provided
+            if self.allow_orientation_selection:
+                orientation = request.POST.get("orientation", self.orientation)
+                if orientation in ["portrait", "landscape"]:
+                    self.orientation = orientation
+                else:
+                    messages.error(request, "Invalid orientation selected.")
+                    return redirect(request.path)
 
             # Prepare context data
             context = self.get_report_context_data()
