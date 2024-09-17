@@ -2,6 +2,9 @@
 
 ## [0.6.0] - 09-17-2024
 
+### Summary
+Version 0.6.0 builds upon the previous enhancements by introducing a reusable ReportMixin, which centralizes report generation logic for easier reuse across different views. This update allows for dynamic date range filtering in reports, enabling users to specify start and end dates while ensuring valid input through server-side validation. Users now have the ability to select which fields to include in their reports, with checks to ensure at least one field is chosen. Additionally, we've added options to generate reports in either landscape or portrait orientation, which can be configured by developers or selected by users in the report configuration modal. Mixins have been organized into a separate file for better code management, and several bug fixes have been implemented to resolve attribute errors and improve context data handling, resulting in a more robust and user-friendly reporting feature.
+
 ### New Features
 
 #### Enhanced Report Generation with `ReportMixin`
@@ -63,15 +66,12 @@
   - **Override Methods**: Provided mechanisms to override mixin methods like `get_report_context_data` for further customization.
   - **Additional Features**: Set the groundwork for future enhancements, such as supporting multiple page sizes and asynchronous report generation.
 
----
-
-This release significantly improves the report generation capabilities of the application by introducing a flexible and reusable `ReportMixin`. Reports are now highly configurable, allowing both developers and end-users to tailor the output to their needs. The centralization of mixins into a separate file enhances code organization, making the codebase more maintainable and scalable.
-
-We encourage users to explore the new report features and provide feedback. Your input is invaluable in helping us continue to improve and refine the application.
-
-
 
 ## [0.5.0] - 15-09-2024
+
+### Summary
+In version 0.5.0, we've added a customizable report generation feature directly within the main list view of the application. Users can now click a "Generate Report" button to open a modal overlay, where they can set a custom report title, select a specific date range, and choose which fields to include in their report. The application dynamically generates PDF reports using WeasyPrint, ensuring that users can create tailored reports without navigating away from the page. This update enhances the user experience by providing an intuitive and seamless way to produce personalized reports with consistent styling.
+
 ### New Features
 #### Customizable Report Generation
 - Report Generation Overlay: Introduced a new "Generate Report" button in the main list view, allowing users to generate customized PDF reports without leaving the page.
