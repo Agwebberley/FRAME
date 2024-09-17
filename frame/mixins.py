@@ -72,6 +72,7 @@ class ReportMixin:
     report_template_name = None  # Template used for generating the report
     report_title = "Report"  # Default report title
     date_range = False  # Flag to indicate if date range is needed
+    date_field = "created_at"  # Date field to filter by
 
     def get_report_context_data(self, **kwargs):
         """
@@ -81,7 +82,9 @@ class ReportMixin:
         context = self.get_context_data(**kwargs)
         context["report_title"] = self.report_title
         context["date_range"] = self.date_range
-        context["enabled_fields"] = self.selected_fields
+        context["enabled_fields"] = getattr(
+            self, "selected_fields", context.get("enabled_fields", [])
+        )
         return context
 
     def generate_pdf(self, context):
@@ -102,25 +105,48 @@ class ReportMixin:
             # Get the report title if provided
             self.report_title = request.POST.get("report_title", self.report_title)
 
+            # Set self.object if applicable (for DetailView)
             if hasattr(self, "get_object"):
-                # Get the object if provided
                 self.object = self.get_object()
 
             # Set self.object_list if applicable (for ListView)
             if hasattr(self, "get_queryset"):
                 self.object_list = self.get_queryset()
 
+                # Get additional data if needed (e.g., date range)
+                if self.date_range:
+                    self.start_date = request.POST.get("start_date")
+                    self.end_date = request.POST.get("end_date")
+
+                    # Validate date inputs
+                    if self.start_date and self.end_date:
+                        if self.start_date > self.end_date:
+                            messages.error(
+                                request, "Start date cannot be after end date."
+                            )
+                            return redirect(request.path)
+                        else:
+                            # Apply date range filtering to the queryset
+                            date_field_name = getattr(
+                                self, "date_field", "date_field"
+                            )  # Replace 'date_field' with your actual date field
+                            date_filter = {
+                                f"{date_field_name}__range": [
+                                    self.start_date,
+                                    self.end_date,
+                                ]
+                            }
+                            self.object_list = self.object_list.filter(**date_filter)
+                    else:
+                        messages.error(
+                            request, "Please provide both start and end dates."
+                        )
+                        return redirect(request.path)
+
             # Get selected fields if applicable
             selected_fields = request.POST.getlist("fields")
-            print("Selected fields: ", selected_fields)
             if selected_fields:
                 self.selected_fields = selected_fields
-
-            # Get additional data if needed (e.g., date range)
-            if self.date_range:
-                self.start_date = request.POST.get("start_date")
-                self.end_date = request.POST.get("end_date")
-            # Implement any custom logic here
 
             # Prepare context data
             context = self.get_report_context_data()

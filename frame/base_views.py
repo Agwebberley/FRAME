@@ -26,10 +26,6 @@ from frame.mixins import (
 )
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
-from weasyprint import HTML
-from django.http import HttpResponse
-from django.template.loader import render_to_string
-from django.contrib import messages
 
 
 class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
@@ -163,6 +159,7 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
             context["enabled_fields"].remove("pk")
         context["search_query"] = self.request.GET.get("query", "")
         context["model_class"] = self.model
+        context["date_range"] = self.date_range
 
         return context
 
