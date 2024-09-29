@@ -14,6 +14,7 @@ Welcome to FRAME's documentation!
    usage
    example
    changelog
+   pystaruml
 
 Indices and tables
 ==================
