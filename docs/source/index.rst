@@ -9,6 +9,7 @@ Welcome to FRAME's documentation!
 
    modules
    gettingstarted
+   helloworld
    project-generation-settings
    settings
    usage
