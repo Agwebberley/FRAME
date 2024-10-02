@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.6.1] - 10-1-2024
+### Summary
+Massive additions to the docs, most notibly the hello world tutorial and the docs for Py_StarUML.  Py_StarUML has been brought up to date (as it hasn't been updated since before FRAME was seperated out).  You can find the docs for Py_StarUML [here](pystaruml) and the repo (with a copy of the docs) at [https://github.com/agwebberley/Py_StarUML](https://github.com/agwebberley/Py_StarUML).
+
+
 ## [0.6.0] - 09-17-2024
 
 ### Summary

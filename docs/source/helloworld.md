@@ -129,3 +129,9 @@ Your application should now be running at `http://127.0.0.1:8000/`.
 ## Conclusion
 
 You've successfully set up a simple order management system using Django and Django Cookiecutter. This foundational application can be expanded by adding more features, refining models, and improving the user interface. 
+
+---
+
+## Next Steps
+
+You might notice one glaring issue, Order and OrderItem are not properly combined. This is because Py_StarUML does not know if you want a regular View or a MasterDetail View, so by default it assumes all views are regular views.  You will need to delete the OrderItem urls and view, and update the Order Views to be MasterDetail Views.  (More details coming soon, MasterDetail Views are not properly documented yet, and are still needing some changes to work with the new Configuration system.)
