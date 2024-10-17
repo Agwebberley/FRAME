@@ -70,12 +70,6 @@ All the examples are based on the following ERD diagram:
    python --version
    ```
 
-   If additional packages are required, install them using:
-
-   ```bash
-   pip install -r requirements.txt
-   ```
-
 ---
 
 ## **Usage**
