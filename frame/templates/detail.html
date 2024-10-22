@@ -24,11 +24,28 @@
                 </div>
                 {% endfor %}
             </div>
+            <hr>
+            {% for child_instance in child_instances %}
+            <h3>{{ child_instance.name }}</h3>
+            <div class="row">
+                {% for child_object in child_instance.objects %}
+                <div class="col-md-6">
+                    <div class="card mb-3">
+                        <div class="card-header">{{ child_object }}</div>
+                        <div class="card-body">
+                            {% for field in child_instance.fields %}
+                            <p><strong>{{ field|titlify }}:</strong> {{ child_object|get_field_value:field }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
         </div>
         <div class="card-footer">
             {% for action in model_class.get_config.actions.button %}
                 {% if not action.disabled or not "detail" in action.disabled %}
-
                     {% if action.include_pk %}
                         <a href="{% url action.url object.pk %}" class="btn btn-primary">{{ action.name }}</a>
                     {% else %}

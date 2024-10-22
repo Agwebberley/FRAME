@@ -185,3 +185,44 @@ class ReportMixin:
 
         # If not a report generation request, proceed normally
         return super().post(request, *args, **kwargs)
+
+
+class FormsetMixin:
+    """
+    Mixin to handle formsets in create and update views.
+    """
+
+    def get_formsets(self):
+        """
+        Return a list of formsets.
+        Override this method to provide formsets.
+        """
+        return []
+
+    def form_valid(self, form):
+        """
+        Called when form is valid. Saves formsets.
+        """
+        response = super().form_valid(form)
+        formsets = self.get_formsets()
+        for formset in formsets:
+            formset.instance = self.object
+            formset.save()
+        return response
+
+    def form_invalid(self, form):
+        """
+        Called when form is invalid. Re-renders form with errors.
+        """
+        formsets = self.get_formsets()
+        context = self.get_context_data(form=form, formsets=formsets)
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        """
+        Include formsets in context.
+        """
+        context = super().get_context_data(**kwargs)
+        if "formsets" not in context:
+            context["formsets"] = self.get_formsets()
+        return context

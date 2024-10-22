@@ -16,15 +16,47 @@
     <form method="post">
         {% csrf_token %}
         {{ form|crispy }}
+
+        {% for formset in formsets %}
+            <h3>{{ formset.verbose_name_plural|capfirst }}</h3>
+            {{ formset.management_form }}
+            <div id="{{ formset.prefix }}-form-container">
+                {% for form in formset %}
+                    <div class="nested-form">
+                        {{ form|crispy }}
+                    </div>
+                {% endfor %}
+            </div>
+            <button type="button" class="add-formset-row" data-formset-prefix="{{ formset.prefix }}">Add {{ formset.verbose_name }}</button>
+        {% endfor %}
+
         <button type="submit" class="btn btn-primary">
-        {% if saveOveride %}
-            {{ saveOveride }}
-        {% else %}
-            Save
-        {% endif %}
+            {% if saveOveride %}
+                {{ saveOveride }}
+            {% else %}
+                Save
+            {% endif %}
         </button>
         {% if return_url %}
         <a href="{% url return_url %}" class="btn btn-secondary">Cancel</a>
         {% endif %}
     </form>
+
+    <!-- Include JavaScript to handle adding formset rows dynamically -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('.add-formset-row').forEach(function(button) {
+                button.addEventListener('click', function() {
+                    var formsetPrefix = this.getAttribute('data-formset-prefix');
+                    var totalFormsInput = document.getElementById('id_' + formsetPrefix + '-TOTAL_FORMS');
+                    var currentFormCount = parseInt(totalFormsInput.value);
+                    var newFormIndex = currentFormCount;
+                    var emptyForm = document.getElementById(formsetPrefix + '-empty-form').innerHTML.replace(/__prefix__/g, newFormIndex);
+                    var formContainer = document.getElementById(formsetPrefix + '-form-container');
+                    formContainer.insertAdjacentHTML('beforeend', emptyForm);
+                    totalFormsInput.value = newFormIndex + 1;
+                });
+            });
+        });
+    </script>
 {% endblock %}
