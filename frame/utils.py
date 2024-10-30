@@ -213,4 +213,26 @@ def generate_inline_formset(app_label, parent_model, child_model, model_name, us
         child_model,
         form=generate_dynamic_form(app_label, model_name, user),
         extra=1,
+        can_delete=True,
     )
+
+
+def get_child_models(app_name, model_name):
+    """
+    Get the child models of a model.
+
+    :param app_name: The name of the app.
+    :type app_name: str
+    :param model_name: The name of the model.
+    :type model_name: str
+    :return: A list of child model classes.
+    :rtype: list
+    """
+    model = apps.get_model(app_label=app_name, model_name=model_name)
+    child_models = []
+    model_config = model.get_config()
+    # Safely get 'children' key; default to empty list if not present
+    for child in model_config.get("children", []):
+        child_model = apps.get_model(app_label=app_name, model_name=child)
+        child_models.append(child_model)
+    return child_models
