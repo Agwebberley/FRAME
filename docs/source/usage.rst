@@ -17,4 +17,3 @@ Many similar solutions compromise on flexibility, especially when you leave the 
     usage/views
     usage/aws
     usage/configuration
-    usage/admin
