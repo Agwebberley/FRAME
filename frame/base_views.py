@@ -19,6 +19,7 @@ from frame.utils import (
     get_enabled_fields,
     generate_dynamic_form,
     get_actions,
+    get_child_models,
 )
 from frame.mixins import (
     NavigationMixin,
@@ -220,12 +221,9 @@ class BaseDetailView(
         )
 
         parent_model = self.object.__class__
-        child_models = [
-            rel.related_model
-            for rel in parent_model._meta.related_objects
-            if rel.one_to_many
-        ]
-
+        child_models = get_child_models(
+            app_name=parent_model._meta.app_label, model_name=parent_model.__name__
+        )
         child_instances = []
         for child_model in child_models:
             related_name = child_model._meta.model_name + "_set"

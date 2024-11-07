@@ -26,7 +26,7 @@
             </div>
             <hr>
             {% for child_instance in child_instances %}
-            <h3>{{ child_instance.name }}</h3>
+            <h3>{{ child_instance.name|titlify }}</h3>
             <div class="row">
                 {% for child_object in child_instance.objects %}
                 <div class="col-md-6">
