@@ -4,6 +4,7 @@ from django.template.loader import render_to_string
 from weasyprint import HTML, CSS
 from django.shortcuts import redirect
 from django.contrib import messages
+from frame.utils import get_child_models, generate_inline_formset
 
 
 def nav_helper():
@@ -185,3 +186,63 @@ class ReportMixin:
 
         # If not a report generation request, proceed normally
         return super().post(request, *args, **kwargs)
+
+
+class FormsetMixin:
+    """
+    Mixin to handle formsets in create and update views.
+    """
+
+    def get_formsets(self):
+        """
+        Return a list of formsets.
+        """
+        formsets = []
+        child_models = get_child_models(self.model._meta.app_label, self.model.__name__)
+        instance = getattr(self, "object", None)
+        for child_model in child_models:
+            FormsetClass = generate_inline_formset(
+                self.model._meta.app_label,
+                self.model,
+                child_model,
+                child_model.__name__.lower(),
+                self.request.user,
+            )
+            prefix = child_model.__name__.lower()
+            if self.request.method == "POST":
+                formset = FormsetClass(
+                    self.request.POST,
+                    self.request.FILES,
+                    instance=instance,
+                    prefix=prefix,
+                )
+            else:
+                formset = FormsetClass(instance=instance, prefix=prefix)
+            # Set verbose names
+            formset.verbose_name = child_model._meta.verbose_name
+            formset.verbose_name_plural = child_model._meta.verbose_name_plural
+            formsets.append((prefix, formset))
+        return formsets
+
+    def form_valid(self, form):
+        self.object = form.save(commit=False)
+        formsets = self.get_formsets()
+        if all(formset.is_valid() for prefix, formset in formsets):
+            self.object.save()
+            for prefix, formset in formsets:
+                formset.instance = self.object
+                formset.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
+
+    def form_invalid(self, form):
+        formsets = self.get_formsets()
+        context = self.get_context_data(form=form, formsets=formsets)
+        return self.render_to_response(context)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if "formsets" not in context:
+            context["formsets"] = self.get_formsets()
+        return context

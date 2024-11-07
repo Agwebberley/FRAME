@@ -1,30 +1,110 @@
 {% extends "base.html" %}
-
-{% block title %}My Model Form{% endblock %}
 {% load crispy_forms_tags %}
+{% load utils %}
+
+{% block title %}{{ verbose_name|capfirst }} Form{% endblock %}
 
 {% block content %}
-    <h1>
-        {% if hOveride %}
-        {{ hOveride }}
-        {% elif model_class.get_config.model_name %}
-        {{ model_class.get_config.model_name }} Form
-        {% else %}
-        My Model Form
-        {% endif %}
-    </h1>
+<div class="container mt-5">
+    <h1>{{ verbose_name|capfirst }} Form</h1>
     <form method="post">
         {% csrf_token %}
-        {{ form|crispy }}
-        <button type="submit" class="btn btn-primary">
-        {% if saveOveride %}
-            {{ saveOveride }}
+
+        {% if formsets %}
+            <!-- Bootstrap Tabs -->
+            <ul class="nav nav-tabs" id="formTabs" role="tablist">
+                <!-- Parent Tab -->
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link active" id="parent-tab" data-bs-toggle="tab" href="#parent" role="tab" aria-controls="parent" aria-selected="true">{{ verbose_name|capfirst }}</a>
+                </li>
+                <!-- Child Tabs -->
+                {% for prefix, formset in formsets %}
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="{{ prefix }}-tab" data-bs-toggle="tab" href="#{{ prefix }}" role="tab" aria-controls="{{ prefix }}" aria-selected="false">{{ formset.verbose_name_plural|capfirst }}</a>
+                </li>
+                {% endfor %}
+            </ul>
+
+            <div class="tab-content mt-3" id="formTabsContent">
+                <!-- Parent Form -->
+                <div class="tab-pane fade show active" id="parent" role="tabpanel" aria-labelledby="parent-tab">
+                    {{ form|crispy }}
+                </div>
+                <!-- Child Formsets -->
+                {% for prefix, formset in formsets %}
+                <div class="tab-pane fade" id="{{ prefix }}" role="tabpanel" aria-labelledby="{{ prefix }}-tab">
+                    {{ formset.management_form }}
+                    <div id="formset-container-{{ prefix }}">
+                        {% for form in formset %}
+                            <div class="formset-row border rounded p-3 mb-2" id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">
+                                {{ form|crispy }}
+                                <button type="button" class="btn btn-danger delete-formset-item" data-row-id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">Delete</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" id="add-item-{{ prefix }}" class="btn btn-primary mt-3">Add {{ formset.verbose_name|capfirst }}</button>
+                </div>
+                {% endfor %}
+            </div>
         {% else %}
-            Save
+            <!-- No formsets; render only the parent form -->
+            {{ form|crispy }}
         {% endif %}
-        </button>
-        {% if return_url %}
-        <a href="{% url return_url %}" class="btn btn-secondary">Cancel</a>
-        {% endif %}
+
+        <!-- Main Save/Cancel Buttons -->
+        <div class="mt-4">
+            <button type="submit" class="btn btn-primary">Save</button>
+            <a href="{% url return_url %}" class="btn btn-secondary">Cancel</a>
+        </div>
     </form>
+</div>
+
+<!-- Include JavaScript only if there are formsets -->
+{% if formsets %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Handle adding formset rows dynamically
+    {% for prefix, formset in formsets %}
+    var addButton = document.getElementById('add-item-{{ prefix }}');
+    addButton.addEventListener('click', function() {
+        var formContainer = document.getElementById('formset-container-{{ prefix }}');
+        var totalFormsInput = document.getElementById('id_{{ formset.prefix }}-TOTAL_FORMS');
+        var currentFormCount = parseInt(totalFormsInput.value);
+        var newFormIndex = currentFormCount;
+
+        var emptyFormTemplate = document.getElementById('empty-form-{{ prefix }}').innerHTML;
+        var newFormHtml = emptyFormTemplate.replace(/__prefix__/g, newFormIndex);
+
+        formContainer.insertAdjacentHTML('beforeend', newFormHtml);
+        totalFormsInput.value = newFormIndex + 1;
+    });
+    {% endfor %}
+
+    // Handle deleting formset rows
+    document.addEventListener('click', function(event) {
+        if (event.target && event.target.classList.contains('delete-formset-item')) {
+            var rowId = event.target.getAttribute('data-row-id');
+            var rowElement = document.getElementById(rowId);
+            if (rowElement) {
+                var deleteField = rowElement.querySelector('input[type="checkbox"][name$="-DELETE"]');
+                if (deleteField) {
+                    deleteField.checked = true;
+                }
+                rowElement.style.display = 'none';
+            }
+        }
+    });
+});
+</script>
+
+<!-- Empty Form Templates for Cloning -->
+{% for prefix, formset in formsets %}
+<div id="empty-form-{{ prefix }}" style="display: none;">
+    <div class="formset-row border rounded p-3 mb-2" id="formset-item-{{ prefix }}-__prefix__">
+        {{ formset.empty_form|crispy }}
+        <button type="button" class="btn btn-danger delete-formset-item" data-row-id="formset-item-{{ prefix }}-__prefix__">Delete</button>
+    </div>
+</div>
+{% endfor %}
+{% endif %}
 {% endblock %}

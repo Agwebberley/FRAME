@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.7.0] - 11-7-2024
+
+### Summary
+This update introduces significant improvements to FRAME, focusing on enhancing formset handling, adding support for child models, and refining documentation. Key changes include the introduction of the FormsetMixin, adjustments to base views, and the new introduction page in documentation.
+
+### New Features
+- **Formset Handling**: Added `FormsetMixin` to manage formsets in create and update views, allowing dynamic form management for related models.
+- **Child Model Integration**: Updated base views to support dynamic form generation for child models, improving support for parent-child relationships.
+  
+### Enhancements
+- **Documentation**: Introduced a comprehensive "Introduction" page to FRAME’s documentation, explaining its integration with Django and its usage with supporting tool Py_StarUML.
+- **Template Updates**: Revamped `form.html` to support tabbed navigation for parent and child forms, enhancing user experience.
+- **Contextual Updates**: Updated views to include `verbose_name` and `verbose_name_plural` for better template display of model details.
+
+### Fixes
+- **Bug Fix in Detail View**: Corrected an issue in the detail page where any relationship was mistakenly shown as a formset, ensuring accurate representation of related models.
+
+
+
 ## [0.6.1] - 10-1-2024
 ### Summary
 Massive additions to the docs, most notibly the hello world tutorial and the docs for Py_StarUML.  Py_StarUML has been brought up to date (as it hasn't been updated since before FRAME was seperated out).  You can find the docs for Py_StarUML [here](pystaruml) and the repo (with a copy of the docs) at [https://github.com/agwebberley/Py_StarUML](https://github.com/agwebberley/Py_StarUML).

@@ -19,16 +19,18 @@ from frame.utils import (
     get_enabled_fields,
     generate_dynamic_form,
     get_actions,
+    get_child_models,
 )
 from frame.mixins import (
     NavigationMixin,
     ReportMixin,
+    FormsetMixin,
 )
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
 
 
-class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
+class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateView):
     """
     Base view for creating model instances with dynamic form generation.
     """
@@ -66,11 +68,13 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, CreateView):
             context["enabled_fields"].remove("pk")
         context["return_url"] = self.model.__name__.lower() + "-list"
         context["model_class"] = self.model
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
 
         return context
 
 
-class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
+class BaseUpdateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, UpdateView):
     """
     Base view for updating model instances with dynamic form generation.
     """
@@ -108,6 +112,8 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, UpdateView):
             context["enabled_fields"].remove("pk")
         context["return_url"] = self.model.__name__.lower() + "-list"
         context["model_class"] = self.model
+        context["verbose_name"] = self.model._meta.verbose_name
+        context["verbose_name_plural"] = self.model._meta.verbose_name_plural
         return context
 
 
@@ -177,7 +183,9 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         return super().render_to_response(context, **response_kwargs)
 
 
-class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailView):
+class BaseDetailView(
+    LoginRequiredMixin, ReportMixin, NavigationMixin, FormsetMixin, DetailView
+):
     """
     Base view for displaying details of a model instance.
     """
@@ -212,6 +220,29 @@ class BaseDetailView(LoginRequiredMixin, ReportMixin, NavigationMixin, DetailVie
             view_type="detail",
         )
 
+        parent_model = self.object.__class__
+        child_models = get_child_models(
+            app_name=parent_model._meta.app_label, model_name=parent_model.__name__
+        )
+        child_instances = []
+        for child_model in child_models:
+            related_name = child_model._meta.model_name + "_set"
+            child_objects = getattr(self.object, related_name).all()
+            child_instances.append(
+                {
+                    "name": child_model._meta.verbose_name_plural,
+                    "objects": child_objects,
+                    "fields": get_enabled_fields(
+                        child_model._meta.app_label,
+                        child_model.__name__,
+                        self.request.user,
+                        view_type="list",
+                    ),
+                }
+            )
+
+        context["child_instances"] = child_instances
+
         context["model_class"] = self.object.__class__
         context["date_range"] = self.date_range
         context["allow_orientation_selection"] = self.allow_orientation_selection
@@ -241,287 +272,9 @@ class BaseDeleteView(LoginRequiredMixin, NavigationMixin, DeleteView):
         return context
 
 
-class BaseMasterDetailView(LoginRequiredMixin, NavigationMixin, DetailView):
-    """
-    Base view for displaying details of a parent model instance along with its child instances.
-    """
-
-    template_name = "master_detail.html"
-
-    def get_context_data(self, **kwargs):
-        """
-        Get the context data for the view.
-
-        :param kwargs: Additional context data.
-        :return: Context data with additional information.
-        :rtype: dict
-        """
-        context = super().get_context_data(**kwargs)
-        context["enabled_fields"] = get_enabled_fields(
-            self.model._meta.app_label,
-            self.model.__name__,
-            self.request.user,
-            view_type="detail",
-        )
-        parent_model = self.model
-        child_models = [
-            rel.related_model
-            for rel in parent_model._meta.related_objects
-            if rel.one_to_many
-        ]
-
-        child_instances = []
-        for child_model in child_models:
-            child_instances.append(
-                {
-                    "name": child_model._meta.verbose_name_plural,
-                    "objects": child_model.objects.filter(
-                        **{parent_model._meta.model_name + "_id": self.object.pk}
-                    ),
-                    "fields": get_enabled_fields(
-                        self.model._meta.app_label,
-                        child_model.__name__,
-                        self.request.user,
-                        view_type="list",
-                    ),
-                }
-            )
-
-        context["child_instances"] = child_instances
-        context["actions"] = get_actions(
-            self.model._meta.app_label,
-            self.model.__name__,
-            view_type="detail",
-        )
-
-        return context
-
-
-class MasterDetailBaseView(LoginRequiredMixin, NavigationMixin):
-    """
-    Base view for handling master-detail relationships with formsets.
-    """
-
-    template_name = "master_detail_form.html"
-    success_url = reverse_lazy("home")
-
-    def get_parent_and_child_models(self, app_label, model_name):
-        """
-        Get the parent and child models based on the app label and model name.
-
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :return: Tuple containing the parent model and a list of child models.
-        :rtype: tuple
-        """
-        parent_model = apps.get_model(app_label, model_name)
-        child_models = [
-            rel.related_model
-            for rel in parent_model._meta.related_objects
-            if rel.one_to_many
-        ]
-        return parent_model, child_models
-
-    def get_parent_form(self, app_label, model_name, instance=None):
-        """
-        Get the parent form based on the app label and model name.
-
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :param instance: Instance of the parent model (optional).
-        :return: Form class for the parent model.
-        :rtype: class
-        """
-        if instance:
-            form = generate_dynamic_form(app_label, model_name, self.request.user)
-            return form(
-                data=self.request.POST if self.request.method == "POST" else None,
-                instance=instance,
-            )
-        else:
-            return generate_dynamic_form(app_label, model_name, self.request.user)
-
-    def get_child_formsets(self, app_label, parent_model, child_models, instance=None):
-        """
-        Get the formsets for the child models based on the parent model.
-
-        :param app_label: App label of the parent model.
-        :param parent_model: Parent model class.
-        :param child_models: List of child model classes.
-        :param instance: Instance of the parent model (optional).
-        :return: List of formsets for the child models.
-        :rtype: list
-        """
-        formsets = []
-        for child_model in child_models:
-            formset_class = generate_inline_formset(
-                child_model._meta.app_label,
-                parent_model,
-                child_model,
-                child_model.__name__,
-                self.request.user,
-            )
-            if instance:
-                formset = formset_class(
-                    self.request.POST if self.request.method == "POST" else None,
-                    instance=instance,
-                )
-            else:
-                formset = formset_class(
-                    self.request.POST if self.request.method == "POST" else None
-                )
-            formsets.append((child_model._meta.verbose_name_plural, formset))
-        return formsets
-
-    def render_form(self, parent_form, child_formsets, app_label, model_name):
-        """
-        Render the form for the parent and child models.
-
-        :param parent_form: Form instance for the parent model.
-        :param child_formsets: List of formsets for the child models.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :return: Rendered form.
-        :rtype: HttpResponse
-        """
-        context = {
-            "parent_form": parent_form,
-            "child_formsets": child_formsets,
-            "model_name": model_name,
-            "app_label": app_label,
-            "return_url": model_name.lower() + "-list",
-            "apps": nav_helper(),
-        }
-        return render(self.request, self.template_name, context)
-
-    def handle_post(self, parent_form, child_formsets):
-        """
-        Handle the POST request for the form submission.
-
-        :param parent_form: Form instance for the parent model.
-        :param child_formsets: List of formsets for the child models.
-        :return: HttpResponse object.
-        :rtype: HttpResponse
-        """
-        if isinstance(parent_form, type):
-            parent_form = parent_form(data=self.request.POST)
-
-        formset_valid = all(formset.is_valid() for _, formset in child_formsets)
-
-        if parent_form.is_valid() and formset_valid:
-            parent_instance = parent_form.save()
-            for _, formset in child_formsets:
-                formset.instance = parent_instance
-                formset.save()
-            return redirect(self.success_url)
-
-        return self.render_form(
-            parent_form,
-            child_formsets,
-            self.kwargs["app_label"],
-            self.kwargs["model_name"],
-        )
-
-
-class MasterDetailCreateView(MasterDetailBaseView, CreateView):
-    """
-    View for creating a master-detail form with parent and child models.
-    """
-
-    def get(self, request, app_label, model_name):
-        """
-        Handle GET request for the view.
-
-        :param request: HTTP request object.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :return: Rendered form for the view.
-        :rtype: HttpResponse
-        """
-        parent_model, child_models = self.get_parent_and_child_models(
-            app_label, model_name
-        )
-        parent_form = self.get_parent_form(app_label, parent_model.__name__)
-        child_formsets = self.get_child_formsets(app_label, parent_model, child_models)
-        return self.render_form(
-            parent_form, child_formsets, app_label, parent_model.__name__
-        )
-
-    def post(self, request, app_label, model_name):
-        """
-        Handle POST request for the view.
-
-        :param request: HTTP request object.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :return: Redirect or rendered form based on validation.
-        :rtype: HttpResponse
-        """
-        parent_model, child_models = self.get_parent_and_child_models(
-            app_label, model_name
-        )
-        parent_form = self.get_parent_form(app_label, parent_model.__name__)
-        child_formsets = self.get_child_formsets(app_label, parent_model, child_models)
-        return self.handle_post(parent_form, child_formsets)
-
-
-class MasterDetailUpdateView(MasterDetailBaseView, UpdateView):
-    """
-    View for updating a master-detail form with parent and child models.
-    """
-
-    def get(self, request, app_label, model_name, pk):
-        """
-        Handle GET request for the view.
-
-        :param request: HTTP request object.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :param pk: Primary key of the parent model instance.
-        :return: Rendered form for the view.
-        :rtype: HttpResponse
-        """
-        parent_model, child_models = self.get_parent_and_child_models(
-            app_label, model_name
-        )
-        instance = get_object_or_404(parent_model, pk=pk)
-        parent_form = self.get_parent_form(
-            app_label, parent_model.__name__, instance=instance
-        )
-        child_formsets = self.get_child_formsets(
-            app_label, parent_model, child_models, instance=instance
-        )
-        return self.render_form(
-            parent_form, child_formsets, app_label, parent_model.__name__
-        )
-
-    def post(self, request, app_label, model_name, pk):
-        """
-        Handle POST request for the view.
-
-        :param request: HTTP request object.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :param pk: Primary key of the parent model instance.
-        :return: Redirect or rendered form based on validation.
-        :rtype: HttpResponse
-        """
-        parent_model, child_models = self.get_parent_and_child_models(
-            app_label, model_name
-        )
-        instance = get_object_or_404(parent_model, pk=pk)
-        parent_form = self.get_parent_form(
-            app_label, parent_model.__name__, instance=instance
-        )
-        child_formsets = self.get_child_formsets(
-            app_label, parent_model, child_models, instance=instance
-        )
-        return self.handle_post(parent_form, child_formsets)
-
-
 class HomeView(NavigationMixin, View):
     """
-    View for rendering the home page.
+    Temporary home view. Will be replaced with a dashboard.
     """
 
     template_name = "home.html"
@@ -535,36 +288,6 @@ class HomeView(NavigationMixin, View):
         :rtype: HttpResponse
         """
         return render(request, self.template_name, self.get_context_data())
-
-
-class AddFormsetRowView(View):
-    """
-    View to dynamically add a formset row for inline forms.
-    """
-
-    def post(self, request, app_label, model_name):
-        """
-        Handle POST request to add a formset row.
-
-        :param request: HTTP request object.
-        :param app_label: App label of the parent model.
-        :param model_name: Name of the parent model.
-        :return: JSON response with the new formset row HTML.
-        :rtype: JsonResponse
-        """
-        parent_model = apps.get_model(app_label, model_name)
-        child_model_name = request.POST.get("child_model_name")
-        child_model = apps.get_model(app_label, child_model_name)
-
-        formset_class = generate_inline_formset(parent_model, child_model)
-        formset = formset_class()
-
-        form_idx = request.POST.get("form_idx")
-
-        new_form = formset.empty_form
-        new_form_html = new_form.as_p().replace("__prefix__", str(form_idx))
-
-        return JsonResponse({"form_html": new_form_html})
 
 
 class LoginView(LoginView):
@@ -613,11 +336,3 @@ class LogMessageDetailView(BaseDetailView):
     """
 
     model = LogMessage
-
-
-class TemplateView(TemplateView, NavigationMixin):
-    """
-    View for rendering a template.
-    """
-
-    template_name = "home.html"
