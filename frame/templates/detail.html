@@ -5,64 +5,83 @@
 {% block title %}{{ model_class.get_config.model_name }} Details{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>{{ model_class.get_config.model_name }} Details</h1>
-    <div class="card">
-        <div class="card-header">
-            <h2>{{ object }}</h2>
+<div class="max-w-7xl mx-auto mt-5 px-4">
+    <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{{ model_class.get_config.model_name }} Details</h1>
+    <div class="bg-white dark:bg-neutral-800 shadow rounded-lg overflow-hidden">
+        <!-- Card Header -->
+        <div class="px-4 py-5 bg-gray-50 dark:bg-neutral-700 border-b border-gray-200 dark:border-neutral-700">
+            <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ object }}</h2>
         </div>
-        <div class="card-body">
-            <div class="row">
+        <!-- Card Body -->
+        <div class="px-4 py-5">
+            <!-- Fields Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {% for field in enabled_fields %}
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-header">{{ field|titlify }}</div>
-                        <div class="card-body">
-                            <p class="card-text">{{ object|get_field_value:field }}</p>
-                        </div>
+                <div class="bg-white dark:bg-neutral-800 shadow rounded-lg">
+                    <div class="px-4 py-5 bg-gray-50 dark:bg-neutral-700 border-b border-gray-200 dark:border-neutral-700">
+                        <h3 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ field|titlify }}</h3>
+                    </div>
+                    <div class="px-4 py-5">
+                        <p class="mt-1 text-sm text-gray-700 dark:text-gray-300">{{ object|get_field_value:field }}</p>
                     </div>
                 </div>
                 {% endfor %}
             </div>
-            <hr>
+            <!-- Horizontal Divider -->
+            <div class="my-6 border-t border-gray-200 dark:border-neutral-700"></div>
+            <!-- Child Instances -->
             {% for child_instance in child_instances %}
-            <h3>{{ child_instance.name|titlify }}</h3>
-            <div class="row">
+            <h3 class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100">{{ child_instance.name|titlify }}</h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
                 {% for child_object in child_instance.objects %}
-                <div class="col-md-6">
-                    <div class="card mb-3">
-                        <div class="card-header">{{ child_object }}</div>
-                        <div class="card-body">
-                            {% for field in child_instance.fields %}
-                            <p><strong>{{ field|titlify }}:</strong> {{ child_object|get_field_value:field }}</p>
-                            {% endfor %}
-                        </div>
+                <div class="bg-white dark:bg-neutral-800 shadow rounded-lg">
+                    <div class="px-4 py-5 bg-gray-50 dark:bg-neutral-700 border-b border-gray-200 dark:border-neutral-700">
+                        <h4 class="text-lg font-medium text-gray-900 dark:text-gray-100">{{ child_object }}</h4>
+                    </div>
+                    <div class="px-4 py-5">
+                        {% for field in child_instance.fields %}
+                        <p class="text-sm text-gray-700 dark:text-gray-300"><strong>{{ field|titlify }}:</strong> {{ child_object|get_field_value:field }}</p>
+                        {% endfor %}
                     </div>
                 </div>
                 {% endfor %}
             </div>
             {% endfor %}
         </div>
-        <div class="card-footer">
+        <!-- Card Footer -->
+        <div class="px-4 py-4 bg-gray-50 dark:bg-neutral-700 border-t border-gray-200 dark:border-neutral-700 flex items-center space-x-4">
             {% for action in model_class.get_config.actions.button %}
                 {% if not action.disabled or not "detail" in action.disabled %}
                     {% if action.include_pk %}
-                        <a href="{% url action.url object.pk %}" class="btn btn-primary">{{ action.name }}</a>
+                        <a href="{% url action.url object.pk %}"
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-800">
+                            {{ action.name }}
+                        </a>
                     {% else %}
-                        <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
+                        <a href="{% url action.url %}"
+                           class="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-800">
+                            {{ action.name }}
+                        </a>
                     {% endif %}
                 {% endif %}
             {% endfor %}
             {% for action in model_class.get_config.actions.dropdown %}
                 {% if not action.disabled or not "detail" in action.disabled %}
-                    <a href="{% url action.url object.pk %}" class="btn btn-secondary">{{ action.name }}</a>
+                    <a href="{% url action.url object.pk %}"
+                       class="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-gray-500 text-white text-sm font-medium rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-offset-neutral-800">
+                        {{ action.name }}
+                    </a>
                 {% endif %}
             {% endfor %}
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
+            <!-- Modal Trigger Button -->
+            <button type="button"
+                    class="inline-flex items-center px-4 py-2 bg-green-600 dark:bg-green-500 text-white text-sm font-medium rounded-md hover:bg-green-700 dark:hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 dark:focus:ring-offset-neutral-800"
+                    data-hs-overlay="#generateReportModal">
                 Generate Report
             </button>
         </div>
     </div>
 </div>
+<!-- Include the Generate Report Modal -->
 {% include 'partials/generate_report_modal.html' %}
 {% endblock %}

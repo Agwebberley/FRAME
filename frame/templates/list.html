@@ -1,39 +1,27 @@
 {% extends 'base.html' %}
+
 {% load utils %}
-
+{% load static %}
+{% block title %}{{ model_class.get_config.plural|titlify }}{% endblock %}
 {% block content %}
-<div class="container">
-    <h1>{{ model_class.get_config.list_title }}</h1>
+<div class="flex flex-col">
+  <div class="-mx-1.5 overflow-x-auto">
+    <div class="p-1.5 min-w-full inline-block align-middle">
+      <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
+        <!-- Include the search bar partial -->
+        {% include 'partials/search_bar.html' %}
 
-    <!-- Create button -->
-    <div class="row mb-3">
-        <div class="col-md-2">
-            {% for action in model_class.get_config.actions.button %}
-                {% if action.disabled %}
-                    {% if not "list" in action.disabled %}
-                        <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
-                    {% endif %}
-                {% else %}
-                    <a href="{% url action.url %}" class="btn btn-primary">{{ action.name }}</a>
-                {% endif %} 
-            {% endfor %}
-            <!-- New Generate Report Button -->
-            <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#generateReportModal">
-                Generate Report
-            </button>
-        </div>
-        {% if model_class.get_config.enable_search %}
-        <div class="col-md-10">
-            <form id="search-form" hx-get="." hx-target="#table-container" hx-trigger="keyup delay:250ms, search">
-                <input type="text" name="query" placeholder="Search" value="{{ search_query }}" class="form-control">
-            </form>
-        </div>
-        {% endif %}
+        <!-- Wrap table and pagination in a div with id="table-container" -->
+        <div id="table-container">
+          <!-- Include the table header partial -->
+          {% include 'partials/table_header.html' %}
+          <!-- Include the table body partial -->
+          {% include 'partials/table_body.html' %}
+          <!-- Include the pagination partial -->
+          {% include 'partials/pagination.html' %}
+        </div> <!-- End of #table-container -->
+      </div>
     </div>
-    
+  </div>
 </div>
-
-{% include 'partials/table_container.html' %}
-{% include 'partials/generate_report_modal.html' %}
-
 {% endblock %}
