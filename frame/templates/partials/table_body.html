@@ -1,7 +1,5 @@
 <!-- partials/table_body.html -->
 {% load utils %}
-<div class="overflow-hidden">
-  <table class="min-w-full divide-y divide-gray-200 dark:divide-neutral-700">
     <!-- Table body -->
     <tbody id="table-body" class="bg-white divide-y divide-gray-200 dark:bg-neutral-800 dark:divide-neutral-700">
       {% for obj in page_obj %}
@@ -21,5 +19,3 @@
         </tr>
       {% endfor %}
     </tbody>
-  </table>
-</div>

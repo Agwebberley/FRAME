@@ -9,19 +9,17 @@
     <div class="p-1.5 min-w-full inline-block align-middle">
       <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
         <!-- Include the search bar partial -->
-        {% include 'partials/search_bar.html' %}
+          {% include 'partials/search_bar.html' %}
+
+        
 
         <!-- Wrap table and pagination in a div with id="table-container" -->
-        <div id="table-container">
           <!-- Include the table header partial -->
-          {% include 'partials/table_header.html' %}
+          {% include 'partials/table_container.html' %}
           <!-- Include the table body partial -->
-          {% include 'partials/table_body.html' %}
-          <!-- Include the pagination partial -->
-          {% include 'partials/pagination.html' %}
-        </div> <!-- End of #table-container -->
       </div>
     </div>
   </div>
 </div>
+{% include 'partials/generate_report_modal.html' %}
 {% endblock %}

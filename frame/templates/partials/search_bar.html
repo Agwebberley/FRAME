@@ -1,17 +1,38 @@
 <!-- partials/search_bar.html -->
-<div class="py-3 px-4">
-  <div class="relative max-w-xs">
+<div class="py-3 px-4 flex">
+  {% if model_class.get_config.enable_search %}
+  <div class="relative max-w-xs flex flex-row">
     <label class="sr-only" for="search">Search</label>
     <input type="text" name="search" id="search"
            class="py-2 px-3 pl-9 block w-full border-gray-200 shadow-sm rounded-lg text-sm"
-           placeholder="Search for items"
+           placeholder="Search..."
            hx-get="." hx-target="#table-container" hx-trigger="keyup changed delay:250ms">
     <div class="absolute inset-y-0 left-0 flex items-center pointer-events-none pl-3">
-      <svg class="w-4 h-4 text-gray-400 dark:text-neutral-500" xmlns="http://www.w3.org/2000/svg"
-           fill="none" stroke="currentColor" stroke-width="2">
-        <circle cx="11" cy="11" r="8"></circle>
-        <path d="M21 21l-4.35-4.35"></path>
-      </svg>
+
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+</svg>
+
+    </div>
+  </div>
+  {% endif %}
+  <div class="flex">
+  {% if model_class.get_config.actions.button|length >= 1 %}
+            {% for action in model_class.get_config.actions.button %}
+    <div class="flex items-center space-x-2 px-4">
+              <a href="{% url action.url %}"
+                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                {{ action.name }}
+              </a>
+    </div>
+            {% endfor %}
+        {% endif %}
+    <div class="flex items-center space-x-2 px-4">
+    <button type="button"
+            class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            data-hs-overlay="#generateReportModal">
+      Create Report
+    </button>
     </div>
   </div>
 </div>
