@@ -1,28 +1,21 @@
 <!-- partials/table_body.html -->
- {% load utils %}
-<tbody id="table-body">
-    {% for obj in page_obj %}
+{% load utils %}
+    <!-- Table body -->
+    <tbody id="table-body" class="bg-white divide-y divide-gray-200 dark:bg-neutral-800 dark:divide-neutral-700">
+      {% for obj in page_obj %}
         <tr>
-            {% for field in enabled_fields %}
-                <td>{{ obj|get_field_value:field }}</td>
-            {% endfor %}
-            <td>
-                <!-- Actions Dropdown -->
-                {% if model_class.get_config.actions.dropdown|length >= 1 %}
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Actions
-                    </button>
-                    <ul class="dropdown-menu" data-theme="dark">
-                        {% for action in model_class.get_config.actions.dropdown %}
-                        <li>
-                            <a class="dropdown-item" href="{% url action.url obj.pk %}">{{ action.name }}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
-                </div>
-                {% endif %}
+          {% for field in enabled_fields %}
+            <td class="px-6 py-4 text-sm text-gray-900 dark:text-neutral-200">
+              {{ obj|get_field_value:field }}
             </td>
+          {% endfor %}
+          <!-- Actions column -->
+          {% if model_class.get_config.actions.dropdown|length >= 1 %}
+          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+            <!-- Actions Dropdown -->
+            {% include 'partials/actions_dropdown.html' with obj=obj %}
+          </td>
+          {% endif %}
         </tr>
-    {% endfor %}
-</tbody>
+      {% endfor %}
+    </tbody>

@@ -2,70 +2,70 @@
 
 {% load utils %}
 
-<div class="modal fade" id="generateReportModal" tabindex="-1" aria-labelledby="generateReportModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
+<div id="generateReportModal" class="fixed inset-0 z-50 flex items-center justify-center hidden overflow-y-auto overflow-x-hidden">
+  <div class="relative w-full max-w-lg p-4">
+    <div class="bg-white rounded-lg shadow-lg">
       <form id="generate-report-form" method="post" action="">
         {% csrf_token %}
-        <div class="modal-header">
-          <h5 class="modal-title" id="generateReportModalLabel">Configure Report</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="flex items-start justify-between p-4 border-b rounded-t">
+          <h5 class="text-lg font-semibold" id="generateReportModalLabel">Configure Report</h5>
+          <button type="button" class="text-gray-400 hover:text-gray-600" data-dismiss="generateReportModal">
+            <span class="sr-only">Close</span>
+            <!-- Icon can be a font-awesome or custom svg for close -->
+            &times;
+          </button>
         </div>
-        <div class="modal-body">
+        <div class="p-4 space-y-4">
           <!-- Report Title -->
-          <div class="mb-3">
-            <label for="report-title" class="form-label">Report Title</label>
-            <input type="text" class="form-control" id="report-title" name="report_title" placeholder="Enter report title" required>
+          <div>
+            <label for="report-title" class="block text-sm font-medium text-gray-700">Report Title</label>
+            <input type="text" id="report-title" name="report_title" placeholder="Enter report title" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
           </div>
 
           {% if date_range %}
           <!-- Date Range -->
-          <div class="mb-3">
-            <label class="form-label">Date Range</label>
-            <div class="input-group">
-              <input type="date" class="form-control" id="start-date" name="start_date" required>
-              <span class="input-group-text">to</span>
-              <input type="date" class="form-control" id="end-date" name="end_date" required>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Date Range</label>
+            <div class="flex space-x-2">
+              <input type="date" id="start-date" name="start_date" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+              <span class="flex items-center text-gray-500">to</span>
+              <input type="date" id="end-date" name="end_date" required class="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
             </div>
           </div>
           {% endif %}
 
           <!-- Orientation Selection -->
           {% if allow_orientation_selection %}
-          <div class="mb-3">
-            <label class="form-label">Page Orientation</label>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="orientation" id="orientationPortrait" value="portrait" checked>
-              <label class="form-check-label" for="orientationPortrait">
-                Portrait
-              </label>
-            </div>
-            <div class="form-check">
-              <input class="form-check-input" type="radio" name="orientation" id="orientationLandscape" value="landscape">
-              <label class="form-check-label" for="orientationLandscape">
-                Landscape
-              </label>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Page Orientation</label>
+            <div class="flex space-x-4">
+              <div class="flex items-center">
+                <input type="radio" name="orientation" id="orientationPortrait" value="portrait" checked class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <label for="orientationPortrait" class="ml-2 text-sm font-medium text-gray-700">Portrait</label>
+              </div>
+              <div class="flex items-center">
+                <input type="radio" name="orientation" id="orientationLandscape" value="landscape" class="h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                <label for="orientationLandscape" class="ml-2 text-sm font-medium text-gray-700">Landscape</label>
+              </div>
             </div>
           </div>
           {% endif %}
 
           <!-- Select Fields -->
-          <div class="mb-3">
-            <label class="form-label">Select Fields to Include</label>
+          <div>
+            <label class="block text-sm font-medium text-gray-700">Select Fields to Include</label>
             {% for field in enabled_fields %}
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="{{ field }}" id="field-{{ field }}" name="fields" checked>
-              <label class="form-check-label" for="field-{{ field }}">
-                {{ field|titlify }}
-              </label>
+            <div class="flex items-center mt-2">
+              <input type="checkbox" value="{{ field }}" id="field-{{ field }}" name="fields" checked class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+              <label for="field-{{ field }}" class="ml-2 text-sm font-medium text-gray-700">{{ field|titlify }}</label>
             </div>
             {% endfor %}
           </div>
         </div>
-        <div class="modal-footer">
-            <input type="hidden" name="generate_report" value="1">
-            <button type="submit" class="btn btn-primary">Generate Report</button>
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+        <div class="flex items-center justify-end p-4 border-t space-x-2">
+          <input type="hidden" name="generate_report" value="1">
+          <button type="submit" class="px-4 py-2 font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">Generate Report</button>
+          <button type="button" class="px-4 py-2 font-medium text-gray-700 bg-gray-200 rounded-md hover:bg-gray-300 focus:ring-2 focus:ring-gray-400 focus:ring-offset-2" data-dismiss="generateReportModal">Cancel</button>
         </div>
       </form>
     </div>
@@ -84,5 +84,12 @@
             event.preventDefault();
         }
     });
-</script>
 
+    // JavaScript to show/hide modal (Preline doesn't use data-bs-dismiss like Bootstrap)
+    document.querySelectorAll('[data-dismiss]').forEach(button => {
+      button.addEventListener('click', () => {
+        const modalId = button.getAttribute('data-dismiss');
+        document.getElementById(modalId).classList.add('hidden');
+      });
+    });
+</script>

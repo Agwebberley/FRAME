@@ -1,4 +1,3 @@
-from django.http import JsonResponse
 from django.views import View
 from django.views.generic import (
     CreateView,
@@ -6,19 +5,14 @@ from django.views.generic import (
     ListView,
     DetailView,
     DeleteView,
-    TemplateView,
 )
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import redirect, render
-from django.shortcuts import get_object_or_404
-from django.apps import apps
+from django.shortcuts import render
 from frame.models import LogMessage
 from frame.utils import (
-    generate_inline_formset,
     get_enabled_fields,
     generate_dynamic_form,
-    get_actions,
     get_child_models,
 )
 from frame.mixins import (
@@ -136,7 +130,7 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         Get the queryset for the view, applying search and sorting.
         """
         queryset = self.model.objects.all()
-        search_query = self.request.GET.get("query", "")
+        search_query = self.request.GET.get("search", "")
         if search_query:
             q_objects = Q()
             for field in get_enabled_fields(
@@ -166,7 +160,8 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         )
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
-        context["search_query"] = self.request.GET.get("query", "")
+        context["search_query"] = self.request.GET.get("search", "")
+        print("Search Query: " + context["search_query"])
         context["model_class"] = self.model
         context["date_range"] = self.date_range
         context["allow_orientation_selection"] = self.allow_orientation_selection

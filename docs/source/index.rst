@@ -15,6 +15,7 @@ Contents
    introduction
    gettingstarted
    project-structure
+   helloworld
    usage
    advanced-topics
    examples

@@ -1,5 +1,27 @@
 # Changelog
 
+## [0.8.0] - 11-12-2024
+
+### Added
+- `fake_data.py`: New management command to generate fake data for the `Part` model.
+- `actions_dropdown.html`: New partial template for a dropdown menu with model actions.
+- TailwindCSS support for template styles.
+- Alpine.js and HTMX scripts in `base.html` for enhanced client-side interactivity.
+- Dark mode toggle and sidebar expansion control with Alpine.js.
+
+### Changed
+- Refactored `base_views.py`: Replaced `query` with `search` as the parameter name for search queries.
+- Improved layout in `base.html`, `detail.html`, `form.html`, `home.html`, and `list.html`:
+  - Updated HTML structure for responsiveness and dark mode compatibility.
+  - Integrated TailwindCSS for more flexible and modern styling.
+  - Redesigned sidebar and header to support expanded/collapsed views.
+- Updated `generate_report_modal.html`:
+  - Converted modal to a TailwindCSS-style modal with improved form layout.
+  - Added close button functionality without Bootstrap dependencies.
+
+### Removed
+- `update_config.py`: Removed management command for updating app configurations automatically.
+
 ## [0.7.0] - 11-7-2024
 
 ### Summary

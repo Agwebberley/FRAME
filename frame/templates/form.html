@@ -1,60 +1,103 @@
 {% extends "base.html" %}
+{% load tailwind_filters %}
 {% load crispy_forms_tags %}
 {% load utils %}
 
 {% block title %}{{ verbose_name|capfirst }} Form{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
-    <h1>{{ verbose_name|capfirst }} Form</h1>
+<div class="max-w-7xl mx-auto mt-5 px-4">
+    <h1 class="text-2xl font-bold mb-4 text-gray-900 dark:text-gray-100">{{ verbose_name|capfirst }} Form</h1>
     <form method="post">
         {% csrf_token %}
 
         {% if formsets %}
-            <!-- Bootstrap Tabs -->
-            <ul class="nav nav-tabs" id="formTabs" role="tablist">
-                <!-- Parent Tab -->
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link active" id="parent-tab" data-bs-toggle="tab" href="#parent" role="tab" aria-controls="parent" aria-selected="true">{{ verbose_name|capfirst }}</a>
-                </li>
-                <!-- Child Tabs -->
-                {% for prefix, formset in formsets %}
-                <li class="nav-item" role="presentation">
-                    <a class="nav-link" id="{{ prefix }}-tab" data-bs-toggle="tab" href="#{{ prefix }}" role="tab" aria-controls="{{ prefix }}" aria-selected="false">{{ formset.verbose_name_plural|capfirst }}</a>
-                </li>
-                {% endfor %}
-            </ul>
+           <!-- Preline Tabs -->
+<div>
+  <nav class="relative z-0 flex border rounded-xl overflow-hidden dark:border-neutral-700" aria-label="Tabs" role="tablist" data-hs-tabs>
+    <!-- Parent Tab -->
+    <button type="button"
+            class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white relative min-w-0 flex-1 bg-white first:border-s-0 border-s border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center hover:bg-gray-50 focus:z-10 focus:outline-none focus:text-blue-600 dark:bg-neutral-800 dark:border-l-neutral-700 dark:border-b-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700 active"
+            data-hs-tab="#parent-tab-content"
+            aria-controls="parent-tab-content"
+            aria-selected="true"
+            role="tab">
+      {{ verbose_name|capfirst }}
+    </button>
+    <!-- Child Tabs -->
+    {% for prefix, formset in formsets %}
+    <button type="button"
+            class="hs-tab-active:border-b-blue-600 hs-tab-active:text-gray-900 dark:hs-tab-active:text-white relative min-w-0 flex-1 bg-white border-s border-b-2 py-4 px-4 text-gray-500 hover:text-gray-700 text-sm font-medium text-center hover:bg-gray-50 focus:z-10 focus:outline-none focus:text-blue-600 dark:bg-neutral-800 dark:border-l-neutral-700 dark:border-b-neutral-700 dark:text-neutral-400 dark:hover:bg-neutral-700"
+            data-hs-tab="#{{ prefix }}-tab-content"
+            aria-controls="{{ prefix }}-tab-content"
+            aria-selected="false"
+            role="tab">
+      {{ formset.verbose_name_plural|capfirst }}
+    </button>
+    {% endfor %}
+  </nav>
 
-            <div class="tab-content mt-3" id="formTabsContent">
-                <!-- Parent Form -->
-                <div class="tab-pane fade show active" id="parent" role="tabpanel" aria-labelledby="parent-tab">
-                    {{ form|crispy }}
-                </div>
-                <!-- Child Formsets -->
-                {% for prefix, formset in formsets %}
-                <div class="tab-pane fade" id="{{ prefix }}" role="tabpanel" aria-labelledby="{{ prefix }}-tab">
-                    {{ formset.management_form }}
-                    <div id="formset-container-{{ prefix }}">
-                        {% for form in formset %}
-                            <div class="formset-row border rounded p-3 mb-2" id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">
-                                {{ form|crispy }}
-                                <button type="button" class="btn btn-danger delete-formset-item" data-row-id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">Delete</button>
-                            </div>
-                        {% endfor %}
-                    </div>
-                    <button type="button" id="add-item-{{ prefix }}" class="btn btn-primary mt-3">Add {{ formset.verbose_name|capfirst }}</button>
-                </div>
-                {% endfor %}
-            </div>
-        {% else %}
+            <div id="formTabsContent" class="text-gray-900 dark:text-gray-100">
+  <!-- Parent Form -->
+  <div id="parent-tab-content"
+       role="tabpanel"
+       aria-labelledby="parent-tab"
+       data-hs-tab-content>
+    {{ form|crispy }}
+  </div>
+  <!-- Child Formsets -->
+  {% for prefix, formset in formsets %}
+  <div id="{{ prefix }}-tab-content"
+       class="hidden"
+       role="tabpanel"
+       aria-labelledby="{{ prefix }}-tab"
+       data-hs-tab-content>
+    {{ formset.management_form }}
+    <div id="formset-container-{{ prefix }}">
+      {% for form in formset %}
+      <div class="formset-row border border-gray-200 dark:border-neutral-700 rounded p-3 mb-2 bg-white dark:bg-neutral-800" id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">
+        {{ form|crispy }}
+        <button type="button"
+                class="delete-formset-item inline-flex items-center px-4 py-2 mt-2 bg-red-600 dark:bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-700 dark:hover:bg-red-600"
+                data-row-id="formset-item-{{ prefix }}-{{ forloop.counter0 }}">
+          Delete
+        </button>
+      </div>
+      {% endfor %}
+    </div>
+    <button type="button" id="add-item-{{ prefix }}"
+            class="inline-flex items-center mt-3 px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600">
+      Add {{ formset.verbose_name|capfirst }}
+    </button>
+  </div>
+  {% endfor %}
+</div>        
+            {% else %}
             <!-- No formsets; render only the parent form -->
+            <!-- Ensure the footer is at the bottom of the page -->
+             
+       
+    <div class="mt-5 mx-auto px-4 flex flex-col">
+        
+        <!-- Flex-grow container for form content -->
+        <div class="flex-grow">
             {{ form|crispy }}
+        </div>
+
+        
         {% endif %}
 
         <!-- Main Save/Cancel Buttons -->
-        <div class="mt-4">
-            <button type="submit" class="btn btn-primary">Save</button>
-            <a href="{% url return_url %}" class="btn btn-secondary">Cancel</a>
+        <div class="mt-4 flex space-x-4">
+            <button type="submit"
+                    class="inline-flex items-center px-4 py-2 bg-blue-600 dark:bg-blue-500 text-white text-sm font-medium rounded-md hover:bg-blue-700 dark:hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-offset-neutral-800">
+                Save
+            </button>
+            <a href="{% url return_url %}"
+               class="inline-flex items-center px-4 py-2 bg-gray-600 dark:bg-gray-500 text-white text-sm font-medium rounded-md hover:bg-gray-700 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500 dark:focus:ring-offset-neutral-800">
+                Cancel
+            </a>
+        </div>
         </div>
     </form>
 </div>
@@ -65,8 +108,8 @@
 document.addEventListener('DOMContentLoaded', function() {
     // Handle adding formset rows dynamically
     {% for prefix, formset in formsets %}
-    var addButton = document.getElementById('add-item-{{ prefix }}');
-    addButton.addEventListener('click', function() {
+    var addButton{{ forloop.counter }} = document.getElementById('add-item-{{ prefix }}');
+    addButton{{ forloop.counter }}.addEventListener('click', function() {
         var formContainer = document.getElementById('formset-container-{{ prefix }}');
         var totalFormsInput = document.getElementById('id_{{ formset.prefix }}-TOTAL_FORMS');
         var currentFormCount = parseInt(totalFormsInput.value);
@@ -100,9 +143,13 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Empty Form Templates for Cloning -->
 {% for prefix, formset in formsets %}
 <div id="empty-form-{{ prefix }}" style="display: none;">
-    <div class="formset-row border rounded p-3 mb-2" id="formset-item-{{ prefix }}-__prefix__">
+    <div class="formset-row border border-gray-200 dark:border-neutral-700 rounded p-3 mb-2 bg-white dark:bg-neutral-800" id="formset-item-{{ prefix }}-__prefix__">
         {{ formset.empty_form|crispy }}
-        <button type="button" class="btn btn-danger delete-formset-item" data-row-id="formset-item-{{ prefix }}-__prefix__">Delete</button>
+        <button type="button"
+                class="delete-formset-item inline-flex items-center px-4 py-2 mt-2 bg-red-600 dark:bg-red-500 text-white text-sm font-medium rounded-md hover:bg-red-700 dark:hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500 dark:focus:ring-offset-neutral-800"
+                data-row-id="formset-item-{{ prefix }}-__prefix__">
+            Delete
+        </button>
     </div>
 </div>
 {% endfor %}
