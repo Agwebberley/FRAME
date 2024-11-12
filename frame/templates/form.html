@@ -71,11 +71,20 @@
     </button>
   </div>
   {% endfor %}
-</div>        {% else %}
+</div>        
+            {% else %}
             <!-- No formsets; render only the parent form -->
-        <div class="text-gray-900 dark:text-gray-100">
+            <!-- Ensure the footer is at the bottom of the page -->
+             
+       
+    <div class="mt-5 mx-auto px-4 flex flex-col">
+        
+        <!-- Flex-grow container for form content -->
+        <div class="flex-grow">
             {{ form|crispy }}
         </div>
+
+        
         {% endif %}
 
         <!-- Main Save/Cancel Buttons -->

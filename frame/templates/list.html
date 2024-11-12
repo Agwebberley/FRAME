@@ -4,9 +4,9 @@
 {% load static %}
 {% block title %}{{ model_class.get_config.plural|titlify }}{% endblock %}
 {% block content %}
-<div class="flex flex-col">
-  <div class="-mx-1.5 overflow-x-auto">
-    <div class="p-1.5 min-w-full inline-block align-middle">
+<div class="flex flex-col overflow-hidden">
+  <div class="mx-1.5">
+    <div class="min-w-full min-h-fit inline-block align-middle">
       <div class="border rounded-lg divide-y divide-gray-200 dark:border-neutral-700 dark:divide-neutral-700">
         <!-- Include the search bar partial -->
           {% include 'partials/search_bar.html' %}
