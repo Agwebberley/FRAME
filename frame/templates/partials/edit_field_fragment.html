@@ -1,0 +1,33 @@
+<!-- edit_field_fragment.html -->
+{% load utils %}
+
+    {% if field_type == 'CharField' %}
+        <input type="text"
+               name="{{ field }}"
+               value="{{ obj|get_field_value:field }}"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500" hx-prevent-default="true" 
+                hx-post="{% url 'update-field' %}" hx-include="[name='app'], [name='model'], [name='pk'], [name='field']" hx-trigger="keyup[enter]!" hx-swap="outerHTML">
+
+{% elif field_type == 'IntegerField' %}
+        <input type="number"
+               name="{{ field }}"
+               value="{{ obj|get_field_value:field }}"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500"
+  hx-post="{% url 'update-field' %}" hx-include="[name='app'], [name='model'], [name='pk'], [name='field']" hx-trigger="keyup[enter]" hx-swap="outerHTML">
+
+    {% elif field_type == 'DateField' %}
+        <input type="date"
+               name="{{ field }}"
+               value="{{ obj|get_field_value:field }}"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500"
+               hx-post="{% url 'update-field' %}" hx-include="[name='app'], [name='model'], [name='pk'], [name='field']" hx-trigger="change" hx-swap="outerHTML">
+
+  {% elif field_type == 'DateTimeField' %}
+        <input type="datetime-local"
+               name="{{ field }}"
+               value="{{ obj|get_field_value:field|date:'Y-m-d\\TH:i' }}"
+               class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500"
+               hx-post="{% url 'update-field' %}" hx-include="[name='app'], [name='model'], [name='pk'], [name='field']" hx-trigger="change" hx-swap="outerHTML">
+
+{% endif %}
+

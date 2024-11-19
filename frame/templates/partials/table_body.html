@@ -1,21 +1,70 @@
 <!-- partials/table_body.html -->
 {% load utils %}
-    <!-- Table body -->
-    <tbody id="table-body" class="bg-white divide-y divide-gray-200 dark:bg-neutral-800 dark:divide-neutral-700">
-      {% for obj in page_obj %}
-        <tr>
-          {% for field in enabled_fields %}
-            <td class="px-6 py-4 text-sm text-gray-900 dark:text-neutral-200">
+<tbody id="table-body" class="bg-white divide-y divide-gray-200 dark:bg-neutral-800 dark:divide-neutral-700">
+    {% for obj in page_obj %}
+    <tr data-pk="{{ obj.pk }}">
+      {% for field in enabled_fields %}
+        <td class="px-6 py-4 whitespace-nowrap">
+          {% if field in editable_fields %}
+      <form hx-post="{% url 'update-field' %}">
+    <input type="hidden" name="app" value="{{ app_label }}">
+    <input type="hidden" name="model" value="{{ model_class.get_config.model_name }}">
+    <input type="hidden" name="pk" value="{{ obj.pk }}">
+    <input type="hidden" name="field" value="{{ field }}">
+
+    {% if editable_fields|get_item:field == 'BooleanField' %}
+        <!-- Render as checkbox -->
+        <input type="checkbox"
+               class="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500"
+               name="{{ field }}"
+               {% if obj|get_field_value:field %}checked{% endif %}
+               hx-post="{% url 'update-field' %}"
+               hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+               hx-trigger="change"
+               hx-swap="none">
+    {% elif editable_fields|get_item:field == 'ChoiceField' %}
+        <!-- Render as select dropdown -->
+        <select class="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500"
+                name="{{ field }}"
+                hx-post="{% url 'update-field' %}"
+                hx-trigger="change"
+                hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+                hx-swap="none">
+            {% for choice in obj|get_choices:field %}
+                <option value="{{ choice.0 }}"
+                        {% if obj|get_field_value:field == choice.0 %}selected{% endif %}>
+                    {{ choice.1 }}
+                </option>
+            {% endfor %}
+        </select>
+    {% elif editable_fields|get_item:field == 'CharField' or editable_fields|get_item:field == 'IntegerField' or editable_fields|get_item:field == 'DateField' or editable_fields|get_item:field == 'DateTimeField' %}
+        <!-- Render as text, swap to input on double-click -->
+        <span class="text-sm text-gray-900 dark:text-neutral-200"
+              hx-post="{% url 'edit-field' %}"
+              name="{{ field }}"
+              hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+              hx-trigger="dblclick"
+              hx-swap="outerHTML">
+            {{ obj|get_field_value:field }}
+        </span>
+    {% else %}
+        <span class="text-sm text-gray-900 dark:text-neutral-200">
+            {{ obj|get_field_value:field }}
+        </span>
+    {% endif %}
+</form>
+          {% else %}
+            <span class="text-sm text-gray-900 dark:text-neutral-200">
               {{ obj|get_field_value:field }}
-            </td>
-          {% endfor %}
-          <!-- Actions column -->
-          {% if model_class.get_config.actions.dropdown|length >= 1 %}
-          <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-            <!-- Actions Dropdown -->
-            {% include 'partials/actions_dropdown.html' with obj=obj %}
-          </td>
+            </span>
           {% endif %}
-        </tr>
-      {% endfor %}
-    </tbody>
+        </td>
+      {% endfor %}      
+    {% if model_class.get_config.actions.dropdown|length >= 1 %}
+      <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+        {% include 'partials/actions_dropdown.html' with obj=obj %}
+      </td>
+      {% endif %}
+    </tr>
+  {% endfor %}
+</tbody>

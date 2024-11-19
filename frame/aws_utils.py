@@ -31,9 +31,12 @@ def publish_event(channel, message):
     :param message: The message to publish.
     :type message: str
     """
-    topic_arn = get_or_create_topic(channel)
-    if topic_arn:
-        sns_client.publish(TopicArn=topic_arn, Message=message)
+    try:
+        topic_arn = get_or_create_topic(channel)
+        if topic_arn:
+            sns_client.publish(TopicArn=topic_arn, Message=message)
+    except Exception as e:
+        print(f"Error publishing event to {channel}: {e}")
 
 
 listeners = {}
@@ -48,6 +51,7 @@ def listener(channel):
     :return: The decorator function.
     :rtype: function
     """
+
     def decorator(func):
         if channel not in listeners:
             listeners[channel] = []
