@@ -164,7 +164,6 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
         context["search_query"] = self.request.GET.get("search", "")
-        print("Search Query: " + context["search_query"])
         context["app_label"] = self.model._meta.app_label
         context["model_class"] = self.model
         context["date_range"] = self.date_range
@@ -176,6 +175,7 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
             self.request.user,
             view_type="list",
         )
+
         return context
 
     def render_to_response(self, context, **response_kwargs):
@@ -352,12 +352,12 @@ def update_field(request):
         print("request:", app_name, model_name, pk, field, value)
 
         # Dynamically get the model class
-        ModelClass = apps.get_model(
+        model_class = apps.get_model(
             app_name, model_name
         )  # Replace 'your_app_name' with your actual app name
 
         # Fetch the object to update
-        obj = get_object_or_404(ModelClass, pk=pk)
+        obj = get_object_or_404(model_class, pk=pk)
 
         # Convert BooleanField value from string to boolean
         if obj._meta.get_field(field).get_internal_type() == "BooleanField":
@@ -372,16 +372,17 @@ def update_field(request):
         obj.save()
 
         edit_field_url = reverse("edit-field")
-
-        return HttpResponse(f"""
-            <span class="text-sm text-gray-900 dark:text-neutral-200"
-                  hx-post="{edit_field_url}"
-                  hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
-                  hx-trigger="dblclick"
-                  hx-swap="outerHTML">
-                {value}
-            </span>
-        """)
+        return render(
+            request,
+            "partials/editable_field_fragment.html",
+            {
+                "obj": obj,
+                "field": field,
+                "value": value,
+                "app_label": app_name,
+                "model_class": model_class,
+            },
+        )
     return JsonResponse({"success": False}, status=400)
 
 
@@ -394,7 +395,9 @@ def edit_field(request):
     model = apps.get_model(app_label, model_name)
     obj = get_object_or_404(model, pk=pk)
     field_type = obj._meta.get_field(field).get_internal_type()
-
+    if field_type == "CharField":
+        if obj._meta.get_field(field).choices:
+            field_type = "ChoiceField"
     return render(
         request,
         "partials/edit_field_fragment.html",
