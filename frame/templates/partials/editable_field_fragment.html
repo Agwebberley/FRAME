@@ -1,0 +1,14 @@
+{% load utils %}
+    <input type="hidden" name="app" value="{{ app_label }}">
+    <input type="hidden" name="model" value="{{ model_class.get_config.model_name }}">
+    <input type="hidden" name="pk" value="{{ obj.pk }}">
+    <input type="hidden" name="field" value="{{ field }}">
+        <!-- Render as text, swap to input on double-click -->
+        <span class="text-sm"
+              hx-post="{% url 'edit-field' %}"
+              name="{{ field }}"
+              hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+              hx-trigger="dblclick"
+              hx-swap="outerHTML">
+            {{ obj|get_field_value:field }}
+        </span>

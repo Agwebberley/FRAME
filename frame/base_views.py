@@ -8,12 +8,13 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from frame.models import LogMessage
 from frame.utils import (
     get_enabled_fields,
     generate_dynamic_form,
     get_child_models,
+    get_editable_fields,
 )
 from frame.mixins import (
     NavigationMixin,
@@ -22,6 +23,8 @@ from frame.mixins import (
 )
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
+from django.http import JsonResponse
+from django.apps import apps
 
 
 class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateView):
@@ -161,11 +164,17 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
         context["search_query"] = self.request.GET.get("search", "")
-        print("Search Query: " + context["search_query"])
+        context["app_label"] = self.model._meta.app_label
         context["model_class"] = self.model
         context["date_range"] = self.date_range
         context["allow_orientation_selection"] = self.allow_orientation_selection
         context["orientation"] = self.orientation
+        context["editable_fields"] = get_editable_fields(
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
+            view_type="list",
+        )
 
         return context
 
@@ -331,3 +340,71 @@ class LogMessageDetailView(BaseDetailView):
     """
 
     model = LogMessage
+
+
+def update_field(request):
+    if request.method == "POST":
+        app_name = request.POST.get("app")
+        model_name = request.POST.get("model")
+        pk = request.POST.get("pk")
+        field = request.POST.get("field")
+        value = request.POST.get(field)
+        print("request:", app_name, model_name, pk, field, value)
+
+        # Dynamically get the model class
+        model_class = apps.get_model(
+            app_name, model_name
+        )  # Replace 'your_app_name' with your actual app name
+
+        # Fetch the object to update
+        obj = get_object_or_404(model_class, pk=pk)
+
+        # Convert BooleanField value from string to boolean
+        if obj._meta.get_field(field).get_internal_type() == "BooleanField":
+            if value == "on":
+                value = True
+            else:
+                value = False
+
+        # Set the field with the new value and save
+        setattr(obj, field, value)
+        print("obj:", obj)
+        obj.save()
+
+        return render(
+            request,
+            "partials/editable_field_fragment.html",
+            {
+                "obj": obj,
+                "field": field,
+                "value": value,
+                "app_label": app_name,
+                "model_class": model_class,
+            },
+        )
+    return JsonResponse({"success": False}, status=400)
+
+
+def edit_field(request):
+    app_label = request.POST.get("app")
+    model_name = request.POST.get("model")
+    pk = request.POST.get("pk")
+    field = request.POST.get("field")
+
+    model = apps.get_model(app_label, model_name)
+    obj = get_object_or_404(model, pk=pk)
+    field_type = obj._meta.get_field(field).get_internal_type()
+    if field_type == "CharField":
+        if obj._meta.get_field(field).choices:
+            field_type = "ChoiceField"
+    return render(
+        request,
+        "partials/edit_field_fragment.html",
+        {
+            "obj": obj,
+            "field": field,
+            "field_type": field_type,
+            "app_label": app_label,
+            "model_name": model_name,
+        },
+    )
