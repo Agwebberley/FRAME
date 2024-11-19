@@ -6,7 +6,7 @@ from django.views.generic import (
     DetailView,
     DeleteView,
 )
-from django.urls import reverse_lazy, reverse
+from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import render, get_object_or_404
 from frame.models import LogMessage
@@ -23,7 +23,7 @@ from frame.mixins import (
 )
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse
 from django.apps import apps
 
 
@@ -371,7 +371,6 @@ def update_field(request):
         print("obj:", obj)
         obj.save()
 
-        edit_field_url = reverse("edit-field")
         return render(
             request,
             "partials/editable_field_fragment.html",

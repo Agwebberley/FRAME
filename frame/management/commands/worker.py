@@ -14,6 +14,7 @@ class Command(BaseCommand):
 
     This command initializes Django, loads listeners from apps, and processes messages from SQS queues.
     """
+
     help = "Run SQS worker"
 
     def handle(self, *args, **kwargs):

@@ -4,66 +4,65 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('frame', '0002_fieldconfiguration_detail_report_and_more'),
+        ("frame", "0002_fieldconfiguration_detail_report_and_more"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='app',
+            model_name="modelconfiguration",
+            name="app",
         ),
         migrations.RemoveField(
-            model_name='fieldconfiguration',
-            name='model',
+            model_name="fieldconfiguration",
+            name="model",
         ),
         migrations.RemoveField(
-            model_name='fieldconfiguration',
-            name='read_permission_groups',
+            model_name="fieldconfiguration",
+            name="read_permission_groups",
         ),
         migrations.RemoveField(
-            model_name='fieldconfiguration',
-            name='read_permission_users',
+            model_name="fieldconfiguration",
+            name="read_permission_users",
         ),
         migrations.RemoveField(
-            model_name='fieldconfiguration',
-            name='write_permission_groups',
+            model_name="fieldconfiguration",
+            name="write_permission_groups",
         ),
         migrations.RemoveField(
-            model_name='fieldconfiguration',
-            name='write_permission_users',
+            model_name="fieldconfiguration",
+            name="write_permission_users",
         ),
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='actions',
+            model_name="modelconfiguration",
+            name="actions",
         ),
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='read_permission_groups',
+            model_name="modelconfiguration",
+            name="read_permission_groups",
         ),
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='read_permission_users',
+            model_name="modelconfiguration",
+            name="read_permission_users",
         ),
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='write_permission_groups',
+            model_name="modelconfiguration",
+            name="write_permission_groups",
         ),
         migrations.RemoveField(
-            model_name='modelconfiguration',
-            name='write_permission_users',
+            model_name="modelconfiguration",
+            name="write_permission_users",
         ),
         migrations.DeleteModel(
-            name='AppConfiguration',
+            name="AppConfiguration",
         ),
         migrations.DeleteModel(
-            name='FieldConfiguration',
+            name="FieldConfiguration",
         ),
         migrations.DeleteModel(
-            name='ModelAction',
+            name="ModelAction",
         ),
         migrations.DeleteModel(
-            name='ModelConfiguration',
+            name="ModelConfiguration",
         ),
     ]
