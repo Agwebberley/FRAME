@@ -146,3 +146,22 @@ def get_choices(instance, field):
         return instance._meta.get_field(field).choices
     except AttributeError:
         return []
+
+
+@register.filter
+def get_field_config(model_class, field_name):
+    """
+    Get the configuration for a field.
+
+    :param model_class: The model class.
+    :type model_class: Model
+    :param field_name: The name of the field.
+    :type field_name: str
+    :return: The configuration for the specified field, or an empty dictionary if the field does not exist.
+    :rtype: dict
+    """
+    fields = model_class.get_config()["fields"]
+    for field in fields:
+        if field["name"] == field_name:
+            return field
+    return {}

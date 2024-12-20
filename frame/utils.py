@@ -21,7 +21,6 @@ def get_enabled_fields(app_name, model_name, user, view_type="list", properties=
     """
     model = apps.get_model(app_label=app_name, model_name=model_name)
     model_config = model.get_config()
-    print(model_config)
     field_configs = model_config["fields"]
     model_field_names = [field.name for field in model._meta.get_fields()]
     enabled_fields = []

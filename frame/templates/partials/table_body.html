@@ -10,6 +10,11 @@
     ">
       {% for field in enabled_fields %}
         <td class="px-6 py-4 whitespace-nowrap">
+      {% with model_class|get_field_config:field as cfield %}
+      {% if cfield.custom_fragment %}
+
+      {% include cfield.custom_fragment with obj=obj %}
+      {% else %}
           {% if field in editable_fields %}
       <form hx-post="{% url 'update-field' %}">
     <input type="hidden" name="app" value="{{ app_label }}">
@@ -49,7 +54,10 @@
             </span>
           {% endif %}
         </td>
-      {% endfor %}      
+      {% endif %}
+    {% endwith %}
+    {% endfor %}   
+      
     {% if model_class.get_config.actions.dropdown|length >= 1 %}
       <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
         {% include 'partials/actions_dropdown.html' with obj=obj %}

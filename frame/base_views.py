@@ -127,28 +127,68 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     date_field = "created_at"
     orientation = "landscape"
     allow_orientation_selection = True
+    sort_fields = ["pk"]
 
     def get_queryset(self):
         """
         Get the queryset for the view, applying search and sorting.
         """
         queryset = self.model.objects.all()
-        search_query = self.request.GET.get("search", "")
-        if search_query:
-            q_objects = Q()
-            for field in get_enabled_fields(
-                self.model._meta.app_label,
-                self.model.__name__,
-                self.request.user,
-                view_type="list",
-                properties=False,
-            ):
-                if not self.model._meta.get_field(field).is_relation:
-                    q_objects |= Q(**{field + "__icontains": search_query})
-                else:
-                    q_objects |= Q(**{field + "__name__icontains": search_query})
-            queryset = queryset.filter(q_objects)
+        search_query = self.request.GET.get("search", "").strip()
+        filter_field = self.request.GET.get("filter", "").strip()
+        exact_match = self.request.GET.get("exact_match", "").lower() == "true"
+
+        # Print for debugging purposes (remove in production)
+        print(
+            f"Search Query: {search_query}, Filter Field: {filter_field}, Exact Match: {exact_match}"
+        )
+
+        # Apply filtering if both filter field and search query are provided
+        if filter_field and search_query:
+            queryset = self.apply_filter(
+                queryset, filter_field, search_query, exact_match
+            )
+
+        # Apply global search if no specific filter field is provided
+        elif search_query:
+            queryset = self.apply_global_search(queryset, search_query)
+
         return queryset
+
+    def apply_filter(self, queryset, filter_field, search_query, exact_match):
+        """
+        Apply filtering based on a specific filter field and search query.
+        """
+        filter_condition = (
+            {filter_field: search_query}
+            if exact_match
+            else {f"{filter_field}__icontains": search_query}
+        )
+        return queryset.filter(Q(**filter_condition))
+
+    def apply_global_search(self, queryset, search_query):
+        """
+        Apply a global search across all enabled fields.
+        """
+        search_conditions = Q()
+        enabled_fields = get_enabled_fields(
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
+            view_type="list",
+            properties=False,
+        )
+        for field in enabled_fields:
+            if self.is_searchable_field(field):
+                search_conditions |= Q(**{f"{field}__icontains": search_query})
+        return queryset.filter(search_conditions)
+
+    def is_searchable_field(self, field):
+        """
+        Check if a field is searchable (not a relation).
+        """
+        field_obj = self.model._meta.get_field(field)
+        return not field_obj.is_relation
 
     def get_context_data(self, **kwargs):
         """
@@ -175,6 +215,17 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
             self.request.user,
             view_type="list",
         )
+
+        # Tabs
+        # get_config() may contain a 'tabs' key which contains a reference to a model used for tabs
+
+        if hasattr(self.model, "get_config"):
+            config = self.model.get_config()
+            if "tabs" in config:
+                tab_model = apps.get_model(
+                    config["tabs"]["app_label"], config["tabs"]["model_name"]
+                )
+                context["tabs"] = tab_model.objects.all()
 
         return context
 
@@ -349,7 +400,6 @@ def update_field(request):
         pk = request.POST.get("pk")
         field = request.POST.get("field")
         value = request.POST.get(field)
-        print("request:", app_name, model_name, pk, field, value)
 
         # Dynamically get the model class
         model_class = apps.get_model(
@@ -368,7 +418,6 @@ def update_field(request):
 
         # Set the field with the new value and save
         setattr(obj, field, value)
-        print("obj:", obj)
         obj.save()
 
         return render(
