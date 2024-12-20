@@ -8,12 +8,13 @@ from django.views.generic import (
 )
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from frame.models import LogMessage
 from frame.utils import (
     get_enabled_fields,
     generate_dynamic_form,
     get_child_models,
+    get_editable_fields,
 )
 from frame.mixins import (
     NavigationMixin,
@@ -22,6 +23,8 @@ from frame.mixins import (
 )
 from django.contrib.auth.views import LoginView, LogoutView
 from django.db.models import Q
+from django.http import JsonResponse
+from django.apps import apps
 
 
 class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateView):
@@ -124,28 +127,68 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     date_field = "created_at"
     orientation = "landscape"
     allow_orientation_selection = True
+    sort_fields = ["pk"]
 
     def get_queryset(self):
         """
         Get the queryset for the view, applying search and sorting.
         """
         queryset = self.model.objects.all()
-        search_query = self.request.GET.get("search", "")
-        if search_query:
-            q_objects = Q()
-            for field in get_enabled_fields(
-                self.model._meta.app_label,
-                self.model.__name__,
-                self.request.user,
-                view_type="list",
-                properties=False,
-            ):
-                if not self.model._meta.get_field(field).is_relation:
-                    q_objects |= Q(**{field + "__icontains": search_query})
-                else:
-                    q_objects |= Q(**{field + "__name__icontains": search_query})
-            queryset = queryset.filter(q_objects)
+        search_query = self.request.GET.get("search", "").strip()
+        filter_field = self.request.GET.get("filter", "").strip()
+        exact_match = self.request.GET.get("exact_match", "").lower() == "true"
+
+        # Print for debugging purposes (remove in production)
+        print(
+            f"Search Query: {search_query}, Filter Field: {filter_field}, Exact Match: {exact_match}"
+        )
+
+        # Apply filtering if both filter field and search query are provided
+        if filter_field and search_query:
+            queryset = self.apply_filter(
+                queryset, filter_field, search_query, exact_match
+            )
+
+        # Apply global search if no specific filter field is provided
+        elif search_query:
+            queryset = self.apply_global_search(queryset, search_query)
+
         return queryset
+
+    def apply_filter(self, queryset, filter_field, search_query, exact_match):
+        """
+        Apply filtering based on a specific filter field and search query.
+        """
+        filter_condition = (
+            {filter_field: search_query}
+            if exact_match
+            else {f"{filter_field}__icontains": search_query}
+        )
+        return queryset.filter(Q(**filter_condition))
+
+    def apply_global_search(self, queryset, search_query):
+        """
+        Apply a global search across all enabled fields.
+        """
+        search_conditions = Q()
+        enabled_fields = get_enabled_fields(
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
+            view_type="list",
+            properties=False,
+        )
+        for field in enabled_fields:
+            if self.is_searchable_field(field):
+                search_conditions |= Q(**{f"{field}__icontains": search_query})
+        return queryset.filter(search_conditions)
+
+    def is_searchable_field(self, field):
+        """
+        Check if a field is searchable (not a relation).
+        """
+        field_obj = self.model._meta.get_field(field)
+        return not field_obj.is_relation
 
     def get_context_data(self, **kwargs):
         """
@@ -161,11 +204,28 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         if "pk" in context["enabled_fields"]:
             context["enabled_fields"].remove("pk")
         context["search_query"] = self.request.GET.get("search", "")
-        print("Search Query: " + context["search_query"])
+        context["app_label"] = self.model._meta.app_label
         context["model_class"] = self.model
         context["date_range"] = self.date_range
         context["allow_orientation_selection"] = self.allow_orientation_selection
         context["orientation"] = self.orientation
+        context["editable_fields"] = get_editable_fields(
+            self.model._meta.app_label,
+            self.model.__name__,
+            self.request.user,
+            view_type="list",
+        )
+
+        # Tabs
+        # get_config() may contain a 'tabs' key which contains a reference to a model used for tabs
+
+        if hasattr(self.model, "get_config"):
+            config = self.model.get_config()
+            if "tabs" in config:
+                tab_model = apps.get_model(
+                    config["tabs"]["app_label"], config["tabs"]["model_name"]
+                )
+                context["tabs"] = tab_model.objects.all()
 
         return context
 
@@ -331,3 +391,69 @@ class LogMessageDetailView(BaseDetailView):
     """
 
     model = LogMessage
+
+
+def update_field(request):
+    if request.method == "POST":
+        app_name = request.POST.get("app")
+        model_name = request.POST.get("model")
+        pk = request.POST.get("pk")
+        field = request.POST.get("field")
+        value = request.POST.get(field)
+
+        # Dynamically get the model class
+        model_class = apps.get_model(
+            app_name, model_name
+        )  # Replace 'your_app_name' with your actual app name
+
+        # Fetch the object to update
+        obj = get_object_or_404(model_class, pk=pk)
+
+        # Convert BooleanField value from string to boolean
+        if obj._meta.get_field(field).get_internal_type() == "BooleanField":
+            if value == "on":
+                value = True
+            else:
+                value = False
+
+        # Set the field with the new value and save
+        setattr(obj, field, value)
+        obj.save()
+
+        return render(
+            request,
+            "partials/editable_field_fragment.html",
+            {
+                "obj": obj,
+                "field": field,
+                "value": value,
+                "app_label": app_name,
+                "model_class": model_class,
+            },
+        )
+    return JsonResponse({"success": False}, status=400)
+
+
+def edit_field(request):
+    app_label = request.POST.get("app")
+    model_name = request.POST.get("model")
+    pk = request.POST.get("pk")
+    field = request.POST.get("field")
+
+    model = apps.get_model(app_label, model_name)
+    obj = get_object_or_404(model, pk=pk)
+    field_type = obj._meta.get_field(field).get_internal_type()
+    if field_type == "CharField":
+        if obj._meta.get_field(field).choices:
+            field_type = "ChoiceField"
+    return render(
+        request,
+        "partials/edit_field_fragment.html",
+        {
+            "obj": obj,
+            "field": field,
+            "field_type": field_type,
+            "app_label": app_label,
+            "model_name": model_name,
+        },
+    )

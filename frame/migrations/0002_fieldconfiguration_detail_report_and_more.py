@@ -4,35 +4,38 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('frame', '0001_initial'),
+        ("frame", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='fieldconfiguration',
-            name='detail_report',
+            model_name="fieldconfiguration",
+            name="detail_report",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='fieldconfiguration',
-            name='list_report',
+            model_name="fieldconfiguration",
+            name="list_report",
             field=models.BooleanField(default=True),
         ),
         migrations.AddField(
-            model_name='modelconfiguration',
-            name='detail_report',
+            model_name="modelconfiguration",
+            name="detail_report",
             field=models.BooleanField(default=False),
         ),
         migrations.AddField(
-            model_name='modelconfiguration',
-            name='list_report',
+            model_name="modelconfiguration",
+            name="list_report",
             field=models.BooleanField(default=False),
         ),
         migrations.AlterField(
-            model_name='modelaction',
-            name='action_type',
-            field=models.CharField(choices=[('button', 'Button'), ('dropdown', 'Dropdown')], default='dropdown', max_length=255),
+            model_name="modelaction",
+            name="action_type",
+            field=models.CharField(
+                choices=[("button", "Button"), ("dropdown", "Dropdown")],
+                default="dropdown",
+                max_length=255,
+            ),
         ),
     ]

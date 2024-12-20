@@ -1,0 +1,27 @@
+{% if model_class.get_config.tabs %}
+<div class="flex space-x-4 px-4 py-2 border-b border-gray-200 dark:border-neutral-700">
+    <!-- All tab -->
+    <div class="text-sm font-medium text-gray-900 dark:text-neutral-200 hover:text-gray-900 dark:hover:text-neutral-200 cursor-pointer"
+     hx-get="." 
+        hx-target="#table-container">
+    All
+</div>
+    <!-- Custom Tabs -->
+    {% for tab in tabs %}
+    
+<div class="text-sm font-medium text-gray-900 dark:text-neutral-200 hover:text-gray-900 dark:hover:text-neutral-200 cursor-pointer"
+     hx-get="." 
+     hx-target="#table-container"
+     hx-vals='{"filter": "{{ model_class.get_config.tabs.field }}", "search": "{{ tab.id }}", "exact_match": "True"}'>
+    {{ tab }}
+</div>
+
+    {% endfor %}
+    <!-- Add tab -->
+    <a href="{% url model_class.get_config.tabs.add_url %}" class="text-sm font-medium text-gray-900 dark:text-neutral-200 hover:text-gray-900 dark:hover:text-neutral-200">
+        Add
+    </a>
+
+</div>
+{% endif %}
+
