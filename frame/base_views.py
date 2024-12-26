@@ -39,8 +39,7 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateVi
     """
     Base view for creating model instances with dynamic form generation.
 
-    Attributes:
-        template_name (str): Path to the template for the create view.
+    :param template_name: Path to the template for the create view.
     """
 
     template_name = "form.html"
@@ -49,8 +48,7 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateVi
         """
         Dynamically get the form class based on the model.
 
-        Returns:
-            class: Form class for the model.
+        :return: Form class for the model.
         """
         return generate_dynamic_form(
             self.model._meta.app_label,
@@ -62,11 +60,8 @@ class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateVi
         """
         Get the context data for the view.
 
-        Args:
-            kwargs: Additional context data.
-
-        Returns:
-            dict: Context data with additional information.
+        :param kwargs: Additional context data.
+        :return: Context data with additional information.
         """
         context = super().get_context_data(**kwargs)
         context["enabled_fields"] = get_enabled_fields(
@@ -88,8 +83,7 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, UpdateVi
     """
     Base view for updating model instances with dynamic form generation.
 
-    Attributes:
-        template_name (str): Path to the template for the update view.
+    :param template_name: Path to the template for the update view.
     """
 
     template_name = "form.html"
@@ -98,8 +92,7 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, UpdateVi
         """
         Dynamically get the form class based on the model.
 
-        Returns:
-            class: Form class for the model.
+        :return: Form class for the model.
         """
         return generate_dynamic_form(
             self.model._meta.app_label,
@@ -111,11 +104,8 @@ class BaseUpdateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, UpdateVi
         """
         Get the context data for the view.
 
-        Args:
-            kwargs: Additional context data.
-
-        Returns:
-            dict: Context data with additional information.
+        :param kwargs: Additional context data.
+        :return: Context data with additional information.
         """
         context = super().get_context_data(**kwargs)
         context["enabled_fields"] = get_enabled_fields(
@@ -137,15 +127,14 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
     Base view for listing model instances with search and pagination support,
     and report generation capability.
 
-    Attributes:
-        template_name (str): Path to the template for the list view.
-        report_template_name (str): Path to the template for the report.
-        date_range (bool): Whether date range filtering is enabled.
-        paginate_by (int): Number of items per page.
-        date_field (str): Default field for date range filtering.
-        orientation (str): Orientation for report generation ('portrait' or 'landscape').
-        allow_orientation_selection (bool): Whether orientation selection is allowed.
-        sort_fields (list): List of fields for sorting.
+    :param template_name: Path to the template for the list view.
+    :param report_template_name: Path to the template for the report.
+    :param date_range: Whether date range filtering is enabled.
+    :param paginate_by: Number of items per page.
+    :param date_field: Default field for date range filtering.
+    :param orientation: Orientation for report generation ('portrait' or 'landscape').
+    :param allow_orientation_selection: Whether orientation selection is allowed.
+    :param sort_fields: List of fields for sorting.
     """
 
     template_name = "list.html"
@@ -161,8 +150,7 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         """
         Get the queryset for the view, applying search and sorting.
 
-        Returns:
-            QuerySet: Filtered and sorted queryset.
+        :return: Filtered and sorted queryset.
         """
         queryset = self.model.objects.all()
         search_query = self.request.GET.get("search", "").strip()
@@ -182,14 +170,11 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         """
         Apply filtering based on a specific filter field and search query.
 
-        Args:
-            queryset: The queryset to filter.
-            filter_field (str): Field to filter on.
-            search_query (str): Search query value.
-            exact_match (bool): Whether to perform an exact match.
-
-        Returns:
-            QuerySet: Filtered queryset.
+        :param queryset: The queryset to filter.
+        :param filter_field: Field to filter on.
+        :param search_query: Search query value.
+        :param exact_match: Whether to perform an exact match.
+        :return: Filtered queryset.
         """
         filter_condition = (
             {filter_field: search_query}
@@ -202,12 +187,9 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         """
         Apply a global search across all enabled fields.
 
-        Args:
-            queryset: The queryset to search.
-            search_query (str): Search query value.
-
-        Returns:
-            QuerySet: Filtered queryset.
+        :param queryset: The queryset to search.
+        :param search_query: Search query value.
+        :return: Filtered queryset.
         """
         search_conditions = Q()
         enabled_fields = get_enabled_fields(
@@ -226,11 +208,8 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         """
         Check if a field is searchable (not a relation).
 
-        Args:
-            field (str): Field name.
-
-        Returns:
-            bool: True if the field is searchable, False otherwise.
+        :param field: Field name.
+        :return: True if the field is searchable, False otherwise.
         """
         field_obj = self.model._meta.get_field(field)
         return not field_obj.is_relation
@@ -239,11 +218,8 @@ class BaseListView(LoginRequiredMixin, ReportMixin, NavigationMixin, ListView):
         """
         Get the context data for the view.
 
-        Args:
-            kwargs: Additional context data.
-
-        Returns:
-            dict: Context data with additional information.
+        :param kwargs: Additional context data.
+        :return: Context data with additional information.
         """
         context = super().get_context_data(**kwargs)
         context["enabled_fields"] = get_enabled_fields(
@@ -275,12 +251,11 @@ class BaseDetailView(
     """
     Base view for displaying details of a model instance.
 
-    Attributes:
-        template_name (str): Path to the template for the detail view.
-        report_template_name (str): Path to the template for the detail report.
-        date_range (bool): Whether date range filtering is enabled.
-        orientation (str): Orientation for report generation ('portrait' or 'landscape').
-        allow_orientation_selection (bool): Whether orientation selection is allowed.
+    :param template_name: Path to the template for the detail view.
+    :param report_template_name: Path to the template for the detail report.
+    :param date_range: Whether date range filtering is enabled.
+    :param orientation: Orientation for report generation ('portrait' or 'landscape').
+    :param allow_orientation_selection: Whether orientation selection is allowed.
     """
 
     template_name = "detail.html"
@@ -294,9 +269,8 @@ class BaseDeleteView(LoginRequiredMixin, NavigationMixin, DeleteView):
     """
     Base view for deleting model instances with confirmation.
 
-    Attributes:
-        template_name (str): Path to the template for the delete confirmation.
-        success_url (str): URL to redirect after a successful delete.
+    :param template_name: Path to the template for the delete confirmation.
+    :param success_url: URL to redirect after a successful delete.
     """
 
     template_name = "confirm_delete.html"
@@ -307,8 +281,7 @@ class HomeView(NavigationMixin, View):
     """
     Temporary home view. Will be replaced with a dashboard.
 
-    Attributes:
-        template_name (str): Path to the template for the home view.
+    :param template_name: Path to the template for the home view.
     """
 
     template_name = "home.html"
@@ -317,11 +290,8 @@ class HomeView(NavigationMixin, View):
         """
         Handle GET request for the view.
 
-        Args:
-            request: HTTP request object.
-
-        Returns:
-            HttpResponse: Rendered home page.
+        :param request: HTTP request object.
+        :return: Rendered home page.
         """
         return render(self.template_name, self.get_context_data())
 
@@ -330,8 +300,7 @@ class LogMessageView(BaseListView):
     """
     View for listing log messages.
 
-    Attributes:
-        model (Model): The model associated with this view.
+    :param model: The model associated with this view.
     """
 
     model = LogMessage
@@ -341,8 +310,7 @@ class LogMessageDetailView(BaseDetailView):
     """
     View for displaying details of a log message.
 
-    Attributes:
-        model (Model): The model associated with this view.
+    :param model: The model associated with this view.
     """
 
     model = LogMessage
@@ -352,11 +320,8 @@ def update_field(request):
     """
     Handle field update requests.
 
-    Args:
-        request: HTTP request object.
-
-    Returns:
-        HttpResponse or JsonResponse: Rendered field fragment or error response.
+    :param request: HTTP request object.
+    :return: Rendered field fragment or error response.
     """
     if request.method == "POST":
         app_name = request.POST.get("app")
@@ -392,11 +357,8 @@ def edit_field(request):
     """
     Handle field editing requests.
 
-    Args:
-        request: HTTP request object.
-
-    Returns:
-        HttpResponse: Rendered editable field fragment.
+    :param request: HTTP request object.
+    :return: Rendered editable field fragment.
     """
     app_label = request.POST.get("app")
     model_name = request.POST.get("model")
