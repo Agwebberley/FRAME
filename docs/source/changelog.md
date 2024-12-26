@@ -1,5 +1,32 @@
 # Changelog
 
+## [0.9.0] - 12-25-2024
+
+### Added
+- `frame/templates/partials/tabs.html`: New partial template for tabs in tables.
+- `frame/templates/partials/editable_field_fragment.html`: New partial template for editable field fragments.
+- `frame/templates/partials/edit_field_fragment.html`: New partial template for editing fields.
+- `frame/base_views.py`: Added functions `update_field` and `edit_field` for dynamic field updates.
+- `frame/templatetags/utils.py`: Added new template filters `get_item`, `get_choices`, and `get_field_config` for enhanced field handling.
+
+### Changed
+- `frame/base_views.py`:
+  - Enhanced `get_queryset` method with filtering and global search capabilities.
+  - Added debugging prints for search queries.
+  - Included new methods `apply_filter`, `apply_global_search`, and `is_searchable_field`.
+  - Updated `get_context_data` to include `app_label`, `editable_fields`, and `tabs`.
+- `frame/templates/partials/table_container.html`: Improved table layout with full width.
+- `frame/templates/partials/table_body.html`: Enhanced table body to support dynamic field editing.
+- `frame/templates/list.html`: Integrated tabs partial into the list template.
+- `frame/utils.py`:
+  - Added `get_editable_fields` for editable field retrieval in list views.
+  - Improved `get_enabled_fields` to handle model properties correctly.
+- `frame/urls.py`: Added new URL patterns for `update-field` and `edit-field`.
+
+### Removed
+- `frame/models.py`: Removed unused imports `Group` and `settings`.
+
+
 ## [0.8.0] - 11-12-2024
 
 ### Added

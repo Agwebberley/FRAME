@@ -1,82 +1,121 @@
 # Views
 
-Frame comes with a set of pre-built views that rely on Meta Models to dynamically build each of the different CRUD views for either standard or Master Detail models.
+This document provides guidance on working with views in the framework. As of version `0.9.0`, the framework consolidates functionality into base views and introduces additional mixins and utilities for enhanced flexibility and interactivity.
 
-## BaseCreateView
+---
 
-`BaseCreateView` is used for creating new instances of a model. It dynamically generates the form based on the model configuration and includes all enabled fields.
+## Overview of Base Views
 
-- **Template:** `form.html`
-- **Methods:**
-  - `get_form_class()`: Generates the form class based on the model configuration.
-  - `get_context_data()`: Adds model configuration and enabled fields to the context.
+The framework provides a set of prebuilt base views that streamline CRUD operations and incorporate dynamic features such as navigation, report generation, and inline editing.
 
-## BaseUpdateView
+### Available Base Views
+1. **BaseCreateView**
+   - Handles creating new instances of models.
+   - Supports dynamic forms generated based on user permissions and enabled fields.
 
-`BaseUpdateView` is used for updating existing instances of a model. It dynamically generates the form based on the model configuration and includes all enabled fields.
+2. **BaseUpdateView**
+   - Manages updates to existing model instances.
+   - Includes dynamic form generation and contextualized navigation.
 
-- **Template:** `form.html`
-- **Methods:**
-  - `get_form_class()`: Generates the form class based on the model configuration.
-  - `get_context_data()`: Adds model configuration and enabled fields to the context.
+3. **BaseListView**
+   - Lists model instances with support for search, filtering, pagination, and inline editing.
+   - Integrates seamlessly with HTMX for real-time updates.
 
-## BaseListView
+4. **BaseDetailView**
+   - Displays detailed information about a single model instance.
+   - Supports child model listings and configurable reports.
 
-`BaseListView` is used for displaying a list of model instances. It supports searching, pagination, and sorting based on the model configuration.
+5. **BaseDeleteView**
+   - Provides a confirmation flow for deleting instances with contextual navigation.
 
-- **Template:** `list.html`
-- **Methods:**
-  - `get_queryset()`: Retrieves the queryset, applying search and sorting.
-  - `get_context_data()`: Adds model configuration, enabled fields, and actions to the context.
-  - `render_to_response()`: Renders the response, using a partial template if the request is an HTMX request.
+---
 
-## BaseDetailView
+## Consolidated Master-Detail Functionality
 
-`BaseDetailView` is used for displaying the details of a single model instance. It dynamically generates the detail view based on the model configuration and includes all enabled fields.
+The previously separate MasterDetail views have been deprecated. Their functionality is now integrated into `BaseDetailView` and other base views, streamlining the framework and reducing redundancy.
 
-- **Template:** `detail.html`
-- **Methods:**
-  - `get_context_data()`: Adds model configuration, enabled fields, and actions to the context.
+### Example: Parent-Child Relationships
+In `BaseDetailView`, child model instances are dynamically retrieved and displayed within the detail view of the parent model. This is configured automatically using the `get_child_models` utility and child model definitions in `get_config`.
 
-## BaseDeleteView
+---
 
-`BaseDeleteView` is used for deleting model instances. It provides a confirmation view before performing the deletion.
+## Ajax and HTMX Utility Views
 
-- **Template:** `confirm_delete.html`
-- **Methods:**
-  - `get_context_data()`: Adds the return URL to the context.
+The framework supports modern web interactivity with views designed for HTMX and Ajax workflows. These utility views make it easier to implement real-time updates without reloading the entire page.
 
-## BaseMasterDetailView
+### Available Utility Views
 
-`BaseMasterDetailView` is used for displaying details of a parent model instance along with its child instances in a master-detail layout.
+1. **update_field**
+   - Dynamically updates a single field of a model instance via Ajax.
+   - Accepts `POST` requests with the following parameters:
+     - `app`: The app label of the model.
+     - `model`: The name of the model.
+     - `pk`: The primary key of the instance to update.
+     - `field`: The field name to update.
+     - `value`: The new value for the field.
 
-- **Template:** `master_detail.html`
-- **Methods:**
-  - `get_context_data()`: Adds model configuration, enabled fields, child instances, and actions to the context.
+   Example:
+   ```html
+   <input type="checkbox"
+          hx-post="/update-field/"
+          hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+          hx-trigger="change">
+   ```
 
-## MasterDetailCreateView
+2. **edit_field**
+   - Returns a field-specific editing form fragment via Ajax.
+   - Accepts `POST` requests with the following parameters:
+     - `app`: The app label of the model.
+     - `model`: The name of the model.
+     - `pk`: The primary key of the instance to edit.
+     - `field`: The field name to edit.
 
-`MasterDetailCreateView` is used for creating new instances of a parent model and its related child models in a master-detail layout.
+   Example:
+   ```html
+   <span hx-post="/edit-field/"
+         hx-include="[name='app'], [name='model'], [name='pk'], [name='field']"
+         hx-trigger="dblclick"
+         hx-swap="outerHTML">
+     {{ field_value }}
+   </span>
+   ```
 
-- **Template:** `master_detail_form.html`
-- **Methods:**
-  - `get()`: Handles GET requests to render the form.
-  - `post()`: Handles POST requests to save the form data.
+### Benefits of HTMX Integration
+- **Minimal Boilerplate**: Simplifies interactivity without requiring a full front-end framework.
+- **Real-Time Updates**: Enables inline edits, live searches, and dynamic form interactions.
+- **Customizable Fragments**: Leverages reusable partial templates for rendering updates (`editable_field_fragment.html`, `edit_field_fragment.html`).
 
-## MasterDetailUpdateView
+---
 
-`MasterDetailUpdateView` is used for updating existing instances of a parent model and its related child models in a master-detail layout.
+## Mixins
 
-- **Template:** `master_detail_form.html`
-- **Methods:**
-  - `get()`: Handles GET requests to render the form.
-  - `post()`: Handles POST requests to save the form data.
+The framework introduces several reusable mixins to enhance the functionality of views.
 
-## NavigationMixin
+### NavigationMixin
+Adds navigation metadata to the context, dynamically building menus based on enabled models.
 
-`NavigationMixin` is a mixin that adds navigation context to views. It provides the navigation information required to display the application and model menus.
+### ReportMixin
+Enables report generation in views, with options for PDF output, date ranges, and customizable orientations.
 
-- **Methods:**
-  - `get_context_data()`: Adds navigation information to the context.
+### FormsetMixin
+Handles inline formsets for managing related models, simplifying parent-child form submissions.
 
-These views leverage the power of the Meta Models to dynamically generate the appropriate forms, lists, and detail views based on the model configurations, reducing the amount of boilerplate code needed and ensuring a consistent interface across your application.
+### Other Enhancements
+As of `0.9.0`, all mixins are designed to be composable, allowing you to layer multiple functionalities into a single view.
+
+---
+
+## Customizing Views
+
+Customization can be achieved by subclassing the base views and adding or overriding methods. For example:
+
+```python
+from frame.base_views import BaseListView
+
+class CustomListView(BaseListView):
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        return queryset.filter(is_active=True)
+```
+
+For advanced use cases, you can also create custom mixins to extend the provided base functionality.
