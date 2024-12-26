@@ -11,7 +11,7 @@ This section provides a complete reference for FRAME’s classes, functions, and
 ### Frame Base Views
 
 ```{eval-rst}
-.. autoclass:: frame.base_views
+.. automodule:: frame.base_views
    :members:
    :undoc-members:
    :show-inheritance:
@@ -20,7 +20,7 @@ This section provides a complete reference for FRAME’s classes, functions, and
 ### Frame Mixins
 
 ```{eval-rst}
-.. autoclass:: frame.mixins
+.. automodule:: frame.mixins
    :members:
    :undoc-members:
    :show-inheritance:
@@ -29,7 +29,7 @@ This section provides a complete reference for FRAME’s classes, functions, and
 ### Frame Utilities
 
 ```{eval-rst}
-.. autoclass:: frame.utils
+.. automodule:: frame.utils
    :members:
    :undoc-members:
    :show-inheritance:
