@@ -19,7 +19,6 @@ def current_app(request):
 
     for app in apps.get_app_configs():
         if module.startswith(app.name):
-            print(app.label)
             return {"CURRENT_APP": app.label}
 
     return {"CURRENT_APP": None}

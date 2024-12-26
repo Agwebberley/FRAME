@@ -113,3 +113,55 @@ def get_foreign_key_value(instance, field):
         return getattr(instance, field).pk
     except AttributeError:
         return ""
+
+
+@register.filter
+def get_item(dictionary, key):
+    """
+    Get the value of a specified key from a dictionary.
+
+    :param dictionary: The dictionary.
+    :type dictionary: dict
+    :param key: The key.
+    :type key: str
+    :return: The value of the specified key, or an empty string if the key does not exist.
+    :rtype: any
+    """
+    return dictionary.get(key, "")
+
+
+@register.filter
+def get_choices(instance, field):
+    """
+    Get the choices for a field.
+
+    :param instance: The model instance.
+    :type instance: Model
+    :param field: The name of the field.
+    :type field: str
+    :return: The choices for the specified field, or an empty list if the field does not exist.
+    :rtype: list
+    """
+    try:
+        return instance._meta.get_field(field).choices
+    except AttributeError:
+        return []
+
+
+@register.filter
+def get_field_config(model_class, field_name):
+    """
+    Get the configuration for a field.
+
+    :param model_class: The model class.
+    :type model_class: Model
+    :param field_name: The name of the field.
+    :type field_name: str
+    :return: The configuration for the specified field, or an empty dictionary if the field does not exist.
+    :rtype: dict
+    """
+    fields = model_class.get_config()["fields"]
+    for field in fields:
+        if field["name"] == field_name:
+            return field
+    return {}

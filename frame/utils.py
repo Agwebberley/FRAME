@@ -21,7 +21,6 @@ def get_enabled_fields(app_name, model_name, user, view_type="list", properties=
     """
     model = apps.get_model(app_label=app_name, model_name=model_name)
     model_config = model.get_config()
-    print(model_config)
     field_configs = model_config["fields"]
     model_field_names = [field.name for field in model._meta.get_fields()]
     enabled_fields = []
@@ -35,19 +34,65 @@ def get_enabled_fields(app_name, model_name, user, view_type="list", properties=
                     enabled_fields.append(field_config["name"])
                 elif view_type == "form" and field_config["enable_in_form"]:
                     enabled_fields.append(field_config["name"])
-    if view_type != "form" and properties:
+    if view_type != "form" and "props" in model_config:
         properties = [
             prop for prop in dir(model) if isinstance(getattr(model, prop), property)
         ]
-        if "pk" in properties:
-            properties.pop(properties.index("pk"))
-        if "get_config" in properties:
-            properties.pop(properties.index("get_config"))
-        enabled_fields += properties
+        model_prop_names = [prop["name"] for prop in model_config["props"]]
+        for prop in properties:
+            if prop in model_prop_names:
+                enabled_fields.append(prop)
 
     if "is_deleted" in enabled_fields:
         enabled_fields.pop(enabled_fields.index("is_deleted"))
     return enabled_fields
+
+
+def get_editable_fields(app_name, model_name, user, view_type="list"):
+    """
+    Get the fields that are editable in the list view
+    In the model configuration, the fields that are editable in the list view
+    have the property 'editable_in_list' set to True
+    """
+
+    model = apps.get_model(app_label=app_name, model_name=model_name)
+    model_config = model.get_config()
+    field_configs = model_config["fields"]
+    model_field_names = [field.name for field in model._meta.get_fields()]
+    enabled_fields = {}
+    for field_config in field_configs:
+        if field_config["name"] in model_field_names:
+            field = model._meta.get_field(field_config["name"])
+            if not (field.auto_created or field.one_to_one or field.many_to_many):
+                if "editable_in_list" in field_config:
+                    if view_type == "list" and field_config["editable_in_list"]:
+                        # Return the field name and the field type
+                        enabled_fields[field_config["name"]] = field.get_internal_type()
+                        if field.get_internal_type() == "CharField":
+                            # Check for choices
+                            if field.choices:
+                                enabled_fields[field_config["name"]] = "ChoiceField"
+    return enabled_fields
+
+
+def get_field_choices(app_name, model_name, field_name):
+    """
+    Get the choices for a field in a model.
+
+    :param app_name: The name of the app.
+    :type app_name: str
+    :param model_name: The name of the model.
+    :type model_name: str
+    :param field_name: The name of the field.
+    :type field_name: str
+    :return: A list of choices for the field, or an empty list if not applicable.
+    :rtype: list
+    """
+    model = apps.get_model(app_label=app_name, model_name=model_name)
+    field = model._meta.get_field(field_name)
+    if field.choices:
+        return field.choices
+    return []
 
 
 def user_has_model_read_permission(user, model_config):

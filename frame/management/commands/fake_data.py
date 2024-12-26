@@ -1,6 +1,5 @@
 # Management Command to generate fake data for 'Part.part' model
 
-import random
 from django.core.management.base import BaseCommand
 from faker import Faker
 from frame_template.part.models import Part

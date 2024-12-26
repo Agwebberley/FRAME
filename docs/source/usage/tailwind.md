@@ -1,27 +1,132 @@
+# Tailwind CSS Integration
 
+This document explains how to use Tailwind CSS in the framework with the preconfigured [django-tailwind](https://github.com/timonweb/django-tailwind) package. This integration ensures a seamless workflow for styling your application using Tailwind CSS.
 
-### TODO WRITE DOCS FOR TAILWIND
-### STUB
+---
 
-*New in 0.8.0*
+## Prerequisites
 
-Tailwind is now used as the primary CSS framework for the project. Tailwind is a utility-first CSS framework that provides a set of utility classes to style your HTML elements. This allows you to build complex layouts and designs without writing custom CSS.
+The framework automatically includes Tailwind CSS through a Django app called `theme`. This app is pre-configured in the `INSTALLED_APPS` of `settings.py`, but it must be initialized before use.
 
-This added a new dependancy `django-tailwind` to the project.  This require the creation of an additional app `theme` to hold the tailwind configuration and templates. This will be added to the cookiecutter project.
+---
 
-Tailwind requires an additional long running command to watch for changes to the CSS files and recompile them. This is done by running the following command in a terminal window:
+## Initialization
 
+To initialize the Tailwind setup, follow these steps:
+
+### 1. Install Tailwind Dependencies
+Navigate to the `theme` app directory:
+```bash
+cd theme
+```
+
+Install the required dependencies using npm:
+```bash
+npm install
+```
+
+### 2. Initialize Tailwind
+Run the `tailwind init` command to ensure the environment is correctly set up:
+```bash
+python manage.py tailwind init
+```
+
+This command generates the `tailwind.config.js` file and sets up the necessary Tailwind build pipeline.
+
+### 3. Start the Tailwind Development Server
+To enable live updates for your styles, start the Tailwind development server:
 ```bash
 python manage.py tailwind start
 ```
 
-This will start the Tailwind CSS compiler and watch for changes to the CSS files. You can now start the development server and view the changes in the browser.
+---
 
-Inital setup will require the theme app to be initalized by NPM. This is done by running the following command in the terminal:
+## Customizing Tailwind
 
-```bash
-cd theme
-npm install
+The `theme` app includes a `tailwind.config.js` file where you can configure your Tailwind setup. Common customizations include:
+
+### 1. Extend the Theme
+Add custom colors, fonts, or spacing to your project:
+```javascript
+module.exports = {
+    theme: {
+        extend: {
+            colors: {
+                primary: '#1D4ED8',
+                secondary: '#9333EA',
+            },
+        },
+    },
+    plugins: [],
+};
 ```
 
-This will require Node.js to be installed on your system. You can download Node.js from the official website: [https://nodejs.org/](https://nodejs.org/)
+### 2. Enable Dark Mode
+To enable dark mode, update your configuration:
+```javascript
+module.exports = {
+    darkMode: 'class', // Use 'media' for system preferences
+    theme: {
+        extend: {},
+    },
+};
+```
+
+---
+
+## Usage in Templates
+
+Once Tailwind is configured and running, you can use its utility classes directly in your Django templates.
+
+### Example: Buttons
+```html
+<button class="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600">
+    Click Me
+</button>
+```
+
+### Example: Forms
+```html
+<input type="text" class="block w-full border-gray-200 rounded-lg p-2" placeholder="Enter text">
+```
+
+### Example: Tables
+```html
+<table class="min-w-full divide-y divide-gray-200">
+    <thead>
+        <tr>
+            <th class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="px-6 py-4 whitespace-nowrap">Example</td>
+        </tr>
+    </tbody>
+</table>
+```
+
+---
+
+## Building Tailwind for Production
+
+When deploying your application, you need to compile your CSS for production to reduce file size:
+
+1. Run the following command to build the optimized CSS:
+   ```bash
+   python manage.py tailwind build
+   ```
+
+2. The generated CSS file will be placed in the `static/css` directory and can be served in your production environment.
+
+---
+
+## Troubleshooting
+
+### Styles Not Applied
+- Ensure the `theme` app is in `INSTALLED_APPS`.
+- Verify the Tailwind development server is running if testing locally.
+
+### Live Updates Not Working
+- Confirm you’ve run `python manage.py tailwind start` in the `theme` directory.
+

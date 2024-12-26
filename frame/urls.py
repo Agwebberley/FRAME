@@ -5,6 +5,8 @@ from frame.base_views import (
     LogoutView,
     LogMessageView,
     LogMessageDetailView,
+    update_field,
+    edit_field,
 )
 
 urlpatterns = [
@@ -13,4 +15,6 @@ urlpatterns = [
     path("logout/", LogoutView.as_view(), name="logout"),
     path("log/", LogMessageView.as_view(), name="logmessage-list"),
     path("log/<int:pk>/", LogMessageDetailView.as_view(), name="logmessage-detail"),
+    path("update-field/", update_field, name="update-field"),
+    path("edit-field/", edit_field, name="edit-field"),
 ]
