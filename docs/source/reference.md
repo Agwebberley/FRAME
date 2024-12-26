@@ -1,38 +1,37 @@
-Reference
-=========
+# Reference
 
 This section provides a complete reference for FRAME’s classes, functions, and modules. Each component is documented to show its purpose, parameters, and usage.
 
-Core Modules
-------------
+## Core Modules
 
-.. toctree::
-   :maxdepth: 2
-   :caption: Core Modules
-
-   frame.base_views
-   frame.mixins
-   frame.utils
+- [Frame Base Views](#frame-base-views)
+- [Frame Mixins](#frame-mixins)
+- [Frame Utilities](#frame-utilities)
 
 ### Frame Base Views
 
-.. automodule:: frame.base_views
+```{eval-rst}
+.. autoclass:: frame.base_views
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
 ### Frame Mixins
 
-.. automodule:: frame.mixins
+```{eval-rst}
+.. autoclass:: frame.mixins
    :members:
    :undoc-members:
    :show-inheritance:
+```
 
 ### Frame Utilities
 
-.. automodule:: frame.utils
+```{eval-rst}
+.. autoclass:: frame.utils
    :members:
    :undoc-members:
    :show-inheritance:
-
+```
 
