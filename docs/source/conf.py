@@ -25,11 +25,11 @@ release = "0.9.0"
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
 extensions = [
-    "sphinx.ext.autodoc",
     "sphinx.ext.viewcode",
     "sphinx.ext.autosummary",
     "sphinx.ext.napoleon",
     "myst_parser",
+    "autodoc2",
 ]
 
 templates_path = ["_templates"]
@@ -41,3 +41,13 @@ exclude_patterns = []
 
 html_theme = "sphinx_rtd_theme"
 html_static_path = ["_static"]
+
+myst_enable_extensions = [
+    "deflist",
+    "fieldlist",
+]
+
+# -- Options for autodoc -----------------------------------------------------
+
+autodoc2_packages = ["frame"]
+autodoc2_render_plugin = "myst"
