@@ -1,12 +1,12 @@
+from django.contrib.auth.views import LoginView, LogoutView
 from django.urls import path
+
 from frame.base_views import (
     HomeView,
-    LoginView,
-    LogoutView,
-    LogMessageView,
     LogMessageDetailView,
-    update_field,
+    LogMessageView,
     edit_field,
+    update_field,
 )
 
 urlpatterns = [

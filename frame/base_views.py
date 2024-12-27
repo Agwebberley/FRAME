@@ -6,33 +6,32 @@ common patterns in Django applications, such as dynamic form generation,
 navigation, and report generation.
 """
 
+from django.apps import apps
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404, render
+from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import (
     CreateView,
-    UpdateView,
-    ListView,
-    DetailView,
     DeleteView,
+    DetailView,
+    ListView,
+    UpdateView,
 )
-from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
-from django.shortcuts import render, get_object_or_404
-from frame.models import LogMessage
-from frame.utils import (
-    get_enabled_fields,
-    generate_dynamic_form,
-    get_child_models,
-    get_editable_fields,
-)
+
 from frame.mixins import (
+    FormsetMixin,
     NavigationMixin,
     ReportMixin,
-    FormsetMixin,
 )
-from django.contrib.auth.views import LoginView, LogoutView
-from django.db.models import Q
-from django.http import JsonResponse
-from django.apps import apps
+from frame.models import LogMessage
+from frame.utils import (
+    generate_dynamic_form,
+    get_editable_fields,
+    get_enabled_fields,
+)
 
 
 class BaseCreateView(LoginRequiredMixin, NavigationMixin, FormsetMixin, CreateView):
@@ -293,7 +292,8 @@ class HomeView(NavigationMixin, View):
         :param request: HTTP request object.
         :return: Rendered home page.
         """
-        return render(self.template_name, self.get_context_data())
+        context = self.get_context_data()
+        return render(request, self.template_name, context)
 
 
 class LogMessageView(BaseListView):
