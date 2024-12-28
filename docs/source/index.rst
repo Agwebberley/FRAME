@@ -19,6 +19,7 @@ Contents
    usage
    advanced-topics
    examples
+   deployment
    changelog
    reference
    apendix
